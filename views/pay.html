@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOIDpay | <%= nomeLoja %>
+    </title>
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 20px; 
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #121c2d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0f1621; 
+        }
+
+        /* Estrelas */
+        .star {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            animation: move 10s infinite alternate;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+  
+    <div class="container">
+        
+        <form action="">
+            <h1>Order Details</h1>
+            <p>productId: <%= productId %>
+            </p>
+            <p>quantity: <%= quantity %>
+            </p>
+            <p>Description: <%= description %>
+            </p>
+
+        </form>
+        <form>
+            <p>Ambiente Seguro e Criptografado </p>
+            <input type="text" placeholder=" Numero de cartao" required><br>
+            <input type="number" placeholder="ETC" required><br>
+            <button type="submit">Pagar</button>
+        </form>
+        <button onclick="starts()"></button>
+    </div>
+
+    <!-- Estrelas em movimento -->
+    <script>
+        //deve apontar para a rota pay
+        function starts(){
+        const numStars = 30;
+        const container = document.body;
+
+        for (let i = 0; i < numStars; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.animationDuration = (Math.random() * 2 + 2) + 's'; // Duração aleatória
+            container.appendChild(star);
+        }}
+        starts()
+        
+    </script>
+
+</body>
+
+</html>
