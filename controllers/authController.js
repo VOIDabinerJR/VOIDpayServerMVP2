@@ -36,6 +36,7 @@ const authController = {
     },
 
     login: async (req, res) => {
+        console.log("Aa")
         const { email, password } = req.body;
         try {
             const user = await User.findByEmail(email);

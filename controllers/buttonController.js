@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Button = require('../models/buttonModel');
-const User = require('../models/user');
+const User = require('../models/userModel');
 const { v4: uuidv4 } = require('uuid');
 const { sendEmail } = require('../utils/email');
 const { createToken } = require('../utils/jwt');
@@ -68,41 +68,10 @@ module.exports.activateButton = async (req, res) => {
     });
 };
 
-async function sendEmail(email, token, destinationSite, activation) {
-    let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        }
-    });
-
-    const subject = activation ? "Ative seu botão" : "Link de pagamento";
-    const message = activation
-        ? `<h1>Ative seu botão</h1><p>Clique no link para ativar o botão: <a href="http://localhost:3000/button/activate/${token}">Ativar botão</a></p>`
-        : `<h1>Link de pagamento</h1><p>Clique no link para efetuar o pagamento: <a href="${destinationSite}">Pagar</a></p>`;
-
-    const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: subject,
-        html: message
-    };
-
-    try {
-        const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent: ' + info.response);
-        return { status: true, response: 'Email sent' };
-    } catch (error) {
-        console.log('Error sending email: ' + error);
-        return { status: false, response: 'Email not sent' };
-    }
-}
-
 
 async function sendEmailTest(email, token, destinationSite, activation) {
     const data = { email: email, token: token, destinationSite: destinationSite, status: true };
     console.log({ data })
     console.log(data.status)
     return { data };
-}
+};

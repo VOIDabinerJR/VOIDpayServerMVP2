@@ -87,64 +87,27 @@
             <p>quantity: <%= quantity %>
             </p>
             <p>totalAmount: <%= totalAmount %>
-            </p>
+           
 
         </form>
         <form>
             <p>Ambiente Seguro e Criptografado </p>
             <input type="text" id="cardNumber" placeholder=" Numero de cartao" required><br>
             <input type="number" placeholder="ETC" required><br>
-            <button  type="submit">Pagar</button>
-            <a href="www.google.com">aaaa</a>
+           
         </form>
-        <script>
-            function reloadPage() {
-                var inputField = document.getElementById('cardNumber');
-
-                // Altera o valor do campo input
-                inputField.value = 'Novo Número de Cartão';
-            }
-        </script>
+        <button  id="pay" type="submit">Pagar</button>
+       
+        
 
        
-            <button onclick="reloadPage()">Recarregar Página</button>
+            <button onclick="starts()">Recarregar Página</button>
         <button type="submit" id="submitPayData"></button>
     </div>
-    <script src="C:\Users\DELL\Desktop\sdk\s3.js"></script>
+    
 
-    <!-- Estrelas em movimento -->
-    <script>
-        function starts() {
-            const numStars = 3;
-            const container = document.body;
-            for (let i = 0; i < numStars; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + 'vw';
-                star.style.top = Math.random() * 100 + 'vh';
-                star.style.animationDuration = (Math.random() * 2 + 2) + 's'; // Duração aleatória
-                container.appendChild(star);
-            }
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            const numStars = 30;
-            const container = document.body;
-            function starts() {
-                const numStars = 30;
-                const container = document.body;
-                for (let i = 0; i < numStars; i++) {
-                    const star = document.createElement('div');
-                    star.className = 'star';
-                    star.style.left = Math.random() * 100 + 'vw';
-                    star.style.top = Math.random() * 100 + 'vh';
-                    star.style.animationDuration = (Math.random() * 2 + 2) + 's'; // Duração aleatória
-                    container.appendChild(star);
-                }
-            }
-            starts()
-        });
-    </script>
-    <script src="http://localhost:3000/sdk/getbutton?acept=false"></script>
+   
+    
     <!-- Estrelas em movimento -->
     <div class="star" style="left: 20vw; top: 30vh; animation-duration: 2.5s;"></div>
     <div class="star" style="left: 40vw; top: 50vh; animation-duration: 3.2s;"></div>
