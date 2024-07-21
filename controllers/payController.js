@@ -65,6 +65,7 @@ module.exports.processPayment = async (req, res) => {
                 console.log(token)
                 const aaa = decodeToken(token)
                 console.log(aaa)
+                return  res.status(200).json({ message: 'Payment processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
 
                 const result = await pay(token);
 
