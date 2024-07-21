@@ -26,7 +26,7 @@ buttonpay.addEventListener('click', async function (event) {
                 paymentMethod: 'mobileWallet'
             };
             try {
-                const response = await fetch('http://localhost:3000/pay/processPayment', {
+                const response = await fetch('https://voidpayservermvp2.onrender.com/pay/processPayment', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ async function sendOrder() {
         paymentMethod: 'mobileWallet'
     };
     try {
-        const response = await fetch('http://localhost:3000/pay/processPayment', {
+        const response = await fetch('https://voidpayservermvp2.onrender.com/pay/processPayment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

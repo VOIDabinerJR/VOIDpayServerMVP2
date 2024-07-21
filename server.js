@@ -37,6 +37,20 @@ app.get('/a', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+/////////////
+app.post('/wallets', async (req, res) => {
+    try {
+        const { userId, appId, balance } = req.body;
+        const newWallet = { userId, appId, balance };
+        const result = await Wallet.create(newWallet);
+        res.status(201).json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+//////////////////////
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
