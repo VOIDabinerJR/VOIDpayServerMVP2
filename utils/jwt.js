@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken');
 
 const createToken = (payload) => {
-    return jwt.sign(payload, process.env.PAY_SECRET, {
+    return jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: '3d'
     });
 };
 function decodeToken(token) {
     try {
-        const decodedPayload = jwt.verify(token, process.env.PAY_SECRET);
+        const decodedPayload = jwt.verify(token, process.env.JWT_SECRET);
         return decodedPayload;
     } catch (error) {
         if (error instanceof jwt.TokenExpiredError) {
@@ -19,6 +19,15 @@ function decodeToken(token) {
         }
     }
 }
+
+const createLoginToken = async ( token) => {
+    payload = {
+        token: token
+
+    };
+    
+    return createToken(payload);
+};
 
 const createMobileWalletToken = async (orderId, paymentDetails) => {
     payload = {
@@ -46,4 +55,4 @@ const createPaypalPayToken = (a, b, c, d) => {
     return null
 };
 
-module.exports = { createToken, decodeToken, createMobileWalletToken, createCardPayToken, createPaypalPayToken };
+module.exports = { createToken, decodeToken, createMobileWalletToken, createCardPayToken, createPaypalPayToken,createLoginToken };
