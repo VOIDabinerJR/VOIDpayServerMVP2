@@ -323,7 +323,7 @@ module.exports.processRefund = async (req, res) => {
 
 
 async function pay(token) {
-    const url = 'http://127.0.0.1:5000/make_payment';
+    const url = 'https://my-flask-app-1-4uel.onrender.com/make_payment';
     const data = {
         token: token
     };
