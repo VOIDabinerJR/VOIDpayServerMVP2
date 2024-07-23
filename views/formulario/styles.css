@@ -1,0 +1,44 @@
+
+
+#rocket {
+    display: flex;
+    padding: 20px;
+    font-size: 30px; /* Aumenta o tamanho do ícone */
+    color: white;
+    
+    
+    transform: rotate(-45deg); 
+}
+
+
+
+/* Animação do foguete */
+@keyframes rocket-fly {
+    0% {
+        transform: translateY(0) rotate(-45deg); /* Sem rotação no início */
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-400px) rotate(-45deg) ; /* Gira o ícone 360 graus enquanto sobe */
+        opacity: 0;
+    }
+}
+
+@keyframes rocket-fall {
+    0% {
+        transform: translateY(-400px) rotate(0deg); /* Sem rotação no início */
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-0px) rotate(360deg); /* Gira o ícone 360 graus enquanto sobe */
+        opacity: 0;
+    }
+}
+
+.flying {
+    animation: rocket-fly 2s ease-in-out forwards; /* Aumenta a duração da animação */
+}
+
+.falling {
+    animation: rocket-fall 2s ease-in-out forwards; /* Aumenta a duração da animação */
+}
