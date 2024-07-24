@@ -47,13 +47,13 @@ document.getElementById('mobileWallet-number').addEventListener('input', () => {
     const firstTwoChars = inputValue.substring(0, 2).toLowerCase();
 
     if (firstTwoChars === '86' || firstTwoChars === '87') {
-        image.src = 'assets/movitel.png';
+        image.src = 'https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/movitel.png';
     } else if (firstTwoChars === '84' || firstTwoChars === '85') {
-        image.src = 'assets/vodacom.png';
+        image.src = 'https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/vodacom.png';
     } else if (firstTwoChars === '83' || firstTwoChars === '82') {
-        image.src = 'assets/tmcel.png';
+        image.src = 'https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/tmcel.png';
     } else {
-        image.src = 'default-image.jpg';
+        image.src = 'https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/default-image.jpg';
     }
 });
 
