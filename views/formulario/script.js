@@ -115,7 +115,7 @@ function togglePaymentForm(method) {
     label.id = 'paymentMethod';
     label.textContent = method;
     label.style.display = 'none';
-    document.body.insertBefore(label, document.querySelector('.payment-methods'));
+    document.body.appendChild(label);
 
     const cardForm = document.getElementById('card-form');
     const mobileWalletForm = document.getElementById('mobileWallet-form');
