@@ -36,6 +36,12 @@ module.exports.processPayment = async (req, res) => {
 
     // { orderid } = req.params;
     const paymentDetails = req.body;
+    ////
+    const token = await getPaymentToken(paymentDetails.paymentMethod);
+    const result = await pay(token);
+    return  res.render('pay', { productId:"!", quantity:"!", description:"1", totalAmount:"1"});
+    
+    ////
 
 
 
