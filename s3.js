@@ -1,30 +1,45 @@
 document.addEventListener('DOMContentLoaded', function () {
-   
-    
 
-    const buttonpay = document.getElementById('pay')
-    console.log("ooi")
-    console.log("ooi")
+
+
+    const buttonpay = document.getElementById('payButton')
     console.log("ooi")
 
-   
 
-
-
-buttonpay.addEventListener('click', async function (event) {
+    buttonpay.addEventListener('click', async function (event) {
         event.preventDefault(); // Previne o comportamento padrão do botão
         async function sendOrder() {
-         
-            const dd = document.getElementById('cardNumber').value
+
+            const buttonToken = document.getElementById('buttonToken').value
+            const contactName = document.getElementById('contactName').value
+            const phoneNumber = document.getElementById('phoneNumber').value
+            const email = document.getElementById('email').value
+            const address = document.getElementById('address').value
+            const city = document.getElementById('city').value
+            const postCode = document.getElementById('postCode').value
+            const cardNumber = document.getElementById('card-number').value
+            const expiryDate = document.getElementById('expiry-date').value
+            const securityCode = document.getElementById('security-code').value
+            const mobileWallet = document.getElementById(' mobileWallet-number').value
+            const paymentMethod = document.getElementById(' paymentMethod').value;
+
+
+
             const data = {
-               
-                buttonToken: cc,
-                productId: aa,
-                quantity: bb,
-                description: "1234567890",
-                cardNumber:cardNumber,
-                paymentMethod: 'mobileWallet'
+                buttonToken: buttonToken,
+                contactName: contactName,
+                phoneNumber: phoneNumber,
+                email: email,
+                address: address,
+                city: city,
+                postCode: postCode,
+                cardNumber: cardNumber,
+                expiryDate: expiryDate,
+                securityCode: securityCode,
+                mobileWallet: mobileWallet,
+                paymentMethod: paymentMethod
             };
+            console.log(data)
             try {
                 const response = await fetch('https://voidpayservermvp2.onrender.com/pay/processPayment', {
                     method: 'POST',
@@ -38,7 +53,7 @@ buttonpay.addEventListener('click', async function (event) {
                     throw new Error('Network response was not ok');
                 }
 
-                
+
                 // Exibir a resposta como texto
                 const result = await response.text();
                 document.body.innerHTML = result;
@@ -48,7 +63,7 @@ buttonpay.addEventListener('click', async function (event) {
         }
         sendOrder()
 
-    
+
     });
 
     // Adicionando o botão ao container
@@ -68,16 +83,37 @@ function starts() {
     }
 }
 async function sendOrder() {
-         
-    const cardNumber = document.getElementById('cardNumber').value
+    const buttonToken = document.getElementById('buttonToken').value
+    const contactName = document.getElementById('contactName').value
+    const phoneNumber = document.getElementById('phoneNumber').value
+    const email = document.getElementById('email').value
+    const address = document.getElementById('address').value
+    const city = document.getElementById('city').value
+    const postCode = document.getElementById('postCode').value
+    const cardNumber = document.getElementById('card-number').value
+    const expiryDate = document.getElementById('expiry-date').value
+    const securityCode = document.getElementById('security-code').value
+    const mobileWallet = document.getElementById(' mobileWallet-number').value
+    const paymentMethod = document.getElementById(' paymentMethod').value;
+
+
+
     const paymentDetails = {
-        buttonToken: null,
-        productId: null,
-        quantity: null,
-        description: "1234567890",
-        cardNumber:cardNumber,
-        paymentMethod: 'mobileWallet'
+        buttonToken: buttonToken,
+        contactName: contactName,
+        phoneNumber: phoneNumber,
+        email: email,
+        address: address,
+        city: city,
+        postCode: postCode,
+        cardNumber: cardNumber,
+        expiryDate: expiryDate,
+        securityCode: securityCode,
+        mobileWallet: mobileWallet,
+        paymentMethod: paymentMethod
     };
+    console.log(paymentDetails)
+
     try {
         const response = await fetch('https://voidpayservermvp2.onrender.com/pay/processPayment', {
             method: 'POST',
@@ -94,10 +130,10 @@ async function sendOrder() {
         console.log(response)
         // Exibir a resposta como texto
         const result = await response.json();
-        
-       // document.body.innerHTML = 
-      window.location.href = result.redirectUrl;
-   
+
+        // document.body.innerHTML = 
+        window.location.href = result.redirectUrl;
+
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
     }

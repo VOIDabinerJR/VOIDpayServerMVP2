@@ -1,13 +1,372 @@
+body {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #000000;
+    /* Fundo escuro */
+    color: black;
+    /* Texto branco para melhor contraste */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background: white;
+    /* Fundo escuro do header */
+    border-bottom: 1px solid #ccc;
+}
+
+.header .logo {
+    font-size: 1.5em;
+    color: #000000;
+    font-weight: bold;
+}
+
+.header.active {
+    background: #000000;
+}
+
+.logo.active {
+
+    color: #ffffff;
+}
+
+.breadcrumb {
+    font-size: 0.9em;
+    color: #0baa0b;
+
+    /* Breadcrumb com cor mais clara */
+}
+
+.breadcrumb .img {
+    width: 30px;
+
+    /* Breadcrumb com cor mais clara */
+}
+
+.container {
+    width: 55%;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 1);
+    /* Transparência no fundo do formulário */
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    /* Sombra mais escura */
+    line-height: 1.6;
+}
+
+.payment-form,
+.order-summary {
+    width: 45%;
+
+}
+
+.payment-form h2,
+.order-summary h2 {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.payment-form label,
+.order-summary label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: normal;
+    font-size: 0.9em;
+    color: black;
+    /* Cor dos labels */
+}
+
+.payment-form input[type="text"],
+.payment-form input[type="email"],
+.payment-form input[type="tel"],
+.payment-form select {
+    width: 80%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 3px solid #f6f9fc;
+    border-radius: 4px;
+    font-size: 0.9em;
+    background: #fff;
+    /* Fundo branco para os inputs */
+    color: #333;
+    /* Texto escuro para os inputs */
+}
+
+.payment-form .wrapInput {
+
+    text-align: center;
+    padding: 3px;
+    width: 80%;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+
+}
+
+.payment-form .wrapInput .postCode {
+
+    width: 35%;
+
+
+}
+
+.payment-form .input-icon {
+    position: relative;
+}
+
+.payment-form .input-icon input {
+    padding-left: 30px;
+}
+
+.payment-form .input-icon img {
+    position: absolute;
+    right: 35px;
+    top: 35%;
+    transform: translateY(-50%);
+    height: 16px;
+}
+
+.payment-form .input-icon i {
+    position: absolute;
+    right: 40px;
+    top: 35%;
+    transform: translateY(-50%);
+    height: 16px;
+}
+
+.payment-form input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.payment-methods {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0px;
+}
+
+.payment-methods div {
+    width: 25%;
+    text-align: center;
+    padding: 3px;
+    border: 3px solid #f6f9fc;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9em;
+    background: #fff;
+    /* Fundo branco para os métodos de pagamento */
+    color: #333;
+    /* Texto escuro */
+}
+
+.payment-methods div i {
+    margin-right: 8px;
+}
+
+.order-summary img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.order-summary .order-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.order-summary .total {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.order-summary .btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background: #000000;
+    color: #ffffff;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.order-summary .btn:hover {
+    background: #ffffff;
+    border: 1px solid #000000;
+    color: #000000;
+}
+
+
+
+
+/* Media Query para telas menores */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 80%;
+        padding: 20px;
+    }
+
+    .payment-form,
+    .order-summary {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+
+    .payment-methods {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .payment-methods div {
+        width: 80%;
+        margin-bottom: 10px;
+    }
+    
+.payment-form .wrapInput .input{
+
+    text-align: center;
+    padding: 3px;
+    width: 80%;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+
+}
+
+}
+
+/*footer*/
+.footer {
+    background-color: #000000;
+    /* Fundo preto */
+    color: #ffffff;
+    /* Texto branco */
+    padding: 20px;
+    font-size: 0.9em;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.footer-section {
+    width: 30%;
+    margin-right: 20px;
+}
+
+.footer-section h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.footer-section p {
+    margin: 5px 0;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer-section img {
+    width: 80px;
+}
+
+.footer-section .img1 {
+    width: 120px;
+}
+
+.footer-section a:hover {
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    text-align: center;
+    border-top: 1px solid #333;
+    padding-top: 10px;
+}
+
+
+
+
+
+/* Estrelas */
+.star {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background-color: white;
+    border-radius: 50%;
+    animation: move 10s infinite alternate;
+}
+
+@keyframes move {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-20px);
+    }
+}
+
+
+
+/*ROCKET*/
 
 
 #rocket {
     display: flex;
     padding: 20px;
-    font-size: 30px; /* Aumenta o tamanho do ícone */
-    color: white;
-    
-    
-    transform: rotate(-45deg); 
+    font-size: 30px;
+    /* Aumenta o tamanho do ícone */
+    color: black;
+
+
+    transform: rotate(-45deg);
+}
+
+.hidden {
+    display: none;
 }
 
 
@@ -15,30 +374,45 @@
 /* Animação do foguete */
 @keyframes rocket-fly {
     0% {
-        transform: translateY(0) rotate(-45deg); /* Sem rotação no início */
+        transform: translateY(0) rotate(-45deg);
+        /* Sem rotação no início */
         opacity: 1;
     }
+
     100% {
-        transform: translateY(-400px) rotate(-45deg) ; /* Gira o ícone 360 graus enquanto sobe */
+        transform: translateY(-400px) rotate(-45deg);
+        /* Gira o ícone 360 graus enquanto sobe */
         opacity: 0;
     }
 }
 
 @keyframes rocket-fall {
     0% {
-        transform: translateY(-400px) rotate(0deg); /* Sem rotação no início */
+        transform: translateY(-400px) rotate(0deg);
+        /* Sem rotação no início */
         opacity: 1;
     }
+
     100% {
-        transform: translateY(-0px) rotate(360deg); /* Gira o ícone 360 graus enquanto sobe */
+        transform: translateY(-0px) rotate(360deg);
+        /* Gira o ícone 360 graus enquanto sobe */
         opacity: 0;
     }
 }
 
 .flying {
-    animation: rocket-fly 2s ease-in-out forwards; /* Aumenta a duração da animação */
+    animation: rocket-fly 2s ease-in-out forwards;
+    /* Aumenta a duração da animação */
 }
 
 .falling {
-    animation: rocket-fall 2s ease-in-out forwards; /* Aumenta a duração da animação */
+    animation: rocket-fall 2s ease-in-out forwards;
+    /* Aumenta a duração da animação */
+}
+
+
+
+/*TRATAR ERROS*/
+.input.input-error {
+    border: 3px solid red;
 }

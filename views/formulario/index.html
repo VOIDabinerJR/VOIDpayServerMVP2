@@ -6,386 +6,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Pagamento</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
-    <style>
-        body {
-            font-family: "Roboto", sans-serif;
-            font-weight: 500;
-            font-style: normal;
-
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            background-color: #000000;
-            /* Fundo escuro */
-            color: black;
-            /* Texto branco para melhor contraste */
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-            background: white;
-            /* Fundo escuro do header */
-            border-bottom: 1px solid #ccc;
-        }
-
-        .header .logo {
-            font-size: 1.5em;
-            color: #000000;
-            font-weight: bold;
-        }
-
-        .header.active {
-            background: #000000;
-        }
-
-        .logo.active {
-
-            color: #ffffff;
-        }
-
-        .breadcrumb {
-            font-size: 0.9em;
-            color: #bbb;
-            /* Breadcrumb com cor mais clara */
-        }
-
-        .container {
-            width: 55%;
-            margin: 50px auto;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 1);
-            /* Transparência no fundo do formulário */
-            padding: 50px;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-            /* Sombra mais escura */
-            line-height: 1.6;
-        }
-
-        .payment-form,
-        .order-summary {
-            width: 45%;
-
-        }
-
-        .payment-form h2,
-        .order-summary h2 {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        .payment-form label,
-        .order-summary label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: normal;
-            font-size: 0.9em;
-            color: black;
-            /* Cor dos labels */
-        }
-
-        .payment-form input[type="text"],
-        .payment-form input[type="email"],
-        .payment-form input[type="tel"],
-        .payment-form select {
-            width: 80%;
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 3px solid #f6f9fc;
-            border-radius: 4px;
-            font-size: 0.9em;
-            background: #fff;
-            /* Fundo branco para os inputs */
-            color: #333;
-            /* Texto escuro para os inputs */
-        }
-
-        .payment-form .input-icon {
-            position: relative;
-        }
-
-        .payment-form .input-icon input {
-            padding-left: 30px;
-        }
-
-        .payment-form .input-icon img {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-        }
-
-        .payment-form input[type="checkbox"] {
-            margin-right: 10px;
-        }
-
-        .payment-methods {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .payment-methods div {
-            width: 32%;
-            text-align: center;
-            padding: 10px;
-            border: 3px solid #f6f9fc;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9em;
-            background: #fff;
-            /* Fundo branco para os métodos de pagamento */
-            color: #333;
-            /* Texto escuro */
-        }
-
-        .payment-methods div img {
-            margin-right: 8px;
-        }
-
-        .order-summary img {
-            width: 100px;
-            height: auto;
-            margin-bottom: 20px;
-        }
-
-        .order-summary .order-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .order-summary .total {
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-
-        .order-summary .btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: #000000;
-            color: #ffffff;
-            text-align: center;
-            border: none;
-            border-radius: 4px;
-            font-size: 1em;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        .order-summary .btn:hover {
-            background: #ffffff;
-            border: 1px solid #000000;
-            color: #000000;
-        }
-
-        /* Media Query para telas menores */
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                width: 80%;
-                padding: 20px;
-            }
-
-            .payment-form,
-            .order-summary {
-                width: 80%;
-                margin-bottom: 20px;
-            }
-
-            .payment-methods {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .payment-methods div {
-                width: 80%;
-                margin-bottom: 10px;
-            }
-        }
-
-        /*footer*/
-        .footer {
-            background-color: #000000;
-            /* Fundo preto */
-            color: #ffffff;
-            /* Texto branco */
-            padding: 20px;
-            font-size: 0.9em;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .footer-section {
-            width: 30%;
-            margin-right: 20px;
-        }
-
-        .footer-section h3 {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        .footer-section p {
-            margin: 5px 0;
-        }
-
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-section a {
-            color: #ffffff;
-            text-decoration: none;
-        }
-
-        .footer-section a:hover {
-            text-decoration: underline;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            border-top: 1px solid #333;
-            padding-top: 10px;
-        }
 
 
-
-
-
-        /* Estrelas */
-        .star {
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            background-color: white;
-            border-radius: 50%;
-            animation: move 10s infinite alternate;
-        }
-
-        @keyframes move {
-            0% {
-                transform: translateY(0);
-            }
-
-            100% {
-                transform: translateY(-20px);
-            }
-        }
-    </style>
-    <script>
-        function togglePaymentForm(method) {
-            const cardForm = document.getElementById('card-form');
-            const klarnaForm = document.getElementById('klarna-form');
-            if (method === 'card') {
-                cardForm.style.display = 'block';
-                klarnaForm.style.display = 'none';
-            } else {
-                cardForm.style.display = 'none';
-                klarnaForm.style.display = 'block';
-            }
-        }
-        document.addEventListener('DOMContentLoaded', function () {
-            const addressInput = document.getElementById('address');
-            const header = document.querySelector('.header');
-            const logo = document.querySelector('.logo');
-            addressInput.addEventListener('input', function () {
-                if (this.value.length > 0) {
-                    header.classList.add('active');
-                    logo.classList.add('active');
-                } else {
-                    header.classList.remove('active');
-                    logo.classList.add('active');
-                }
-            });
-        });
-    </script>
 </head>
 
 <body>
     <div class="header">
         <div class="logo">VOIDpay</div>
-        <div class="breadcrumb">Carrinho > Dados de faturamento > Confirmação</div>
+        <div class="breadcrumb">
+            <strong>Este Ambiente é Seguro e Criptografado</strong>
+            <img class="img" src="assets/psafe.png" alt="Psafe">
+            <img class="img" src="assets/ssl.png" alt="SSL">
+        </div>
     </div>
     <div class="container">
         <div class="payment-form">
-            <h2>Endereço de envio</h2>
+            <h2>Informaçóes de envio</h2>
+            <label for="address">Nome de Contacto</label>
+            <input type="text" id="contactName" placeholder="John Doe" name="contactName">
+
+            <div class="wrapInput">
+               
+                <input type="text" id="phoneNumber" placeholder="Telefone" name="phoneNumber">
+
+                <input type="text" id="email" placeholder="Email" name="email">
+            </div>
             <label for="address">Informe um endereço</label>
-            <input type="text" id="address" name="address">
+            <input type="text" id="address" placeholder="Bairro, Distrito, Provincia" name="address">
+            <label for="address">Cidade</label>
+            <div class="wrapInput">
+                <input type="text" id="city" placeholder="Cidade" name="city">
+                <input type="text" class="postCode" id="postCode" placeholder="Codigo Postal" name="postCode">
+
+            </div>
+
+
 
             <h2>Pagar com</h2>
             <div class="payment-methods">
                 <div id="card-method" onclick="togglePaymentForm('card')">
-                    <img src="https://via.placeholder.com/24" alt="Cartão">
+                    <i class="fa fa-solid fa-credit-card"></i>
                     Cartão
                 </div>
-                <div id="klarna-method" onclick="togglePaymentForm('klarna')">
-                    <img src="https://via.placeholder.com/24" alt="Klarna">
-                    Klarna
+                <div id="mobileWallet-method" onclick="togglePaymentForm('mobileWallet')">
+                    <i class="fa-solid fa-wallet"></i>
+                    Carteira Móvel
                 </div>
-                <div id="revolut-method" onclick="togglePaymentForm('revolut')">
-                    <img src="https://via.placeholder.com/24" alt="Revolut Pay">
-                    Revolut Pay
+                <div id="paypay-method" onclick="togglePaymentForm('paypal')">
+                    <i class="fa-brands fa-paypal"></i>
+                    Paypal
                 </div>
             </div>
 
             <div id="card-form">
-                <label for="card-number">Dados do cartão</label>
+                <label for="card-number">Numero de Cartão</label>
                 <div class="input-icon">
                     <input type="text" id="card-number" name="card-number" placeholder="1234 1234 1234 1234">
-                    <img src="https://via.placeholder.com/16" alt="Card Icon">
+                    <img class="img" src="assets/cards.png" alt="Card Icon">
                 </div>
 
                 <label for="expiry-date">Data de vencimento</label>
                 <div class="input-icon">
                     <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/AA">
-                    <img src="https://via.placeholder.com/16" alt="Expiry Icon">
+                    <i class="fa-solid fa-calendar-days"></i>
                 </div>
 
                 <label for="security-code">Código de segurança</label>
                 <div class="input-icon">
                     <input type="text" id="security-code" name="security-code" placeholder="CVV">
-                    <img src="https://via.placeholder.com/16" alt="CVV Icon">
+                    <i class="fa fa-lock"></i>
                 </div>
             </div>
 
-            <div id="klarna-form" style="display: none;">
-                <label for="klarna-card-number">Número do cartão Klarna</label>
-                <input type="text" id="klarna-card-number" name="klarna-card-number" placeholder="1234 1234 1234 1234">
+            <div id="mobileWallet-form" style="display: none;">
+                <label for="mobileWallet-card-number">Número de Telefone</label>
+                <div class="input-icon">
+                    <input type="text" id="mobileWallet-number" name="mobileWallet-number" placeholder="848599243">
+                    <img id="mobileWalletImg" class="img" src="" alt="Card Icon">
+                </div>
+
             </div>
 
-            <input type="checkbox" id="same-billing" name="same-billing">
-            <label for="same-billing">O endereço de faturamento é igual ao de envio</label>
+            <div id="paypal-form" style="display: none; background: black;">
+                <button> <i class="fa-brands fa-paypal text-white"></i></button>
 
-            <input type="checkbox" id="save-info" name="save-info">
-            <label for="save-info">Salvar meus dados para fazer checkout seguro com 1 clique</label>
+            </div>
         </div>
 
         <div class="order-summary">
@@ -411,15 +125,21 @@
                 <div>Total</div>
                 <div>£ 288,00</div>
             </div>
-            <button class="btn">Fazer pedido</button>
+            <button id="payButton" class="btn" >Pagar</button>
         </div>
+        <i id="rocket" class="fas fa-rocket hidden" style="display: none;"></i>
     </div>
+
 
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Sobre nós</h3>
                 <p>Somos uma empresa dedicada a fornecer a melhor experiência de pagamento online.</p>
+                <img class="img" src="assets/void.png" alt="">
+                <img class="img1" src="assets/cards.png" alt="">
+                <img class="img" src="assets/ssl.png" alt="">
+                <img class="img" src="assets/psafe.png" alt="">
             </div>
             <div class="footer-section">
                 <h3>Links úteis</h3>
@@ -441,46 +161,16 @@
         </div>
     </footer>
 
-    <!-- Estrelas em movimento -->
-    <script>
-        function stars() {
-            const numStars = 100; // Aumentar o número de estrelas para uma cobertura mais completa
-            const container = document.body;
 
-            // Limpa as estrelas existentes
-            const existingStars = document.querySelectorAll('.star');
-            existingStars.forEach(star => star.remove());
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZjhsfjAlVwb2qw4-63LUv6iQrJ1XwOD8&libraries=places"></script>
+    <script src="script.js"></script>
+    <script src="datavalidator.js"></script>
+    <script src="http://localhost:3000/sdk/getbutton?acept=false"></script>
+    <script src="http://localhost:3000/sdk/getbutton?acept=true"></script>
 
-            for (let i = 0; i < numStars; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
 
-                // Distribuir as estrelas por toda a área visível da tela
-                star.style.left = Math.random() * 100 + 'vw';
-                star.style.top = Math.random() * 100 + 'vh';
-
-                // Adicionar a estrela ao contêiner
-                container.appendChild(star);
-            }
-        }
-        function star() {
-
-            const numStars = 0;
-            const container = document.body;
-
-            for (let i = 0; i < numStars; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + 'vw';
-                star.style.top = Math.random() * 100 + 'vh';
-                star.style.animationDuration = (Math.random() * 2 + 2) + 's'; // Duração aleatória
-                container.appendChild(star);
-            }
-
-        }
-        stars()
-
-    </script>
 </body>
 
 </html>
