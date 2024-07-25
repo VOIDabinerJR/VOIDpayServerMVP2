@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 cardNumber: cardNumber,
                 expiryDate: expiryDate,
                 securityCode: securityCode,
-                mobileWallet: mobileWallet,
+                mobileWallet: mobileWallet, 
                 paymentMethod: paymentMethod
             };
             console.log(data);
