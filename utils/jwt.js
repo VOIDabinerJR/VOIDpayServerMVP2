@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken');
 
 const createToken = (payload) => {
-    return jwt.sign(payload, process.env.JWT_SECRET, {
+    return jwt.sign(payload, process.env.PAY_SECRET, {
         expiresIn: '3d'
     });
 };
 function decodeToken(token) {
     try {
-        const decodedPayload = jwt.verify(token, process.env.JWT_SECRET);
+        const decodedPayload = jwt.verify(token, process.env.PAY_SECRET);
         return decodedPayload;
     } catch (error) {
         if (error instanceof jwt.TokenExpiredError) {

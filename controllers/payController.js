@@ -32,15 +32,33 @@ module.exports.getPaymentPage = async (req, res) => {
 };
 
 module.exports.processPayment = async (req, res) => {
-    const orderid = req.cookies.orderid
+    const orderid = 'req.cookies.orderid'
 
     // { orderid } = req.params;
     const paymentDetails = req.body;
+    
     ////
     const token = await getPaymentToken(paymentDetails.paymentMethod);
+    console.log(token)
     const result = await pay(token);
+    console.log(result)
     return  res.render('pay', { productId:"!", quantity:"!", description:"1", totalAmount:"1"});
     
+
+    async function getPaymentToken(option) {
+        switch (option) {
+            case 'mobileWallet':
+                return createMobileWalletToken(orderid, paymentDetails);
+            case 'Card':
+                return createCardPayToken(orderid, paymentDetails);
+            case 'Paypal':
+                return createPaypalPayToken(orderid, paymentDetails);
+            case 4:
+                return createMobileWalletToken(orderid, paymentDetails);
+            default:
+                return "PAY OPTION INVALID";
+        }
+    }
     ////
 
 

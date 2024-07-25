@@ -72,7 +72,7 @@ console.log("ooi")
                 description: "1234567890"
             };
             try {
-                const response = await fetch('http://localhost:3000/order/createOrder', {
+                const response = await fetch('https://voidpayservermvp2.onrender.com/order/createOrder', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
