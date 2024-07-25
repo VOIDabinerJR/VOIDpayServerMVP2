@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const expiryDate = document.getElementById('expiry-date').value;
             const securityCode = document.getElementById('security-code').value;
             const mobileWallet = document.getElementById('mobileWallet-number').value;
-            const paymentMethod = document.getElementById('paymentMethod').getAttribute('method');
+            const paymentMethod = document.getElementById('paymentMethod').getAttribute('data-method').toString();
 
             const data = {
                 // buttonToken: buttonToken, // Descomente esta linha se buttonToken estiver presente no HTML
