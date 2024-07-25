@@ -84,6 +84,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const label = document.createElement('label');
         label.id = 'paymentMethod';
         label.textContent = method;
+        label.className =method;
+        label.setAttribute('method',method);
         label.style.display = 'none';
         document.body.appendChild(label);
 
