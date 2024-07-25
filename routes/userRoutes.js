@@ -5,4 +5,4 @@ const userController = require('../controllers/userController');
 router.post('/checkToken', userController.checkToken);
 router.post('/checkUser', userController.checkUser);
 
-module.exports = router;
+module.exports = router; 

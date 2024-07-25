@@ -8,10 +8,10 @@ router.get('/getbutton', (req, res) => {
     const acept = req.query.acept; // Use req.query para parâmetros de consulta
 
     if (acept === 'true') { // Verifique se o parâmetro 'acept' é igual a 'true'
-        res.sendFile(path.join(__dirname, '../', 's3.js'));
+        res.sendFile(path.join(__dirname, '../', 'payment.js'));
        // res.sendFile(path.join(__dirname, '../', 'sdk.js')); // Envia o arquivo js
     } else {
-        res.sendFile(path.join(__dirname, '../', 's2.js'));
+        res.sendFile(path.join(__dirname, '../', 'OrderButton.js'));
     }
 });
 

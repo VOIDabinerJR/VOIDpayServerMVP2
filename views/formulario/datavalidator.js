@@ -5,7 +5,7 @@ document.getElementById('payButton').addEventListener('click', () => {
     button.style.cursor = 'not-allowed';
     button.innerText = 'Não permitido';
 });
-
+ 
 document.getElementById('card-number').addEventListener('input', () => {
     const number = document.getElementById('card-number').value;
     const numberValidation = cardValidator.number(number);
