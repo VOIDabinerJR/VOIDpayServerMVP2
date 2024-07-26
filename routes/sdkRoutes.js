@@ -36,4 +36,14 @@ router.get('/test', (req, res) => {
   
     //res.render('pay',{ productId:1, quantity:1, description:1, totalAmount:1})
 });
+router.get('/try', (req, res) => { 
+    
+    
+    
+   
+    res.sendFile(path.join(__dirname, '../', 'aa.html'));
+    console.log()
+  
+    //res.render('pay',{ productId:1, quantity:1, description:1, totalAmount:1})
+});
 module.exports = router;

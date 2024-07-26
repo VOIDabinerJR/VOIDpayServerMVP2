@@ -40,7 +40,8 @@ console.log("a");
              const url =``
              const maxAge = 3 * 24 * 60 * 60 * 1000;     
              res.cookie('orderid', '13', { httpOnly: true, maxAge });
-             return res.redirect(`/sdk/pay`) 
+             //return res.re(`/sdk/test`) 
+              return res.json({orderId:'1', buttonToken:'VOID-cfbe5181-57c2-4a9a-b4fd-4a31bffd1fdd'})
         } else {
             return res.status(500).json({ error: 'Order creation failed' });
         }

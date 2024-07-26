@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-   
+
     const container = document.querySelector('#void-button-container'); // Selecionando o container correto
-console.log("ooi")
+    console.log("ooi")
     // Criando o botão
     const button = document.createElement('button');
     button.id = 'void-pay-button';
@@ -61,44 +61,39 @@ console.log("ooi")
 
     button.addEventListener('click', async function (event) {
         event.preventDefault(); // Previne o comportamento padrão do botão
-        async function sendOrder() {
-            const aa = document.getElementById('product-id').value
-            const bb = document.getElementById('quantity').value
-            const cc = document.getElementById('void-button-container').getAttribute('name')
-            const data = {
-                buttonToken: cc,
-                productId: aa,
-                quantity: bb,
-                description: "1234567890"
-            };
-            try {
-                const response = await fetch('https://voidpayservermvp2.onrender.com/order/createOrder', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
 
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+        const aa = document.getElementById('product-id').value;
+        const bb = document.getElementById('quantity').value;
+        const cc = document.getElementById('void-button-container').getAttribute('name');
+        const data = {
+            buttonToken: cc,
+            productId: aa,
+            quantity: bb,
+            description: "1234567890"
+        };
 
-                
-                // Exibir a resposta como texto
-                const result = await response.text();
-                document.body.innerHTML = result;
-              
-            } catch (error) {
-                console.error('There was a problem with the fetch operation:', error);
+        try {
+            const response = await fetch('http://localhost:3000/order/createOrder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        }
-        sendOrder()
 
-    
+            // Exibir a resposta  como texto
+            const result = await response.json();
+            window.location.href = `https://voidpayservermvp2.onrender.com/sdk/test?orderid=${result.orderId}?buttontoken=${result.buttonToken}`;
+
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
     });
 
     // Adicionando o botão ao container
     container.appendChild(button);
 });
-

@@ -1,10 +1,11 @@
 const User = require('../models/userModel');
+const jwt = require('jsonwebtoken');
 
 module.exports.checkToken = (req, res) => {
     const token = req.body.token;
 
     if (token) {
-        jwt.verify(token, JWT_SECRET, (err, decodedToken) => {
+        jwt.verify(token, 'oi', (err, decodedToken) => {
             if (err) {
                 return res.status(401).json({ error: 'Token is invalid or expired' });
             } else {
@@ -20,7 +21,7 @@ module.exports.checkUser = async (req, res) => {
     const { id } = req.body;
 
     try {
-        const userResult = await User.findById(id);
+        const [userResult] = await User.findById(id);
 
         if (userResult.length > 0) {
             const user = userResult[0];

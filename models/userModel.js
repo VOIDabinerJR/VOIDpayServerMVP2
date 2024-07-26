@@ -2,15 +2,19 @@ const db = require('../config/db');
 
 const User = {
     async findByEmail(email) {
-        const [result] = await db.query('SELECT * FROM USUARIOS WHERE email = ?', [email]);
-        return result[0];
+        const result = await db.query('SELECT * FROM user WHERE email = ?', [email]);
+        return result;
     },
-    async findById(id) {
-        const [result] = await db.query('SELECT * FROM USUARIOS WHERE id = ?', [id]);
-        return result[0];
+    async findById(id) { 
+        const result = await db.query('SELECT * FROM user WHERE id = ?', [id]);
+        return result;
     },
     async create(user) {
-        const result = await db.query('INSERT INTO USUARIOS SET ?', user);
+        const result = await db.query('INSERT INTO user SET ?', user);
+        return result;
+    },
+    async update(user,id) {
+        const result = await db.query('UPDATE user SET ? WHERE id = ?', [user, id]);
         return result;
     }
 };

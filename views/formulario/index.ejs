@@ -38,14 +38,14 @@
                
                 <input type="text" id="phoneNumber" placeholder="Telefone" name="phoneNumber">
 
-                <input type="text" class="inputRight" id="email" class="email" placeholder="Email" name="email">
+                <input type="text" id="email" placeholder="Email" name="email">
             </div>
             <label for="address">Informe um endereço</label>
-            <input type="text"  id="address" placeholder="Bairro, Distrito, Provincia" name="address">
+            <input type="text" id="address" placeholder="Bairro, Distrito, Provincia" name="address">
             <label for="address">Cidade</label>
             <div class="wrapInput">
-                <input type="text"  class="inputLeft" id="city" placeholder="Cidade" name="city">
-                <input type="text" class="inputRight" id="postCode" placeholder="Codigo Postal" name="postCode">
+                <input type="text" id="city" placeholder="Cidade" name="city">
+                <input type="text" class="postCode" id="postCode" placeholder="Codigo Postal" name="postCode">
 
             </div>
 
@@ -90,7 +90,7 @@
             <div id="mobileWallet-form" style="display: none;">
                 <label for="mobileWallet-card-number">Número de Telefone</label>
                 <div class="input-icon">
-                    <input type="text"  class="inputLeft" id="mobileWallet-number" name="mobileWallet-number" placeholder="848599243">
+                    <input type="text" id="mobileWallet-number" name="mobileWallet-number" placeholder="848599243">
                     <img id="mobileWalletImg" class="img" src="" alt="Card Icon">
                 </div>
 
@@ -105,10 +105,13 @@
         <div class="order-summary">
             <h2>Resumo do Pedido</h2>
             <img src="https://via.placeholder.com/100" alt="Cadeira de madeira Betala">
-            <div class="order-item">
-                <div>Cadeira de madeira Betala</div>
-                <div>£ 120,00 x 2</div>
-            </div>
+            <% orderItems.forEach(function(item) { %>
+                <div class="order-item">
+                    <div><%= item.name %></div>
+                    <div>£ <%= item.price %> x <%= item.quantity %></div>
+                </div>
+            <% }); %>
+            
             <div class="order-item">
                 <div>Subtotal</div>
                 <div>£ 240,00</div>

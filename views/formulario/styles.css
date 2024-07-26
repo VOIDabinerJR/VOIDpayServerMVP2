@@ -51,6 +51,7 @@ body {
 
 .container {
     width: 55%;
+    height: 10%;
     margin: 50px auto;
     display: flex;
     flex-direction: row;
@@ -91,13 +92,21 @@ body {
 .payment-form input[type="email"],
 .payment-form input[type="tel"],
 .payment-form select {
-    width: 80%;
+
+    outline: 0;
+    background: #ffffff;
+    width: 100%;
+    border: 0.1px solid rgb(216, 215, 215);
+    margin: 0 2px 15px;
+
+
+    width: 90%;
     padding: 8px;
     margin-bottom: 15px;
     border: 3px solid #f6f9fc;
     border-radius: 4px;
     font-size: 0.9em;
-    background: #fff;
+
     /* Fundo branco para os inputs */
     color: #333;
     /* Texto escuro para os inputs */
@@ -107,23 +116,23 @@ body {
 
     text-align: center;
     padding: 3px;
-    width: 80%;
+    width: 95%;
     border-radius: 4px;
     margin-bottom: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-
-
 }
 
-.payment-form .wrapInput .postCode {
-
-    width: 35%;
-
-
+.inputLeft {
+    width: 50%;
 }
+
+.inputRight {
+    width: 45%;
+}
+
+
 
 .payment-form .input-icon {
     position: relative;
@@ -149,9 +158,6 @@ body {
     height: 16px;
 }
 
-.payment-form input[type="checkbox"] {
-    margin-right: 10px;
-}
 
 .payment-methods {
     display: flex;
@@ -224,13 +230,13 @@ body {
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
-        width: 80%;
+        width: 90%;
         padding: 20px;
     }
 
     .payment-form,
     .order-summary {
-        width: 80%;
+        width: 90%;
         margin-bottom: 20px;
     }
 
@@ -240,23 +246,29 @@ body {
     }
 
     .payment-methods div {
-        width: 80%;
+        width: 90%;
         margin-bottom: 10px;
     }
-    
-.payment-form .wrapInput .input{
+
+   
+.payment-form .wrapInput {
 
     text-align: center;
     padding: 3px;
-    width: 80%;
+    width: 100%;
     border-radius: 4px;
     margin-bottom: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
 
+.inputLeft {
+    width: 90%;
+}
 
-
+.inputRight {
+    width: 90%;
 }
 
 }

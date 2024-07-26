@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     buttonpay.addEventListener('click', async function (event) {
         event.preventDefault(); // Previne o comportamento padrão do botão
-        async function sendOrder() {
+        async function pay() {
             const contactName = document.getElementById('contactName').value;
             const phoneNumber = document.getElementById('phoneNumber').value;
             const email = document.getElementById('email').value;
@@ -19,9 +19,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const data = {
                 // buttonToken: buttonToken, // Descomente esta linha se buttonToken estiver presente no HTML
-                contactName: contactName,
+                costumerName: contactName,
                 phoneNumber: phoneNumber,
-                email: email,
+                costumerEmail: email,
                 address: address,
                 city: city,
                 postCode: postCode,
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('There was a problem with the fetch operation:', error);
             }
         }
-        sendOrder();
+        pay();
     });
 });
 

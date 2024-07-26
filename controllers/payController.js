@@ -1,27 +1,40 @@
 const User = require('../models/userModel');
 const Button = require('../models/buttonModel');
 const Order = require('../models/orderModel');
+const path = require('path');
 const Wallet = require('../models/walletModel');
 const { createToken, createMobileWalletToken, decodeToken } = require('../utils/jwt');
+const { Console } = require('console');
 
 
 
 module.exports.getPaymentPage = async (req, res) => {
-    const { orderid } = req.params;
+
+    const orderid = req.query.orderid;
+    const buttonToken = req.query.buttontoken;
+
+    const orderItems = [
+        { name: 'Cadeira de madeira Betala', price: 120.00, quantity: 2 },
+        { name: 'Mesa de vidro', price: 250.00, quantity: 1 },
+        { name: 'Luminária de chão', price: 75.00, quantity: 3 }
+    ];
 
     try {
-        const orderResult = await Order.findById(orderid);
+        const [orderResult] = await Order.findById(orderid);
 
         if (orderResult.length > 0) {
             const order = orderResult[0];
-            const buttonResult = await Button.findByToken(order.botontoken);
 
-            if (buttonResult.length > 0) {
-                const button = buttonResult[0];
-                res.render('pay', { order, button });
+
+
+            if (String(order.buttonToken).trim() != String(buttonToken).trim()) {
+
+                return res.json({ error: 'unauthorized' })
             } else {
-                res.status(404).json({ error: 'Button not found' });
+                return res.render('index', { orderItems: orderItems });
             }
+
+
         } else {
             res.status(404).json({ error: 'Order not found' });
         }
@@ -32,44 +45,18 @@ module.exports.getPaymentPage = async (req, res) => {
 };
 
 module.exports.processPayment = async (req, res) => {
-    const orderid = 'req.cookies.orderid'
+    const { orderid, buttonToken } = req.query;
 
-    // { orderid } = req.params;
     const paymentDetails = req.body;
-    
-    ////
-    const token = await getPaymentToken(paymentDetails.paymentMethod);
-    console.log(token)
-    const result = await pay(token);
-    console.log(result)
-    return  res.render('pay', { productId:"!", quantity:"!", description:"1", totalAmount:"1"});
-    
-
-    async function getPaymentToken(option) {
-        switch (option) {
-            case 'mobileWallet':
-                return createMobileWalletToken(orderid, paymentDetails);
-            case 'Card':
-                return createCardPayToken(orderid, paymentDetails);
-            case 'Paypal':
-                return createPaypalPayToken(orderid, paymentDetails);
-            case 4:
-                return createMobileWalletToken(orderid, paymentDetails);
-            default:
-                return "PAY OPTION INVALID";
-        }
-    }
-    ////
-
 
 
     try {
-        const orderResult = await Order.findById(orderid);
 
+        const [orderResult] = await Order.findById(orderid);
 
         if (orderResult.length > 0) {
-            console.log("A")
             const order = orderResult[0];
+
             async function getPaymentToken(option) {
                 switch (option) {
                     case 'mobileWallet':
@@ -85,57 +72,51 @@ module.exports.processPayment = async (req, res) => {
                 }
             }
 
-
             (async () => {
 
                 const token = await getPaymentToken(paymentDetails.paymentMethod);
-                console.log(token)
-                const aaa = decodeToken(token)
-                console.log(aaa)
-                return  res.status(200).json({ message: 'Payment processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
 
                 const result = await pay(token);
 
 
+                if (result.status_code == 409 || result.status_code == 401 || result.status_code == 200) {
 
+                    console.log(result.status_code)
 
-                if (result.status_code == 409 || result.status_code == 401|| result.status_code == 200) {
-                    console.log(result.status_code) 
+                    const [updateResult] = await Order.update(orderid, { orderStatus: 'Completed' });
 
-                    const [updateResult] = await Order.update(orderid,{ orderStatus: 'Completed' });
-                    
                     console.log(updateResult)
 
                     if (updateResult.affectedRows === 1) {
                         console.log("sucess");
                         try {
-                            const { originAccount, value, walletId } = req.body;
+                            const {  value, walletId } = req.body;
                             const wallet = await Wallet.findById(walletId);
                             if (wallet) {
-                                
+
                                 const result = await Wallet.deposit(walletId, destinationAccount, value);
-                               
+
                             } else {
                                 res.status(404).json({ message: 'Wallet not found' });
                             }
                         } catch (error) {
                             res.status(500).json({ error: error.message });
                         }
-                       // return res.redirect('https://www.google.com');
-                                               
-                       return  res.status(200).json({ message: 'Payment processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
+                        // return res.redirect('https://www.google.com');
+
+                        return res.status(200).json({ message: 'Payment processed successfully', error: null, redirectUrl: 'https://www.google.com' });
                     } else {
                         res.status(500).json({ message: 'Payment processed successfully', error: 'Failed to update order status' });
                     }
                 } else {
                     res.status(500).json({ paid: 'true', error: 'Failed to pay' });
- 
+
                 }
 
 
             })();
 
-        } else { 
+        } else {
             console.log(result)
             res.status(404).json({ error: 'Order not found' });
         }
@@ -183,26 +164,26 @@ module.exports.processWithdraw = async (req, res) => {
 
                 const result = await withdraw(token);
 
-                if (result.status_code == 409 || result.status_code == 401|| result.status_code == 200) {
-                    console.log(result.status_code) 
+                if (result.status_code == 409 || result.status_code == 401 || result.status_code == 200) {
+                    console.log(result.status_code)
 
                     try {
                         const { walletId } = req.params;
                         const { originAccount, value } = req.body;
                         const result = await Wallet.withdraw(walletId, originAccount, value);
-                        res.status(200).json({ message: 'Withdraw processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
+                        res.status(200).json({ message: 'Withdraw processed successfully', error: null, redirectUrl: 'https://www.google.com' });
                     } catch (error) {
                         res.status(500).json({ error: error.message });
                     }
                 } else {
                     res.status(500).json({ paid: 'true', error: 'Failed to withdraw' });
- 
+
                 }
 
 
             })();
 
-        } else { 
+        } else {
             console.log(result)
             res.status(404).json({ error: 'Wallet not found' });
         }
@@ -250,25 +231,25 @@ module.exports.processRefund = async (req, res) => {
 
                 const result = await refund(token);
 
-                if (result.status_code == 409 || result.status_code == 401|| result.status_code == 200) {
-                    console.log(result.status_code) 
+                if (result.status_code == 409 || result.status_code == 401 || result.status_code == 200) {
+                    console.log(result.status_code)
                     try {
                         const { walletId } = req.params;
                         const { originAccount, value } = req.body;
                         const result = await Wallet.refund(walletId, originAccount, value);
-                        res.status(200).json({ message: 'Refund processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
+                        res.status(200).json({ message: 'Refund processed successfully', error: null, redirectUrl: 'https://www.google.com' });
                     } catch (error) {
                         res.status(500).json({ error: error.message });
                     }
                 } else {
                     res.status(500).json({ paid: 'true', error: 'Failed to withdraw' });
- 
+
                 }
 
 
             })();
 
-        } else { 
+        } else {
             console.log(result)
             res.status(404).json({ error: 'Wallet not found' });
         }
@@ -318,19 +299,19 @@ module.exports.processRefund = async (req, res) => {
 
                 const result = await queryTransactionStatus(token);
 
-                if (result.status_code == 409 || result.status_code == 401|| result.status_code == 200) {
-                    console.log(result.status_code) 
+                if (result.status_code == 409 || result.status_code == 401 || result.status_code == 200) {
+                    console.log(result.status_code)
                     //como vao ser devolvido
-                    res.status(200).json({ status: 'Payment processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
+                    res.status(200).json({ status: 'Payment processed successfully', error: null, redirectUrl: 'https://www.google.com' });
                 } else {
                     res.status(500).json({ paid: 'true', error: 'Failed to queryTransactionStatus' });
- 
+
                 }
 
 
             })();
 
-        } else { 
+        } else {
             console.log(result)
             res.status(404).json({ error: 'Wallet not found' });
         }

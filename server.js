@@ -14,7 +14,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'] // Cabeçalhos permitidos
 }));
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views/formulario'));
 
 // Importing routes
 const authRoutes = require('./routes/authRoutes');

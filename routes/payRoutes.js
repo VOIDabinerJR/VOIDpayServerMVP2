@@ -5,4 +5,4 @@ const payController = require('../controllers/payController');
 router.get('/:orderid', payController.getPaymentPage);
 router.post('/:orderid', payController.processPayment);
 
-module.exports = router;
+module.exports = router; 
