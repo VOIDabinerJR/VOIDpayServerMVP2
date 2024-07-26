@@ -138,6 +138,9 @@ async function sendRecoverEmail(email, token) {
     <style>
         body {
             font-family: Arial, sans-serif;
+           display: flex;
+            justify-content: center;
+            align-items: center; 
             line-height: 1.6;
             background-color: #f4f4f4;
             margin: 0;
@@ -151,15 +154,19 @@ async function sendRecoverEmail(email, token) {
             border-radius: 5px;
             background-color: #ffffff;
         }
-            .black-button {
-    width: 50px;
-    background-color: black;
-    color: white; /* Cor do texto para garantir que o texto seja visível */
-    border: none; /* Remove a borda padrão */
-    padding: 10px; /* Adiciona algum preenchimento para tornar o botão mais utilizável */
-    border-radius: 4px; /* Adiciona bordas arredondadas */
-    cursor: pointer; /* Muda o cursor ao passar o mouse sobre o botão */
-    text-align: center; /* Centraliza o texto */
+        .black-button {
+            width: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+             background-color: black;
+            color: white; 
+            border: none; 
+            padding: 10px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            text-align: center; 
+        }
 
         .token {
             font-weight: bold;
@@ -171,10 +178,7 @@ async function sendRecoverEmail(email, token) {
         p {
             color: #555;
         }
-        a {
-            color: #3366cc;
-            text-decoration: none;
-        }
+
         .footer {
             text-align: center;
             margin-top: 20px;
@@ -185,13 +189,15 @@ async function sendRecoverEmail(email, token) {
 </head>
 <body>
     <div class="container">
-        <h2>Notificação de Token para Ativar Bottao</h2>
-        <p>Prezado usuário,</p>
-        <p>Este é um aviso automatizado, não responda.</p>
+    <img src="https://voidabinerjr.github.io/VOIDpayWebMVP2/img/voidblacklogo.png">
+        <h2><strong>Saudações!</strong></h2>
+        <p>Você solicitou uma recuperação de senha para sua conta</p>
+       
         
-       <a class="black-button" <a href="${process.env.URL}/resetpassword?token${token}" >Click</a>
+       <a class="black-button" <a href="${"http://localhost:9000"}/resetpassword?token=${token}" >Click</a>
         
         <div class="footer">
+         <p>Este é um aviso automatizado, não responda.</p>
             <p>Se você tiver alguma dúvida ou precisar de suporte adicional, entre em contato conosco pelo site <a href="www.voidpay.online" target="_blank">www.voidpay.online</a></p>
             <p>Atenciosamente,<br>Equipe de Suporte VOIDpay</p>
         </div>

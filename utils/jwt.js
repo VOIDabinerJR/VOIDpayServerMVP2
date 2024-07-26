@@ -55,4 +55,4 @@ const createPaypalPayToken = (a, b, c, d) => {
     return null
 };
 
-module.exports = { createToken, decodeToken, createMobileWalletToken, createCardPayToken, createPaypalPayToken,createLoginToken };
+module.exports = { createToken, decodeToken, createMobileWalletToken, createCardPayToken, createPaypalPayToken, createLoginToken };
