@@ -21,7 +21,7 @@
 
 <body>
     <div class="header">
-        <div class="logo">VOIDpay</div>
+       <img class="logo" src="https://voidabinerjr.github.io/VOIDpayWebMVP2/img/voidwhitelogo.png" alt="">
         <div class="breadcrumb">
             <strong>Este Ambiente é Seguro e Criptografado</strong>
             <img class="img" src="https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/psafe.png" alt="Psafe">
@@ -30,38 +30,39 @@
     </div>
     <div class="container">
         <div class="payment-form">
-            <h2>Informaçóes de envio</h2>
+            <h2>Informações de Envio</h2>
             <label for="address">Nome de Contacto</label>
-            <input type="text" id="contactName" placeholder="John Doe" name="contactName">
+            <input type="text" id="contactName" placeholder="Nome Completo" name="contactName">
 
             <div class="wrapInput">
                
                 <input type="text" id="phoneNumber" placeholder="Telefone" name="phoneNumber">
 
-                <input type="text" id="email" placeholder="Email" name="email">
+                <input type="text" class="inputRight" id="email" class="email" placeholder="Email" name="email">
             </div>
             <label for="address">Informe um endereço</label>
-            <input type="text" id="address" placeholder="Bairro, Distrito, Provincia" name="address">
+            <input type="text"  id="address" placeholder="Bairro, Distrito, Provincia" name="address">
             <label for="address">Cidade</label>
             <div class="wrapInput">
-                <input type="text" id="city" placeholder="Cidade" name="city">
-                <input type="text" class="postCode" id="postCode" placeholder="Codigo Postal" name="postCode">
+                <input type="text"  class="inputLeft" id="city" placeholder="Cidade" name="city">
+                <input type="text" class="inputRight" id="postCode" placeholder="Codigo Postal" name="postCode">
 
             </div>
 
 
 
+           <div class="paymentoinfo">
             <h2>Pagar com</h2>
             <div class="payment-methods">
-                <div id="card-method" onclick="togglePaymentForm('card')">
+                <div id="card-method" class="card-method" onclick="togglePaymentForm('card')">
                     <i class="fa fa-solid fa-credit-card"></i>
                     Cartão
                 </div>
-                <div id="mobileWallet-method" onclick="togglePaymentForm('mobileWallet')">
+                <div id="mobileWallet-method" class="card-method" onclick="togglePaymentForm('mobileWallet')">
                     <i class="fa-solid fa-wallet"></i>
                     Carteira Móvel
                 </div>
-                <div id="paypay-method" onclick="togglePaymentForm('paypal')">
+                <div id="paypay-method" class="card-method" onclick="togglePaymentForm('paypal')">
                     <i class="fa-brands fa-paypal"></i>
                     Paypal
                 </div>
@@ -70,63 +71,65 @@
             <div id="card-form">
                 <label for="card-number">Numero de Cartão</label>
                 <div class="input-icon">
-                    <input type="text" id="card-number" name="card-number" placeholder="1234 1234 1234 1234">
+                    <input type="text" id="card-number" name="card-number" placeholder="1234 1234 1234 1234"  onkeypress="cardspace()">
                     <img class="img" src="https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/cards.png" alt="Card Icon">
                 </div>
-
-                <label for="expiry-date">Data de vencimento</label>
-                <div class="input-icon">
-                    <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/AA">
-                    <i class="fa-solid fa-calendar-days"></i>
+                <div class="wrapInput">
+                    <div class="input-icon">
+                        <input type="text" class="inputLeft" id="expiry-date" name="expiry-date" placeholder="MM/AA">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+                    <div class="input-icon">
+                        <input type="text" class="inputRight"  id="security-code" name="security-code" maxlength="3" placeholder="CVV">
+                        <i class="fa fa-lock"></i>
+                    </div>
+                    
                 </div>
 
-                <label for="security-code">Código de segurança</label>
-                <div class="input-icon">
-                    <input type="text" id="security-code" name="security-code" placeholder="CVV">
-                    <i class="fa fa-lock"></i>
-                </div>
+
             </div>
 
             <div id="mobileWallet-form" style="display: none;">
                 <label for="mobileWallet-card-number">Número de Telefone</label>
                 <div class="input-icon">
-                    <input type="text" id="mobileWallet-number" name="mobileWallet-number" placeholder="848599243">
-                    <img id="mobileWalletImg" class="img" src="" alt="Card Icon">
+                    <input type="text"  class="inputLeft" id="mobileWallet-number" name="mobileWallet-number" placeholder="848599243">
+                    <img id="mobileWalletImg" class="img" src="" alt="">
                 </div>
 
             </div>
 
             <div id="paypal-form" style="display: none; background: black;">
-                <button> <i class="fa-brands fa-paypal text-white"></i></button>
+                <button class="btn"> <i class="fa-brands fa-paypal text-white"></i></button>
 
             </div>
+           </div>
+           
         </div>
 
         <div class="order-summary">
             <h2>Resumo do Pedido</h2>
-            <img src="https://via.placeholder.com/100" alt="Cadeira de madeira Betala">
+            <img src="<%= item.img %>" alt=<img src="<%= item.imgAlt%>"">
             <% orderItems.forEach(function(item) { %>
                 <div class="order-item">
                     <div><%= item.name %></div>
-                    <div>£ <%= item.price %> x <%= item.quantity %></div>
+                    <div>MZN <%= item.price %> x <%= item.quantity %></div>
                 </div>
             <% }); %>
-            
             <div class="order-item">
                 <div>Subtotal</div>
-                <div>£ 240,00</div>
+                 <div>MZN <%= subtotal %> </div>
             </div>
             <div class="order-item">
-                <div>IVA (20%)</div>
-                <div>£ 48,00</div>
+                <div>IVA (<%= ivaTax %> %)</div>
+                <div>MZN <%= iva %></div>
             </div>
             <div class="order-item">
-                <div>Estimativa de frete</div>
-                <div>GRATUITA</div>
+                <div>Frete</div>
+                <div><%= shippingCost %></div>
             </div>
             <div class="order-item total">
                 <div>Total</div>
-                <div>£ 288,00</div>
+                <div>MZN <%= totalAmout %></div>
             </div>
             <button id="payButton" class="btn" onclick="pay()" >Pagar</button>
         </div>
@@ -219,12 +222,14 @@
         const inputValue = document.getElementById('mobileWallet-number').value;
         const image = document.getElementById('mobileWalletImg');
         const firstTwoChars = inputValue.substring(0, 2).toLowerCase();
+        const firstFiveTwoChars = inputValue.substring(0, 5).toLowerCase();
+        const firstSixChars = inputValue.substring(0, 6).toLowerCase();
 
-        if (firstTwoChars === '86' || firstTwoChars === '87') {
+        if (firstTwoChars === '86' || firstTwoChars === '87' ||firstFiveTwoChars === '25886' || firstFiveTwoChars === '25887' ||firstSixChars === '+25886' || firstSixChars === '+25887') {
             image.src = 'https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/movitel.png';
-        } else if (firstTwoChars === '84' || firstTwoChars === '85') {
+        } else if (firstTwoChars === '84' || firstTwoChars === '85' ||firstFiveTwoChars === '25885' || firstFiveTwoChars === '25884' ||firstSixChars === '+25884' || firstSixChars === '+25885') {
             image.src = 'https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/vodacom.png';
-        } else if (firstTwoChars === '83' || firstTwoChars === '82') {
+        } else if (firstTwoChars === '83' || firstTwoChars === '82' ||firstFiveTwoChars === '25882' || firstFiveTwoChars === '25883' ||firstSixChars === '+25883' || firstSixChars === '+25882') {
             image.src = 'https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/tmcel.png';
         } else {
             image.src = 'https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/default-image.jpg';

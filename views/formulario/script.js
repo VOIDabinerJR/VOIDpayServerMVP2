@@ -78,7 +78,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    stars();
+    
+
+    function cardspace(){
+        var carddigit = document.getElementById('cardnumber').value;
+        if(carddigit.length == 4 || carddigit.length == 9 || carddigit.length ==14){
+            document.getElementById('cardnumber').value = carddigit+" ";
+            document.getElementById('cardnumber').max = 1;
+         }
+         
+    
+    }
 
     function togglePaymentForm(method) {
         const label = document.createElement('label');
@@ -126,3 +136,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+function cardspace(){
+    var carddigit = document.getElementById('cardnumber').value;
+    if(carddigit.length == 4 || carddigit.length == 9 || carddigit.length ==14){
+        document.getElementById('cardnumber').value = carddigit+" ";
+        document.getElementById('cardnumber').max = 1;
+     }
+     
+
+}

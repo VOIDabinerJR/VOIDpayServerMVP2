@@ -1,8 +1,7 @@
 body {
     font-family: "Roboto", sans-serif;
     font-weight: 500;
-    font-style: normal;
-
+    overflow-x: hidden;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -16,25 +15,20 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 15px;
-    background: white;
+    background: black;
     /* Fundo escuro do header */
     border-bottom: 1px solid #ccc;
 }
 
 .header .logo {
     font-size: 1.5em;
-    color: #000000;
+    color: white;
     font-weight: bold;
+    max-width:80px ;
+    min-width: 65px;
 }
 
-.header.active {
-    background: #000000;
-}
 
-.logo.active {
-
-    color: #ffffff;
-}
 
 .breadcrumb {
     font-size: 0.9em;
@@ -48,6 +42,7 @@ body {
 
     /* Breadcrumb com cor mais clara */
 }
+
 
 .container {
     width: 55%;
@@ -87,6 +82,10 @@ body {
     color: black;
     /* Cor dos labels */
 }
+.card-method:hover{
+    background: rgb(187, 239, 255);
+
+}
 
 .payment-form input[type="text"],
 .payment-form input[type="email"],
@@ -96,14 +95,14 @@ body {
     outline: 0;
     background: #ffffff;
     width: 100%;
-    border: 0.1px solid rgb(216, 215, 215);
+    border: 0.1px solid rgb(220, 220, 220);
     margin: 0 2px 15px;
 
 
     width: 90%;
     padding: 8px;
     margin-bottom: 15px;
-    border: 3px solid #f6f9fc;
+   
     border-radius: 4px;
     font-size: 0.9em;
 
@@ -144,7 +143,7 @@ body {
 
 .payment-form .input-icon img {
     position: absolute;
-    right: 35px;
+    right: 1px;
     top: 35%;
     transform: translateY(-50%);
     height: 16px;
@@ -152,7 +151,7 @@ body {
 
 .payment-form .input-icon i {
     position: absolute;
-    right: 40px;
+    right: 1px;
     top: 35%;
     transform: translateY(-50%);
     height: 16px;
@@ -168,8 +167,8 @@ body {
 .payment-methods div {
     width: 25%;
     text-align: center;
-    padding: 3px;
-    border: 3px solid #f6f9fc;
+    padding: 8px;
+    border: 0.1px solid #dbdbdb;
     border-radius: 4px;
     cursor: pointer;
     display: flex;
@@ -203,7 +202,7 @@ body {
     font-size: 1.2em;
 }
 
-.order-summary .btn {
+ .btn {
     display: block;
     width: 100%;
     padding: 15px;
