@@ -18,6 +18,7 @@ app.set('views', path.join(__dirname, 'views/formulario'));
 
 // Importing routes
 const authRoutes = require('./routes/authRoutes');
+const pagesRoutes = require('./routes/pagesRoutes');
 const userRoutes = require('./routes/userRoutes');
 const buttonRoutes = require('./routes/buttonRoutes');
 const orderRoutes = require('./routes/orderRoutes');
@@ -26,6 +27,7 @@ const sdkRoutes = require('./routes/sdkRoutes');
 
 // Using routes
 app.use('/auth', authRoutes);
+app.use('/pages', pagesRoutes);
 app.use('/user', userRoutes);
 app.use('/button', buttonRoutes);
 app.use('/order', orderRoutes);
