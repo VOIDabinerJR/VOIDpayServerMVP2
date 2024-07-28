@@ -28,11 +28,12 @@ const authController = {
 
 
             if (insertResult[0].affectedRows === 1) {
-                const newUser = await User.findByEmail(email);
-                const token = createLoginToken(newUser.id);
+                const [newUser] = await User.findByEmail(email);
+                const token = createLoginToken(newUser[0].id);
+                console.log(newUser[0].id)
 
                const walletData ={
-                userid:newUser.id
+                userid:newUser[0].id
 
                }
                 const wallet = await Wallet.create(walletData);

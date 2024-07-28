@@ -2,16 +2,16 @@ const db = require('../config/db');
 
 const Wallet = {
     async create(wallet) {
-        const result = await db.query('INSERT INTO WALLET SET ?', wallet);
+        const result = await db.query('INSERT INTO wallet SET ?', wallet);
         return result;
     },
     async findById(id) {
-        const [result] = await db.query('SELECT * FROM WALLET WHERE id = ?', [id]);
+        const [result] = await db.query('SELECT * FROM wallet WHERE id = ?', [id]);
         return result[0];
     },
     async withdraw(originAccount, value, walletId) {
         // Update the wallet balance
-        const updateWallet = await db.query('UPDATE WALLET SET balance = balance - ? WHERE id = ?', [value, walletId]);
+        const updateWallet = await db.query('UPDATE wallet SET balance = balance - ? WHERE id = ?', [value, walletId]);
         
         // Record the transaction
         const recordTransaction = await db.query('INSERT INTO TRANSACTIONS SET ?', {
