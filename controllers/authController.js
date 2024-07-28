@@ -23,10 +23,11 @@ const authController = {
             console.log(firstName)
             const hashedPassword = await bcrypt.hash(password, 8);
             const user = { firstName, lastName, username, email, password: hashedPassword };
+           
             const insertResult = await User.create(user);
 
 
-            if (insertResult.affectedRows === 1) {
+            if (insertResult[0].affectedRows === 1) {
                 const newUser = await User.findByEmail(email);
                 const token = createLoginToken(newUser.id);
 
