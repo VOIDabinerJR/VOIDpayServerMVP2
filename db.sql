@@ -1,3 +1,4 @@
+create database company_db;
 use company_db;
 
 CREATE TABLE user (
@@ -5,6 +6,7 @@ CREATE TABLE user (
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
     username VARCHAR(50) UNIQUE NOT NULL,
+     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     creationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -54,7 +56,7 @@ CREATE TABLE app (
 
 CREATE TABLE wallet (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    balance DECIMAL(10, 2) NOT NULL,
+    balance DECIMAL(10, 2) NOT NULL default 0,
     creationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     userId INT,
