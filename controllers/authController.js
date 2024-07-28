@@ -152,17 +152,18 @@ const authController = {
 
 
 
-            const [user] = await User.findById(decoded.token);
+            const user = await DynamicData.getUserDataById(decoded.token);
 
             if (!user) {
                 return res.status(404).json({ err: 'Erro data load' });
             } else {
+                
 
-                return res.status(200).json(user[0])
+                return res.status(200).json({user})
 
             }
 
-
+ 
 
         } catch (error) {
             console.error(error);

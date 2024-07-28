@@ -8,7 +8,7 @@ const createToken = (payload) => {
 function decodeToken(token) {
     try {
         const decodedPayload = jwt.verify(token, process.env.PAY_SECRET);
-        return decodedPayload;
+        return decodedPayload; 
     } catch (error) {
         if (error instanceof jwt.TokenExpiredError) {
             throw new Error('Token expirado. Por favor, faça login novamente.');
