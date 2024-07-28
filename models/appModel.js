@@ -2,19 +2,24 @@ const db = require('../config/db');
 
 const BusinessDetails = {
     async findByDocumentId(documentId) {
-        const result = await db.query('SELECT * FROM BusinessDetails WHERE legaldocument = ?', [documentId]);
+        const result = await db.query('SELECT * FROM app WHERE legaldocument = ?', [documentId]);
         return result;
     },
     async findById(id) { 
-        const result = await db.query('SELECT * FROM BusinessDetails WHERE id = ?', [id]);
+        const result = await db.query('SELECT * FROM app WHERE id = ?', [id]);
         return result;
     },
-    async create(businessDetails) {
-        const result = await db.query('INSERT INTO BusinessDetails SET ?', businessDetails);
+    async findByClientId(id) { 
+        const result = await db.query('SELECT * FROM app WHERE clientid = ?', [id]);
+        
         return result;
     },
-    async update(businessDetails,id) {
-        const result = await db.query('UPDATE BusinessDetails SET ? WHERE id = ?', [businessDetails, id]);
+    async create(app) {
+        const result = await db.query('INSERT INTO app SET ?', app);
+        return result;
+    },
+    async update(app,id) {
+        const result = await db.query('UPDATE app SET ? WHERE id = ?', [app, id]);
         return result;
     }
 };
