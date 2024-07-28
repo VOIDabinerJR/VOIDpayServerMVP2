@@ -194,7 +194,7 @@ async function sendRecoverEmail(email, token) {
         <p>Você solicitou uma recuperação de senha para sua conta</p>
        
         
-       <a class="black-button" <a href="${"http://localhost:9000"}/resetpassword?token=${token}" >Click</a>
+       <a class="black-button" <a href="${"https://voidpaywebmvp2.onrender.com"}/resetpassword?token=${token}" >Click</a>
         
         <div class="footer">
          <p>Este é um aviso automatizado, não responda.</p>

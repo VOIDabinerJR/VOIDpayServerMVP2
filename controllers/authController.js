@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const { createLoginToken, createToken, decodeToken } = require('../utils/jwt');
 const { sendEmail, sendRecoverEmail } = require('../utils/email');
 const DynamicData = require('../models/dynamicDataModell');
-
+const Wallet = require('../models/walletModel');
 
 
 const authController = {
@@ -30,10 +30,17 @@ const authController = {
                 const newUser = await User.findByEmail(email);
                 const token = createLoginToken(newUser.id);
 
+               const walletData ={
+                userid:newUser.id
 
-                const insertResult = await App.create(user);
+               }
+                const wallet = await Wallet.create(walletData);
+                
 
-                return res.status(201).json({ token });
+
+                //const insertResult = await App.create(user);
+
+                return res.status(201).json({ token:token, wallet:wallet });
                 // return res.redirect(/login)
             } else {
                 return res.status(500).json({ err: 'User registration failed' });

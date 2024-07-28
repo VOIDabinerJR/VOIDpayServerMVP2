@@ -3,152 +3,130 @@ const bcrypt = require('bcryptjs');
 const { createLoginToken, createToken, decodeToken } = require('../utils/jwt');
 const { sendEmail, sendRecoverEmail } = require('../utils/email');
 const DynamicData = require('../models/dynamicDataModell');
+const UserDetails = require('../models/userDetailsModel');
+const business = require('../models/businessModel');
+const App = require('../models/appModel');
+const Wallet = require('../models/walletModel');
+
+const { populateUpdatedFields } = require('../utils/functions.js');
+const BusinessDetails = require('../models/businessModel');
 
 
 
-const pagesController = { 
+const pagesController = {
     registerUpdate: async (req, res) => {
-        const { token, firstName, lastName, username, email, password, repeatPassword, dateOfBirth, address, postalCode, documentId, documentIdImg, phone, alternativeEmail, businessName, legalDocument,website, form } = req.body;
+        const { token, firstName, lastName, username, email, password, repeatPassword, dateOfBirth, address, postalCode, documentId, documentIdImg, phone, alternativeEmail, businessName, legalDocument, website, form } = req.body;
         const data = req.body
-        const userData = {
-            firstName:firstName, lastName:lastName, username:username,  password:password
 
-        }
-        
-        const userDetails = {
-            dateOfBirth:dateOfBirth, address:address, postalCode:postalCode, documentId:documentId, phone:phone,alternativeEmail:alternativeEmail
-
-        }
-        
-        const businessDetails = {
-            businessName:businessName, legalDocument:legalDocument,website:website,address:address,email:email
-
-        }
-
-        const mysql = require('mysql2/promise');
-        const decoded = decodeToken(token);
-        const userId = decoded.token
-        const db = mysql.createPool({
-            host: process.env.DB_HOST,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASS,
-            database: process.env.DB_NAME,
-            port: process.env.DB_PORT
-        });
-
-
-        if(form=='user'){
-            let query = 'UPDATE user SET ';
-            const updates = [];
-            const values = [];
-    
-            for (const key in data) {
-                if (key !== 'id' && data.hasOwnProperty(key) && data[key] !== '') {
-                    updates.push(`${key} = ?`);
-                    values.push(data[key]);
-                }
-            }
-    
-            if (updates.length > 0) {
-                query += updates.join(', ') + ' WHERE id = ?';
-                values.push(userId);
-    
-                // Log da query para o console
-                console.log('Query:', query);
-                console.log('Values:', values);
-    
-                db.query(query, values, (error, results) => {
-                    if (error) {
-                        return res.status(500).json({ error: error.message });
-                    }
-                    res.json({ message: 'Usuário atualizado com sucesso!' });
-                });
-            } else {
-                res.json({ message: 'Nenhum dado para atualizar.' });
-            }
-
-            let query = 'UPDATE user SET ';
-            const updates = [];
-            const values = [];
-    
-            for (const key in data) {
-                if (key !== 'id' && data.hasOwnProperty(key) && data[key] !== '') {
-                    updates.push(`${key} = ?`);
-                    values.push(data[key]);
-                }
-            }
-    
-            if (updates.length > 0) {
-                query += updates.join(', ') + ' WHERE id = ?';
-                values.push(userId);
-    
-                // Log da query para o console
-                console.log('Query:', query);
-                console.log('Values:', values);
-    
-                db.query(query, values, (error, results) => {
-                    if (error) {
-                        return res.status(500).json({ error: error.message });
-                    }
-                    res.json({ message: 'Usuário atualizado com sucesso!' });
-                });
-            } else {
-                res.json({ message: 'Nenhum dado para atualizar.' });
-            }
-
-        }else if (form=='business'){
-            let query = 'UPDATE bussiness SET ';
-            const updates = [];
-            const values = [];
-    
-            for (const key in businessDetails) {
-                if (key !== 'iserId' && businessDetails.hasOwnProperty(key) && businessDetails[key] !== '') {
-                    updates.push(`${key} = ?`);
-                    values.push(businessDetails[key]);
-                }
-            }
-    
-            if (updates.length > 0) {
-                query += updates.join(', ') + ' WHERE id = ?';
-                values.push(userId);
-    
-                // Log da query para o console
-                console.log('Query:', query);
-                console.log('Values:', values);
-    
-                db.query(query, values, (error, results) => {
-                    if (error) {
-                        return res.status(500).json({ error: error.message });
-                    }
-                    res.json({ message: 'Usuário atualizado com sucesso!' });
-                });
-            } else {
-                res.json({ message: 'Nenhum dado para atualizar.' });
-            }
-
-        }else {
-            return res.json({err: "atualizar nada"})
-        }
-       
-
-        return
-
-        if (password == '') {
-            console.log('oi')
-        }
-
-
-
+        const decoded = decodeToken(token)
 
         try {
-            const [existingUser] = await User.findById(userId);
+            const [existingUser] = await User.findById(decoded.token);
             if (existingUser.length <= 0) {
                 return res.status(400).json({ error: 'user not found' });
             }
 
-            const hashedPassword = await bcrypt.hash(password, 8);
-            const user = { firstName, lastName, username, email, password: hashedPassword };
-            const insertResult = await User.create(user);
+
+            if (form == 'user') {
+                let userData = {};
+                let userDetails = {};
+
+                populateUpdatedFields({ firstName, lastName, username, password }, userData);
+                populateUpdatedFields({ dateOfBirth, address, postalCode, documentId, phone, alternativeEmail }, userDetails);
+                userData.userId = decoded.token;
+                userDetails.userId = decoded.token;
+
+                if (password && password.trim() !== '') {
+                    const hashedPassword = await bcrypt.hash(password, 8);
+                    userData.password = hashedPassword
+
+                }
+
+                const [existingUserDetails] = await UserDetails.findByUserId(decoded.token);
+                if (existingUserDetails.length <= 0) {
+
+                    const [creationUserDetails] = await UserDetails.create(userDetails);
+                    if (creationUserDetails.affectedRows == 1) {
+
+                        return res.json({ status: 'sucess' });
+                    }
+
+                    return res.json({ status: 'faild' });
+
+                } else {
+                    const [updateUserDetails] = await UserDetails.update(userDetails, existingUserDetails[0].id);
+                    if (updateUserDetails.affectedRows == 1) {
+
+                        return res.json({ status: 'sucess' });
+                    }
+                  
+
+                }
+
+                const [existingUser] = await User.findById(decoded.token);
+                if (existingUser.length <= 0) {
+
+                    const [creationUser] = await UserDetails.create(userData);
+                    if (creationUser.affectedRows == 1) {
+
+                        return res.json({ status: 'sucess' });
+                    }
+
+                    return res.json({ status: 'faild' });
+
+                } else {
+                    const [updateUser] = await UserDetails.update(userData, existingUser[0].id);
+                    if (updateUser.affectedRows == 1) {
+
+                        return res.json({ status: 'sucess' });
+                    }
+                  
+
+                }
+
+
+                console.log('userData:', userData);
+                console.log('userDetails:', userDetails);
+
+
+
+                return res.json({ error: "" })
+
+            } else if (form == 'business') {
+                let businessDetails = {};
+
+                populateUpdatedFields({ businessName, legalDocument, website, address, email }, businessDetails);
+                businessDetails.userId = decoded.token;
+
+                const [existingBusinessDetails] = await BusinessDetails.findByUserId(decoded.token);
+                if (existingBusinessDetails.length <= 0) {
+
+                    const [creationBusinessDetails] = await BusinessDetails.create(businessDetails);
+                    if (creationBusinessDetails.affectedRows == 1) {
+                       
+
+                        return res.json({ status: 'sucess' });
+                    }
+
+                    return res.json({ status: 'faild' });
+
+                } else {
+                   
+                    const [updateBusinessDetails] = await BusinessDetails.update(businessDetails, existingBusinessDetails[0].id);
+                    if (updateBusinessDetails.affectedRows == 1) {
+
+                        return res.json({ status: 'sucess' });
+                    }
+                  
+
+                }
+
+
+                console.log('businessDetails:', businessDetails);
+
+                return res.json({ error: "" })
+
+            }
 
 
             if (insertResult.affectedRows === 1) {

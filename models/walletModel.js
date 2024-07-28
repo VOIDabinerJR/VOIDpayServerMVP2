@@ -2,16 +2,16 @@ const db = require('../config/db');
 
 const Wallet = {
     async create(wallet) {
-        const result = await db.query('INSERT INTO WALLETS SET ?', wallet);
+        const result = await db.query('INSERT INTO WALLET SET ?', wallet);
         return result;
     },
     async findById(id) {
-        const [result] = await db.query('SELECT * FROM WALLETS WHERE id = ?', [id]);
+        const [result] = await db.query('SELECT * FROM WALLET WHERE id = ?', [id]);
         return result[0];
     },
     async withdraw(originAccount, value, walletId) {
         // Update the wallet balance
-        const updateWallet = await db.query('UPDATE WALLETS SET balance = balance - ? WHERE id = ?', [value, walletId]);
+        const updateWallet = await db.query('UPDATE WALLET SET balance = balance - ? WHERE id = ?', [value, walletId]);
         
         // Record the transaction
         const recordTransaction = await db.query('INSERT INTO TRANSACTIONS SET ?', {
@@ -28,10 +28,10 @@ const Wallet = {
         };
     },
     async deposit(destinationAccount, value, walletId) {
-        // Update the wallet balance
+      
         const updateWallet = await db.query('UPDATE WALLETS SET balance = balance + ? WHERE id = ?', [value, walletId]);
         
-        // Record the transaction
+        
         const recordTransaction = await db.query('INSERT INTO TRANSACTIONS SET ?', {
             walletId,
             type: 'deposit',
@@ -46,11 +46,12 @@ const Wallet = {
         };
     },
     async refund(originAccount, value, walletId) {
-        // Atualiza o saldo da carteira (adiciona o valor)
-        const updateWallet = await db.query('UPDATE WALLETS SET balance = balance + ? WHERE id = ?', [value, walletId]);
+       
+
+        const updateWallet = await db.query('UPDATE WALLETS SET balance = balance - ? WHERE id = ?', [value, walletId]);
         
         // Registra a transação como reembolso
-        const recordTransaction = await db.query('INSERT INTO TRANSACTIONS SET ?', {
+        const recordTransaction = await db.query('INSERT INTO TRANSACTION SET ?', {
             walletId,
             type: 'refund',
             originAccount,
