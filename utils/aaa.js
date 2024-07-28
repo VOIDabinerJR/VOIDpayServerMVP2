@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 const createToken = (payload) => {
     return jwt.sign(payload, 'oi', {
@@ -27,7 +28,7 @@ const run = async () => {
     console.log(token);
 };
 
-run();
+
 function decodeToken(token) {
     try {
         const decodedPayload = jwt.verify(token, 'oi');
@@ -43,6 +44,21 @@ function decodeToken(token) {
     }
 }
 
-const a ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjIwMzY5MzYsImV4cCI6MTcyMjI5NjEzNn0.ULPempPgwqoUF49hL2rNqHPJOHz6k_hBBHhf1b7fc2k'
-const b = decodeToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFuc2FjdGlvbl9yZWZlcmVuY2UiOiJUMTIzczQ0QyIsImN1c3RvbWVyX21zaXNkbiI6IjI1ODg2NTIxODY3OSIsImFtb3VudCI6IjEwIiwidGhpcmRfcGFydHlfcmVmZXJlbmNlIjoiMTFkMVBBMkQiLCJvcmRlcklkIjoib2kiLCJxdWVyeV9yZWZlcmVuY2UiOm51bGwsInNlY3VyaXR5X2NyZWRlbnRpYWwiOm51bGwsImluaXRpYXRvcl9pZGVudGlmaWVyIjpudWxsLCJyZXZlcnNhbF9hbW91bnQiOm51bGwsInRyYW5zYWN0aW9uX2lkIjpudWxsLCJpYXQiOjE3MjIwMzcwNTIsImV4cCI6MTcyMjI5NjI1Mn0.HfCqFBxxZjGq9eS6icDcTgZkA6HrDbleccU2BixYZmI');
-console.log(b)
+
+
+
+async function hashPassword(password) {
+    try {
+        const hashedPassword = await bcrypt.hash(password, 8);
+        return hashedPassword;
+    } catch (error) {
+        throw new Error('Error hashing password');
+    }
+}
+
+// Exemplo de uso da função
+(async () => {
+    const password = 'mySecurePassword';
+    const hashed = await hashPassword(password);
+    console.log('Hashed Password:', hashed);
+})();
