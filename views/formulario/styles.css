@@ -97,8 +97,6 @@ body {
     width: 100%;
     border: 0.1px solid rgb(220, 220, 220);
     margin: 0 2px 15px;
-
-
     width: 90%;
     padding: 8px;
     margin-bottom: 15px;
@@ -117,18 +115,19 @@ body {
     padding: 3px;
     width: 95%;
     border-radius: 4px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+  
+    justify-content: space-between;
 }
 
+
 .inputLeft {
-    width: 50%;
+    width: 48%;
 }
 
 .inputRight {
-    width: 45%;
+    width: 48%;
 }
 
 

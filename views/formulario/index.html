@@ -54,7 +54,7 @@
            <div class="paymentoinfo">
             <h2>Pagar com</h2>
             <div class="payment-methods">
-                <div id="card-method" class="card-method" onclick="togglePaymentForm('card')">
+                <div id="card-method"  class="card-method" onclick="togglePaymentForm('card')">
                     <i class="fa fa-solid fa-credit-card"></i>
                     Cartão
                 </div>
@@ -66,21 +66,26 @@
                     <i class="fa-brands fa-paypal"></i>
                     Paypal
                 </div>
+                <div id="qrCode-method" class="card-method" onclick="togglePaymentForm('qrCode')">
+                    <i class="fa-solid fa-qrcode"></i>
+                    QrCode
+                </div>
             </div>
 
             <div id="card-form">
                 <label for="card-number">Numero de Cartão</label>
                 <div class="input-icon">
-                    <input type="text" id="card-number" name="card-number" placeholder="1234 1234 1234 1234"  onkeypress="cardspace()">
+    
+    <input type="text" id="card-number"  data-mask="0000 0000 0000 0000" name="card-number" placeholder="1234 1234 1234 1234"  onkeypress="cardspace()">
                     <img class="img" src="https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/cards.png" alt="Card Icon">
                 </div>
                 <div class="wrapInput">
                     <div class="input-icon">
-                        <input type="text" class="inputLeft" id="expiry-date" name="expiry-date" placeholder="MM/AA">
+                        <input type="text"  class="inputLeft" id="expiry-date" data-mask="00 / 00" name="expiry-date" placeholder="MM/AA">
                         <i class="fa-solid fa-calendar-days"></i>
                     </div>
                     <div class="input-icon">
-                        <input type="text" class="inputRight"  id="security-code" name="security-code" maxlength="3" placeholder="CVV">
+                        <input type="text" class="inputRight" data-mask="000"  id="security-code" name="security-code" maxlength="3" placeholder="CVV">
                         <i class="fa fa-lock"></i>
                     </div>
                     
@@ -102,24 +107,36 @@
                 <button class="btn"> <i class="fa-brands fa-paypal text-white"></i></button>
 
             </div>
+
+            <div id="qrCode-form" style="display: none; ">
+                <img id="qrCode" src="" alt="QR Code">
+    
+                <script>
+                    // Sua string base64 aqui
+                    const base64String = "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";
+            
+                    // Definindo o src da imagem como a URL de dados
+                    document.getElementById('qrCode').src = `data:image/png;base64,${base64String}`;
+                </script>
+            </div>
            </div>
            
         </div>
 
         <div class="order-summary">
             <h2>Resumo do Pedido</h2>
-            <img src="https://via.placeholder.com/100" alt="Cadeira de madeira Betala">
+            <img src="https://images.tcdn.com.br/img/img_prod/435742/cadeira_gamer_base_giratoria_braco_ajustavel_e_sistema_de_inclinacao_avancado_33390_1_8b0ac4aab0f5574a267f055436cd7da4.jpg" alt="Cadeira de madeira Betala">
             <div class="order-item">
                 <div>Cadeira de madeira Betala</div>
-                <div>MZN 120,00 x 2</div>
+                <div>MZN 1200,00 x 2</div>
             </div>
             <div class="order-item">
                 <div>Subtotal</div>
-                <div>MZN 240,00</div>
+                <div>MZN 2400,00</div>
             </div>
             <div class="order-item">
                 <div>IVA (20%)</div>
-                <div>MZN 48,00</div>
+                <div>MZN 480,00</div>
             </div>
             <div class="order-item">
                 <div>Frete</div>
@@ -127,7 +144,7 @@
             </div>
             <div class="order-item total">
                 <div>Total</div>
-                <div>MZN 288,00</div>
+                <div>MZN 2880,00</div>
             </div>
             <button id="payButton" class="btn" onclick="pay()" >Pagar</button>
         </div>
@@ -164,6 +181,8 @@
             <p>&copy; 2024 VOIDpay. Todos os direitos reservados.</p>
         </div>
     </footer>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js"></script>
@@ -270,23 +289,33 @@
         const cardForm = document.getElementById('card-form');
         const mobileWalletForm = document.getElementById('mobileWallet-form');
         const paypalForm = document.getElementById('paypal-form');
+        const qrCodeForm = document.getElementById('qrCode-form');
 
         if (method === 'card') {
             cardForm.style.display = 'block';
             mobileWalletForm.style.display = 'none';
             paypalForm.style.display = 'none';
+            qrCodeForm.style.display = 'none';
         } else if (method === 'mobileWallet') {
             cardForm.style.display = 'none';
             mobileWalletForm.style.display = 'block';
             paypalForm.style.display = 'none';
+            qrCodeForm.style.display = 'none';
         } else if (method === 'paypal') {
             cardForm.style.display = 'none';
             mobileWalletForm.style.display = 'none';
             paypalForm.style.display = 'block';
+            qrCodeForm.style.display = 'none';
+        } else if (method === 'qrCode') {
+            cardForm.style.display = 'none';
+            mobileWalletForm.style.display = 'none';
+            paypalForm.style.display = 'none';
+            qrCodeForm.style.display = 'block';
         } else {
             cardForm.style.display = 'block';
             mobileWalletForm.style.display = 'none';
             paypalForm.style.display = 'none';
+            qrCodeForm.style.display = 'none';
         }
     }
 
