@@ -63,7 +63,7 @@ const DynamicData = {
             const data = {
                 app: d1,
                 orders: d2,
-                botoes: d3,
+                button: d3,
                 transactions: d4,
                 wallet: d5,
                 usuarios: d6,
