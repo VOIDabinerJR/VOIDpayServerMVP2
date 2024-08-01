@@ -4,6 +4,7 @@ const { createLoginToken, createToken, decodeToken } = require('../utils/jwt');
 const { sendEmail, sendRecoverEmail } = require('../utils/email');
 const DynamicData = require('../models/dynamicDataModell');
 const Wallet = require('../models/walletModel');
+const Statistics = require('../models/statisticsModel');
 
 
 const authController = {
