@@ -148,6 +148,7 @@ async function sendRecoverEmail(email, token) {
            display: flex;
             justify-content: center;
             align-items: center; 
+             text-align: center;
             line-height: 1.6;
             background-color: #f4f4f4;
             margin: 0;
@@ -185,6 +186,11 @@ async function sendRecoverEmail(email, token) {
         p {
             color: #555;
         }
+        img{
+        display: flex;
+            justify-content: center;
+            align-items: center; 
+            }
 
         .footer {
             text-align: center;

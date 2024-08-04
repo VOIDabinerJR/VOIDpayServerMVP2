@@ -30,7 +30,7 @@ const run = async () => {
 };
 
 
-function decodeToken(token) {
+function decodeToken(token) { 
     try {
         const decodedPayload = jwt.verify(token, 'oi');
         return decodedPayload;
@@ -61,7 +61,7 @@ async function hashPassword(password) {
 
 
 
-sendRecoverEmail('macelinovitorinomangele@gmail.com', 'fghjojodsuigiofhusbkjvbsfjs')
+//sendRecoverEmail('macelinovitorinomangele@gmail.com', 'fghjojodsuigiofhusbkjvbsfjs')
 
 async function sendRecoverEmail(email, token) {
 
@@ -183,3 +183,12 @@ async function sendRecoverEmail(email, token) {
 
 
 };
+const a= createToken({
+    userid: 8,
+    destination: 'www.google.com',
+    buttonToken: 'VOID-04fce89f-0952-4736-8c35-c93c0e503809',
+    appid: 2,
+    name: 'teste'
+  })
+
+  console.log(a)

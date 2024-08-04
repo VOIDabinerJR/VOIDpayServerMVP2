@@ -262,7 +262,7 @@ module.exports.processRefund = async (req, res) => {
 
 
 
-module.exports.processRefund = async (req, res) => {
+module.exports.processQueryTransactionStatus = async (req, res) => {
     const walletId = req.cookies.walletId
 
     // { orderid } = req.params;
