@@ -10,7 +10,7 @@ const Statistics = require('../models/statisticsModel');
 const authController = {
     register: async (req, res) => {
         const { firstName, lastName, username, email, password, repeatPassword } = req.body;
-
+       
         if (password !== repeatPassword) {
             return res.status(400).json({ error: 'Passwords do not match' });
         }
@@ -153,14 +153,21 @@ const authController = {
 
 
 
-            const user = await DynamicData.getUserDataById(decoded.token);
-
+            const [user, userStatistics] = await Promise.all([
+                DynamicData.getUserDataById(decoded.token),
+                Statistics.getStatistics(decoded.token)
+            ]);
+            
             if (!user) {
                 return res.status(404).json({ err: 'Erro data load' });
             } else {
                 
 
-                return res.status(200).json({user})
+               
+                return  res.status(200).json({
+                    user,
+                    userStatistics
+                });
 
             }
 

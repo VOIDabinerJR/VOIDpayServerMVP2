@@ -2,11 +2,11 @@ create database company_db;
 use company_db;
 
 CREATE TABLE user (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+   	id INT AUTO_INCREMENT PRIMARY KEY,
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
     username VARCHAR(50) UNIQUE NOT NULL,
-     email VARCHAR(255) NOT NULL,
+	email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     creationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -45,7 +45,7 @@ CREATE TABLE app (
     clientId VARCHAR(255) NOT NULL,
     clientSecret VARCHAR(255) NOT NULL,
     name VARCHAR(100) DEFAULT NULL,
-    type ENUM('t', 'production') NOT NULL,
+	type ENUM('test', 'production') NOT NULL,
     status ENUM('Active', 'Inactive') DEFAULT 'Active',
     createdAt TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -67,6 +67,7 @@ CREATE TABLE wallet (
 
 CREATE TABLE button (
     id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255),
     destination VARCHAR(255) NOT NULL,
     buttonToken VARCHAR(255) NOT NULL,
     userId INT DEFAULT NULL,
@@ -80,8 +81,6 @@ CREATE TABLE button (
     KEY fk_user (userId),
     FOREIGN KEY (userId) REFERENCES user(id)
 ) ;
-
-
 
 CREATE TABLE transaction (
     id INT NOT NULL AUTO_INCREMENT,
@@ -119,7 +118,7 @@ CREATE TABLE orders (
     updatedAt TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     KEY walletId (walletId),
-     FOREIGN KEY (walletId) REFERENCES app(id)
+     FOREIGN KEY (walletId) REFERENCES wallet(id)
 ) ;
 
 CREATE TABLE product (
@@ -129,6 +128,7 @@ CREATE TABLE product (
     price DECIMAL(10, 2) NOT NULL,
     quantityOrdered INT NOT NULL,
     orderId INT,
+    userid VARCHAR(255),
     PRIMARY KEY (id),
     KEY orderId (orderId),
     FOREIGN KEY (orderId) REFERENCES orders(id)
@@ -137,6 +137,7 @@ CREATE TABLE product (
 CREATE TABLE notification (
     id INT NOT NULL AUTO_INCREMENT,
     userId INT NOT NULL,
+    sender VARCHAR(255),
     message TEXT NOT NULL,
     createdAt TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     isRead TINYINT(1) DEFAULT '0',
@@ -144,6 +145,20 @@ CREATE TABLE notification (
     KEY userId (userId),
     FOREIGN KEY (userId) REFERENCES user(id) ON DELETE CASCADE
 ) ;
+
+CREATE TABLE subscription (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    userId INT NOT NULL,
+    walletId INT NOT NULL,
+    plan ENUM('free', 'basic', 'advanced') NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    nextPayment DATE NOT NULL,
+    status VARCHAR(20) NOT NULL,
+     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (userId) REFERENCES user(id), 
+    FOREIGN KEY (walletId) REFERENCES wallet(id)  
+);
 
 
 

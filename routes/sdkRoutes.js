@@ -46,4 +46,15 @@ router.get('/try', (req, res) => {
   
     //res.render('pay',{ productId:1, quantity:1, description:1, totalAmount:1})
 });
+router.get('/views/formulario/styles.css', (req, res) => { 
+    
+    
+    
+   
+    res.sendFile(path.join(__dirname, '../views/formulario/styles.css'));
+  
+
+});
+
+
 module.exports = router;

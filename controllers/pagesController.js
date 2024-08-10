@@ -21,6 +21,11 @@ const pagesController = {
         const decoded = decodeToken(token)
 
         try {
+            if (req.file) {
+                console.log('File uploaded:', req.file.filename);
+            } else{
+                console.log(req.file)
+            }
             const [existingUser] = await User.findById(decoded.token);
             if (existingUser.length <= 0) {
                 return res.status(400).json({ error: 'user not found' });
@@ -59,7 +64,7 @@ const pagesController = {
 
                         return res.json({ status: 'sucess' });
                     }
-                  
+
 
                 }
 
@@ -80,7 +85,7 @@ const pagesController = {
 
                         return res.json({ status: 'sucess' });
                     }
-                  
+
 
                 }
 
@@ -103,7 +108,7 @@ const pagesController = {
 
                     const [creationBusinessDetails] = await BusinessDetails.create(businessDetails);
                     if (creationBusinessDetails.affectedRows == 1) {
-                       
+
 
                         return res.json({ status: 'sucess' });
                     }
@@ -111,13 +116,13 @@ const pagesController = {
                     return res.json({ status: 'faild' });
 
                 } else {
-                   
+
                     const [updateBusinessDetails] = await BusinessDetails.update(businessDetails, existingBusinessDetails[0].id);
                     if (updateBusinessDetails.affectedRows == 1) {
 
                         return res.json({ status: 'sucess' });
                     }
-                  
+
 
                 }
 

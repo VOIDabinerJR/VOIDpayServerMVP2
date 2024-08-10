@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
 
 require('dotenv').config();
 
@@ -16,7 +17,10 @@ app.use(cors({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views/formulario'));
 
-// Importing routes
+
+
+
+// Importing routes 
 const authRoutes = require('./routes/authRoutes');
 const pagesRoutes = require('./routes/pagesRoutes');
 const userRoutes = require('./routes/userRoutes');
