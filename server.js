@@ -4,9 +4,10 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const multer = require('multer');
 
-require('dotenv').config();
+require('dotenv').config({path: './.env'});
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({

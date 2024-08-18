@@ -1,0 +1,34 @@
+[
+    {
+        "sender": "system",
+        "message": "Novo pedido criado."
+    },
+    {
+        "sender": "system",
+        "message": "Pedido pago com sucesso."
+    },
+    {
+        "sender": "system",
+        "message": "Pedido cancelado."
+    },
+    {
+        "sender": "system",
+        "message": "Novo login detectado."
+    },
+    {
+        "sender": "system",
+        "message": "Atualização de perfil concluída."
+    },
+    {
+        "sender": "system",
+        "message": "Novo comentário recebido."
+    },
+    {
+        "sender": "system",
+        "message": "Seu pagamento foi processado."
+    },
+    {
+        "sender": "system",
+        "message": "Novo item adicionado ao carrinho."
+    }
+]

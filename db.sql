@@ -85,7 +85,7 @@ CREATE TABLE button (
 CREATE TABLE transaction (
     id INT NOT NULL AUTO_INCREMENT,
     walletId INT NOT NULL,
-    appId INT NOT NULL,
+    
     type ENUM('withdraw', 'deposit', 'refund') NOT NULL,
     originAccount VARCHAR(255) DEFAULT NULL,
     destinationAccount VARCHAR(255) DEFAULT NULL,
@@ -94,10 +94,9 @@ CREATE TABLE transaction (
     userId INT DEFAULT 28,
     PRIMARY KEY (id),
     KEY walletId (walletId),
-    KEY appId (appId),
+    
      FOREIGN KEY (walletId) REFERENCES wallet(id),
      FOREIGN KEY (userId) REFERENCES user(id),
-    FOREIGN KEY (appId) REFERENCES app(id)
 );
 
 CREATE TABLE orders (
@@ -120,6 +119,22 @@ CREATE TABLE orders (
     KEY walletId (walletId),
      FOREIGN KEY (walletId) REFERENCES wallet(id)
 ) ;
+CREATE TABLE orderItems (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    price VARCHAR(50),
+    quantity INT,
+    productid VARCHAR(50),
+    img VARCHAR(500),
+    imgAlt VARCHAR(255),
+    orderId INT,
+    creationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+      FOREIGN KEY (orderId) REFERENCES orders(id)
+      ON DELETE CASCADE
+);
+
 
 CREATE TABLE product (
     id INT NOT NULL AUTO_INCREMENT,

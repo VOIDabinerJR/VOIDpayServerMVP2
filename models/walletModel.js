@@ -9,12 +9,16 @@ const Wallet = {
         const [result] = await db.query('SELECT * FROM wallet WHERE id = ?', [id]);
         return result[0];
     },
+    async findByUserId(id) {
+        const [result] = await db.query('SELECT * FROM wallet WHERE userId = ?', [id]);
+        return result[0];
+    },
     async withdraw(originAccount, value, walletId) {
         // Update the wallet balance
         const updateWallet = await db.query('UPDATE wallet SET balance = balance - ? WHERE id = ?', [value, walletId]);
         
         // Record the transaction
-        const recordTransaction = await db.query('INSERT INTO TRANSACTIONS SET ?', {
+        const recordTransaction = await db.query('INSERT INTO transaction SET ?', {
             walletId,
             type: 'withdraw',
             originAccount,
@@ -27,16 +31,17 @@ const Wallet = {
             recordTransaction
         };
     },
-    async deposit(destinationAccount, value, walletId) {
+    async deposit(destinationAccount, value, walletId, userId) {
       
-        const updateWallet = await db.query('UPDATE WALLETS SET balance = balance + ? WHERE id = ?', [value, walletId]);
+        const updateWallet = await db.query('UPDATE wallet SET balance = balance + ? WHERE id = ?', [value, walletId]);
         
         
-        const recordTransaction = await db.query('INSERT INTO TRANSACTIONS SET ?', {
+        const recordTransaction = await db.query('INSERT INTO transaction SET ?', {
             walletId,
+            userId,
             type: 'deposit',
             destinationAccount,
-            value,
+            value, 
             date: new Date()
         });
         
@@ -48,10 +53,10 @@ const Wallet = {
     async refund(originAccount, value, walletId) {
        
 
-        const updateWallet = await db.query('UPDATE WALLETS SET balance = balance - ? WHERE id = ?', [value, walletId]);
+        const updateWallet = await db.query('UPDATE wallet SET balance = balance - ? WHERE id = ?', [value, walletId]);
         
         // Registra a transação como reembolso
-        const recordTransaction = await db.query('INSERT INTO TRANSACTION SET ?', {
+        const recordTransaction = await db.query('INSERT INTO transaction SET ?', {
             walletId,
             type: 'refund',
             originAccount,

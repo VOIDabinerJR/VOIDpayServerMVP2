@@ -25,7 +25,7 @@ const createLoginToken = async ( token) => {
         token: token
 
     };
-    
+     
     return createToken(payload);
 };
 
@@ -33,7 +33,7 @@ const createMobileWalletToken = async (orderId, paymentDetails) => {
     payload = {
         transaction_reference: paymentDetails.transaction_reference || 'T121344C',
         customer_msisdn: paymentDetails.mobileWallet || '258865218679',
-        amount: paymentDetails.amount || '10',
+        amount: paymentDetails.totalAmount || '10',
         third_party_reference: paymentDetails.third_party_reference || '1131PA2D',
         orderId: orderId || '111',
         query_reference: paymentDetails.query_reference || null,

@@ -4,55 +4,70 @@ const path = require('path');
 const payController = require('../controllers/sdkController');
 
 
-router.get('/getbutton', (req, res) => {
+router.get('/js', (req, res) => {
     const acept = req.query.acept; // Use req.query para parâmetros de consulta
+    const clientId = req.query.clientId; 
+    console.log(acept)
 
-    if (acept === 'true') { // Verifique se o parâmetro 'acept' é igual a 'true'
-        res.sendFile(path.join(__dirname, '../', 'payment.js'));
-       // res.sendFile(path.join(__dirname, '../', 'sdk.js')); // Envia o arquivo js
+    if (acept === 'true') { 
+        res.sendFile(path.join(__dirname, '../', '/sdk/payment.js'));
+      
     } else {
-        res.sendFile(path.join(__dirname, '../', 'OrderButton.js'));
+        res.sendFile(path.join(__dirname, '../', '/sdk/OrderButton.js'));
+    }
+});
+
+router.get('/jsc', (req, res) => {
+    const acept = req.query.acept;
+    const clientId = req.query.clientId; 
+    if (acept === 'true') { 
+       
+    } else {
+       
     }
 });
 
 
-router.get('/pay', (req, res) => { 
-    const maxAge = 3 * 24 * 60 * 60 * 1000; 
-    
-    
-    res.cookie('orderid', '13', { httpOnly: true, maxAge });
-    res.sendFile(path.join(__dirname, '../', 'page.html'));
-   
-    //res.render('pay',{ productId:1, quantity:1, description:1, totalAmount:1})
+
+
+router.get('/test', (req, res) => {
+    const orderData = {
+        orderItems: [
+            {
+                name: "Cadeira Gamer",
+                price: 1200.00,
+                quantity: 2,
+                img: "https://example.com/images/cadeira_gamer_betala.jpg",
+                imgAlt: "Imagem de uma cadeira "
+            }
+        ],
+        subtotal: 2400.00,
+        ivaTax: 20,
+        iva: 480.00,
+        shippingCost: "GRATUITA",
+        totalAmount: 28987654380.00
+    };
+    res.render('index',{orderData:orderData})
+
 });
 
-router.get('/test', (req, res) => { 
-    
-    
-    
-   
-    res.sendFile(path.join(__dirname, '../', 'views/formulario/index.html'));
-    console.log()
-  
-    //res.render('pay',{ productId:1, quantity:1, description:1, totalAmount:1})
-});
-router.get('/try', (req, res) => { 
-    
-    
-    
-   
+router.get('/try', (req, res) => {
+
+
+
+
     res.sendFile(path.join(__dirname, '../', 'aa.html'));
     console.log()
-  
+
     //res.render('pay',{ productId:1, quantity:1, description:1, totalAmount:1})
 });
-router.get('/views/formulario/styles.css', (req, res) => { 
-    
-    
-    
-   
+router.get('/views/formulario/styles.css', (req, res) => {
+
+
+
+
     res.sendFile(path.join(__dirname, '../views/formulario/styles.css'));
-  
+
 
 });
 

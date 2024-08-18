@@ -15,16 +15,16 @@ document.addEventListener('DOMContentLoaded', function () {
             const expiryDate = document.getElementById('expiry-date').value;
             const securityCode = document.getElementById('security-code').value;
             const mobileWallet = document.getElementById('mobileWallet-number').value;
-            const paymentMethod = document.getElementById('paymentMethod').getAttribute('method').toString();
+            //const paymentMethod = document.getElementById('paymentMethod').getAttribute('method').toString();
 
             const data = {
                 // buttonToken: buttonToken, // Descomente esta linha se buttonToken estiver presente no HTML
                 costumerName: contactName,
                 phoneNumber: phoneNumber,
-                costumerEmail: email,
-                address: address,
+                costumerEmail: email, 
+                address: address,  
                 city: city,
-                postCode: postCode,
+                postCode: postCode, 
                 cardNumber: cardNumber,
                 expiryDate: expiryDate,
                 securityCode: securityCode,
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
             };
             console.log(data);
             try {
-                const response = await fetch('https://voidpayservermvp2.onrender.com/pay/processPayment', {
+                const response = await fetch('http://localhost:3000/pay/pay', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('There was a problem with the fetch operation:', error);
             }
         }
-        pay();
+       
     });
 });
 
@@ -68,5 +68,54 @@ function starts() {
         star.style.top = Math.random() * 100 + 'vh';
         star.style.animationDuration = (Math.random() * 2 + 2) + 's'; // Duração aleatória
         container.appendChild(star);
+    }
+}
+async function pay() {
+    const contactName = document.getElementById('contactName').value;
+    const phoneNumber = document.getElementById('phoneNumber').value;
+    const email = document.getElementById('email').value;
+    const address = document.getElementById('address').value;
+    const city = document.getElementById('city').value;
+    const postCode = document.getElementById('postCode').value;
+    const cardNumber = document.getElementById('card-number').value;
+    const expiryDate = document.getElementById('expiry-date').value;
+    const securityCode = document.getElementById('security-code').value;
+    const mobileWallet = document.getElementById('mobileWallet-number').value;
+    const paymentMethod = document.getElementById('paymentMethod').getAttribute('method');
+
+    const data = {
+        // buttonToken: buttonToken, // Descomente esta linha se buttonToken estiver presente no HTML
+        costumerName: contactName,
+        phoneNumber: phoneNumber,
+        costumerEmail: email, 
+        address: address,  
+        city: city,
+        postCode: postCode, 
+        cardNumber: cardNumber,
+        expiryDate: expiryDate,
+        securityCode: securityCode,
+        mobileWallet: mobileWallet, 
+        paymentMethod: paymentMethod
+    };
+    console.log(data);
+    try {
+        const response = await fetch('http://localhost:3000/pay/pay', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        // Exibir a resposta como texto
+        const result = await response.json();
+        window.location.href = result.redirectUrl;
+
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
     }
 }

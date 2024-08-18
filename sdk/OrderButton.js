@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     const container = document.querySelector('#void-button-container'); // Selecionando o container correto
+    const errorMsg = document.getElementById('error-message')
+    errorMsg.style.color='red'
     console.log("ooi")
     // Criando o botão
     const button = document.createElement('button');
@@ -60,16 +62,47 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     button.addEventListener('click', async function (event) {
-        event.preventDefault(); // Previne o comportamento padrão do botão
+        event.preventDefault();
 
-        const aa = document.getElementById('product-id').value;
-        const bb = document.getElementById('quantity').value;
-        const cc = document.getElementById('void-button-container').getAttribute('name');
+
+        function extractOrderItems() {
+            const items = [];
+            const orderItems = document.querySelectorAll('.product-item');
+
+            orderItems.forEach(item => {
+                const imgElement = item.querySelector('.image-item');
+                const nameElement = item.querySelector('.name-item');
+                const quantityElement = item.querySelector('.quantity-item');
+                const priceElement = item.querySelector('.price-item');
+                const idElement = item.querySelector('.id-item');
+
+                const img = imgElement ? imgElement.src : null;
+                const name = nameElement ? nameElement.textContent.trim() : null;
+                const quantity = quantityElement ? quantityElement.textContent.trim() : null;
+                const priceText = priceElement ? priceElement.textContent.trim() : null;
+                const productId = idElement ? idElement.textContent.trim() : null;
+
+
+                const price = priceText ? parseFloat(priceText) : null;
+
+                items.push({
+                    img: img,
+                    name: name,
+                    price: price,
+                    quantity: quantity,
+                    productId: productId
+                });
+            });
+
+            return items;
+        }
+        const orderItems = extractOrderItems();
+
+        const cc = document.getElementById('void-button-container').getAttribute('buttonToken');
+        
         const data = {
             buttonToken: cc,
-            productId: aa,
-            quantity: bb,
-            description: "1234567890"
+            orderItems: orderItems
         };
 
         try {
@@ -87,12 +120,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Exibir a resposta  como texto
             const result = await response.json();
-            window.location.href = `https://voidpayservermvp2.onrender.com/sdk/test?orderid=${result.orderId}?buttontoken=${result.buttonToken}`;
+            
+            if(result.status){
+                window.location.href = `http://localhost:3000/pay/pay?orderid=${result.orderId}&buttontoken=${result.buttonToken}`;
+            }
+            else if(!result.status){
+                
+                    if (result.error){
+                        errorMsg.textContent = `Erro: ${result.error[0].message}`;
+                    }
+                   
+            }
+           
 
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
         }
     });
+    
 
     // Adicionando o botão ao container
     container.appendChild(button);
