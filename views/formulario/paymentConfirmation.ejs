@@ -161,6 +161,61 @@
 }
 
 
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    color: #4CAF50;
+}
+
+.main-content {
+    padding: 20px;
+}
+
+.confirmation-message {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.confirmation-message h2 {
+    color: #4CAF50;
+}
+
+.payment-details {
+    margin-bottom: 20px;
+}
+
+.payment-details h3 {
+    color: #333;
+}
+
+.payment-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.payment-details li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+
+
+
+
         .star {
             position: absolute;
             width: 5px;
@@ -212,24 +267,29 @@
         <img class="logo" src="https://voidabinerjr.github.io/VOIDpayWebMVP2/img/voidwhitelogo.png" alt="">
         <div class="form">
 
-           
-                <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4"><strong>Escanei pelo App</strong></h1>
-                </div>
-                <div class="qrcode">
-                    <img id="qrCode" src="" alt="QR Code">
-
-                    <script>
-                        // Sua string base64 aqui
-                        const base64String = "<%= qrcode %>";
-
-                        // Definindo o src da imagem como a URL de dados
-                        document.getElementById('qrCode').src = `data:image/png;base64,${base64String}`;
-                    </script>
-
-                </div>
-                
-
+                <header class="header">
+                    <h1>Payment Confirmation</h1>
+                </header>
+                <main class="main-content">
+                    <section class="confirmation-message">
+                        <h2>Obrigado pelo seu pagamento!</h2>
+                        <p>Sua transação foi processada com sucesso.</p>
+                        <p>Para mais informações, verifique seu e-mail do Gmail.</p>
+                    </section>
+                    <section class="payment-details">
+                        <h3>Detalhes do Pagamento:</h3>
+                        <ul>
+                            <li><strong>ID da Transação:</strong> <%= transactionData.transactionId %></li>
+                            <li><strong>Valor:</strong> MZN<%= transactionData.amount %></li>
+                            <li><strong>Data:</strong> <%= transactionData.date %></li>
+                        </ul>
+                    </section>
+                    <section class="additional-info">
+                        <p>Se você tiver alguma dúvida, entre em contato com nossa equipe de suporte.</p>
+                    </section>
+                    
+                </main>
+              
                 
             
 
@@ -242,7 +302,7 @@
                 $('form').animate({ height: "toggle", opacity: "toggle" }, "slow");
             });</script>
     </div>
-
+<br><br><br><br><br>
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">

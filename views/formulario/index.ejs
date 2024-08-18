@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="http://localhost:3000/sdk/views/formulario/styles.css">
 
 
-   
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -34,7 +34,7 @@
                 alt="SSL">
         </div>
     </div>
-    <form action="" method="post">
+    <form action="http://localhost:3000/pay/pay?<%=queryy%>" method="post">
         <div class="container">
             <div class="payment-form">
                 <h2>Informações de Envio</h2>
@@ -44,7 +44,8 @@
 
                 <div class="wrapInput">
 
-                    <input data-mask="000 00 000 0000"  type="text" id="phoneNumber" placeholder="Telefone" name="phoneNumber">
+                    <input data-mask="000 00 000 0000" type="text" id="phoneNumber" placeholder="Telefone"
+                        name="phoneNumber">
 
                     <input type="email" class="inputRight" id="email" class="email" placeholder="Email" name="email">
                 </div>
@@ -53,7 +54,8 @@
                 <label for="city">Cidade</label>
                 <div class="wrapInput">
                     <input type="text" class="inputLeft" id="city" placeholder="Cidade" name="city">
-                    <input type="text" data-mask="000000"  class="inputRight" id="postCode" placeholder="Codigo Postal" name="postCode">
+                    <input type="text" data-mask="000000" class="inputRight" id="postCode" placeholder="Codigo Postal"
+                        name="postCode">
 
                 </div>
 
@@ -110,8 +112,8 @@
                     <div id="mobileWallet-form" style="display: none;">
                         <label for="mobileWallet-card-number">Número de Telefone</label>
                         <div class="input-icon">
-                            <input type="text" data-mask="000 00 000 0000" class="inputLeft" id="mobileWallet-number" name="mobileWallet-number"
-                                placeholder="258 86 521 8679">
+                            <input type="text" data-mask="000 00 000 0000" class="inputLeft" id="mobileWallet-number"
+                                name="mobileWallet-number" placeholder="258 86 521 8679">
                             <img id="mobileWalletImg" class="img" src="" alt="">
                         </div>
 
@@ -123,21 +125,26 @@
                     </div>
 
                     <div id="qrCode-form" style="display: none; ">
-                        <a class="btn" style="background: red;"> <img src="https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/vodacom.png" alt="mpesa"> </i></a>
-                        <a class="btn" style="background: #2f4190;"><img src="https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/ecobankpaylogo
-                            .png" alt="ecobankpay"> </i></a>
-                        <a class="btn" style="background: #f37227;"><img src="https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/movitel.png" alt="emola"> </i></a>
-                      
+                        <a class="btn" style="background: red;"> <img style="width: 30px;"
+                                src="https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/vodacom.png"
+                                alt="mpesa"> </i></a>
+                        <a class="btn" style="background: #2f4190;"><img style="width: 100px;"
+                                src="https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/ecobankpay.png"
+                                alt="ecobankpay"> </i></a>
+                        <a class="btn" style="background: #f37227;"><img style="width: 30px;"
+                                src="https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/movitel.png"
+                                alt="emola"> </i></a>
+
                     </div>
                 </div>
 
 
             </div>
 
-            
+
             <div class="order-summary">
                 <h2>Resumo do Pedido</h2>
-               
+
                 <% orderData.orderItems.forEach(function(item) { %>
                     <div class="order-item">
                         <div>
@@ -171,7 +178,7 @@
                             <div>MZN <%= orderData.totalAmount %>
                             </div>
                         </div>
-                        <button id="payButton" class="btn" type="submit">Pagar</button>
+                        <button id="payButton" class="btn" onclick="pay()" type="submit">Pagar</button>
             </div>
             <i id="rocket" class="fas fa-rocket hidden" style="display: none;"></i>
         </div>

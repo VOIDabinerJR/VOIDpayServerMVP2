@@ -6,38 +6,45 @@ const Wallet = require('../models/walletModel');
 const { createToken, createMobileWalletToken, decodeToken } = require('../utils/jwt');
 const { Console } = require('console');
 require('dotenv').config();
-  
+
 module.exports.routTester = async (req, res) => {
+
     const data = req.body;
     console.log(data);
     res.send("Form submitted");
 };
+
+
+
 module.exports.getQrCode = async (req, res) => {
     const data = req.body;
     console.log(data);
-    res.render('qrcode')
+    const qrcode = "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"
+    res.render('qrcode', { qrcode: qrcode })
 };
 
 module.exports.getPaymentPage = async (req, res) => {
-
     const orderid = req.query.orderid;
     const buttonToken = req.query.buttontoken;
-    const queryy=orderid +'&'+buttonToken
-    
-   
-    
+
+    const queryy = 'orderid=' + orderid + '&buttontoken=' + buttonToken;
+
+
+
+
+
     try {
         const [orderResult] = await Order.findById(orderid);
         const [orderItem] = await Order.findByIdOrderItems(orderid);
-      
-    
+
+
         if (orderResult.length > 0) {
             const order = orderResult[0];
 
-        
+
             const orderData = {
-               // orderItems:orderItemss,
-                orderItems:orderItem,
+                // orderItems:orderItemss,
+                orderItems: orderItem,
                 subtotal: order.totalAmount,
                 ivaTax: 20,
                 iva: 0,
@@ -49,7 +56,7 @@ module.exports.getPaymentPage = async (req, res) => {
 
                 return res.json({ error: 'unauthorized' })
             } else {
-                return res.render('index', { orderData: orderData, queryy:queryy });
+                return res.render('index', { orderData: orderData, queryy });
             }
 
 
@@ -63,28 +70,58 @@ module.exports.getPaymentPage = async (req, res) => {
 };
 
 module.exports.processPayment = async (req, res) => {
-   
-    console.log(req.body);
-    const str =req.body.queryy; 
-    let parts = str.split('&');
-   
-    const orderid = parts[0];
-    const buttonToken = parts[1];
+    const transactionData = {
+        transactionId: '1234567890'||a,
+        amount: '100.00'||a,
+        date: new Date().toLocaleDateString() 
+    };
+
+    return res.render( 'paymentConfirmation.ejs',{ transactionData, message: 'Payment processed successfully', error: null, redirectUrl: 'https://www.google.com' });
+
+    console.log(req.url);
+    console.log(req.query);
+    const str = req.body.queryy;
+    //const parts = str.split('&');
+    //const orderid = parts[0];
+   // const buttonToken = parts[1];
     const paymentDetails = req.body;
     console.log(req.body.queryy)
-return
+
+    try {
+        const url = 'http://localhost:3000/paymentResponse'; 
+        const dados = {token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjgsImRlc3RpbmF0aW9uIjoid3d3Lmdvb2dsZS5jb20iLCJidXR0b25Ub2tlbiI6IlZPSUQtMDRmY2U4OWYtMDk1Mi00NzM2LThjMzUtYzkzYzBlNTAzODA5IiwiYXBwaWQiOjIsIm5hbWUiOiJ0ZXN0ZSIsImlhdCI6MTcyNDAxMTA5MSwiZXhwIjoxNzI0MjcwMjkxfQ.Y22VBWIDu507jsz8dMgQFm0y9UmsQotMqCa1_FRGNt8'}
+        const resposta = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dados),
+        });
+
+        if (!resposta.ok) {
+            throw new Error(`Erro na requisição: ${resposta.status}`);
+        }
+
+        const resultado = await resposta.json();
+        console.log('Dados recebidos:', resultado);
+    } catch (erro) {
+        console.error('Erro ao enviar dados:', erro);
+    }
+  
+
+   
     try {
         const [orderResult] = await Order.findById(orderid);
         console.log(orderResult[0])
 
         if (orderResult.length > 0) {
-            if(orderResult[0].buttonToken != buttonToken){
-                res.json({"error":"unaitorized"})
+            if (orderResult[0].buttonToken != buttonToken) {
+                res.json({ "error": "unaitorized" })
             }
             const order = orderResult[0];
             paymentDetails.totalAmount = order.totalAmount;
 
-            
+
 
             async function getPaymentToken(option) {
                 switch (option) {
@@ -146,7 +183,7 @@ return
             })();
 
         } else {
-           
+
             res.status(404).json({ error: 'Order not found' });
         }
     } catch (error) {
@@ -372,8 +409,12 @@ module.exports.processQueryTransactionStatus = async (req, res) => {
 };
 
 
+module.exports.decodeToken = async (req, res) => {
+    const data = req.body;
+    const info = decodeToken(data.token)
+    res.json({ info })
 
-
+};
 
 
 
