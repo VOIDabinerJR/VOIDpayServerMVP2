@@ -16,11 +16,12 @@ document.addEventListener('DOMContentLoaded', function () {
     icon.style.verticalAlign = 'middle'; // Ajustando o alinhamento vertical do ícone
 
     // Texto do botão
-    const buttonText = document.createTextNode('Pagar');
+    const buttonText = document.createTextNode('pay');
 
     // Adicionando o ícone e o texto ao botão
-    button.appendChild(buttonText);
     button.appendChild(icon);
+    button.appendChild(buttonText);
+    
 
     // Estilos básicos do botão
     button.style.display = 'inline-block';
@@ -125,12 +126,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.location.href = `http://localhost:3000/pay/pay?orderid=${result.orderId}&buttontoken=${result.buttonToken}`;
             }
             else if(!result.status){
-                
+                  
                     if (result.error){
                         errorMsg.textContent = `Erro: ${result.error[0].message}`;
                     }
                    
-            }
+            }  
            
 
         } catch (error) {

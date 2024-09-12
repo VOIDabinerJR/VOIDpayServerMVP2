@@ -24,6 +24,10 @@ const Notification = {
         const [rows] = await db.query('SELECT * FROM notification WHERE id = ?', [id]);
         return rows[0];
     },
+    async findByName(name) {
+        const [rows] = await db.query('SELECT * FROM notification WHERE name =?', [name]);
+        return rows[0];
+    },
 
     // Lê todas as notificações de um usuário
     async readAll(userId) {

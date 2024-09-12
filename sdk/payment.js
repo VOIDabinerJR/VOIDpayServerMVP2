@@ -1,3 +1,5 @@
+const { query } = require("../config/db");
+
 document.addEventListener('DOMContentLoaded', function () {
     const buttonpay = document.getElementById('payButton');
     console.log("ooi");
@@ -82,6 +84,7 @@ async function pay() {
     const securityCode = document.getElementById('security-code').value;
     const mobileWallet = document.getElementById('mobileWallet-number').value;
     const paymentMethod = document.getElementById('paymentMethod').getAttribute('method');
+  
 
     const data = {
         // buttonToken: buttonToken, // Descomente esta linha se buttonToken estiver presente no HTML
@@ -95,27 +98,31 @@ async function pay() {
         expiryDate: expiryDate,
         securityCode: securityCode,
         mobileWallet: mobileWallet, 
-        paymentMethod: paymentMethod
+        paymentMethod: paymentMethod,
+        queryy:queryy
     };
     console.log(data);
-    try {
-        const response = await fetch('http://localhost:3000/pay/pay', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
+    // try {
+    //     const response = await fetch('http://localhost:3000/pay/pay', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(data)
+    //     });
 
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
+    //     if (!response.ok) {
+    //         throw new Error('Network response was not ok');
+    //     }
 
-        // Exibir a resposta como texto
-        const result = await response.json();
-        window.location.href = result.redirectUrl;
+       
+    //     const html = await response.text();
 
-    } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
-    }
+    // // Renderiza o HTML substituindo o conteúdo da página atual
+    // document.open();
+    // document.write(html);
+    // document.close();
+    // } catch (error) {
+    //     console.error('There was a problem with the fetch operation:', error);
+    // }
 }

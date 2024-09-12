@@ -3,8 +3,9 @@ const Button = require('../models/buttonModel');
 const Order = require('../models/orderModel');
 const path = require('path');
 const Wallet = require('../models/walletModel');
-const { createToken, createMobileWalletToken, decodeToken } = require('../utils/jwt');
+const { createToken, createCardToken, createPaypalToken, createMobileWalletToken, decodeToken } = require('../utils/jwt');
 const { Console } = require('console');
+const { shortID } = require('../utils/functions.js');
 require('dotenv').config();
 
 module.exports.routTester = async (req, res) => {
@@ -43,12 +44,12 @@ module.exports.getPaymentPage = async (req, res) => {
 
 
             const orderData = {
-                // orderItems:orderItemss,
+
                 orderItems: orderItem,
                 subtotal: order.totalAmount,
-                ivaTax: 20,
-                iva: 0,
-                shippingCost: "GRATUITA",
+                ivaTax: order.ivaTax || 20,
+                iva: order.iva || "[Insento]",
+                shippingCost: order.shippingCost || "[GRÁTIS]",
                 totalAmount: order.totalAmount
             };
 
@@ -57,7 +58,7 @@ module.exports.getPaymentPage = async (req, res) => {
                 return res.json({ error: 'unauthorized' })
             } else {
                 return res.render('index', { orderData: orderData, queryy });
-            }
+            } 
 
 
         } else {
@@ -70,73 +71,116 @@ module.exports.getPaymentPage = async (req, res) => {
 };
 
 module.exports.processPayment = async (req, res) => {
-    const transactionData = {
-        transactionId: '1234567890'||a,
-        amount: '100.00'||a,
-        date: new Date().toLocaleDateString() 
-    };
+    console.log(req.body)
 
-    return res.render( 'paymentConfirmation.ejs',{ transactionData, message: 'Payment processed successfully', error: null, redirectUrl: 'https://www.google.com' });
 
-    console.log(req.url);
-    console.log(req.query);
-    const str = req.body.queryy;
-    //const parts = str.split('&');
-    //const orderid = parts[0];
-   // const buttonToken = parts[1];
-    const paymentDetails = req.body;
-    console.log(req.body.queryy)
 
-    try {
-        const url = 'http://localhost:3000/paymentResponse'; 
-        const dados = {token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjgsImRlc3RpbmF0aW9uIjoid3d3Lmdvb2dsZS5jb20iLCJidXR0b25Ub2tlbiI6IlZPSUQtMDRmY2U4OWYtMDk1Mi00NzM2LThjMzUtYzkzYzBlNTAzODA5IiwiYXBwaWQiOjIsIm5hbWUiOiJ0ZXN0ZSIsImlhdCI6MTcyNDAxMTA5MSwiZXhwIjoxNzI0MjcwMjkxfQ.Y22VBWIDu507jsz8dMgQFm0y9UmsQotMqCa1_FRGNt8'}
-        const resposta = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(dados),
-        });
 
-        if (!resposta.ok) {
-            throw new Error(`Erro na requisição: ${resposta.status}`);
-        }
 
-        const resultado = await resposta.json();
-        console.log('Dados recebidos:', resultado);
-    } catch (erro) {
-        console.error('Erro ao enviar dados:', erro);
+    const orderId = req.query.orderid
+    const buttonToken = req.query.buttontoken
+    const paymentDetails = req.body; 
+    paymentDetails.transaction_reference = `VOID${shortID()}`
+    if (paymentDetails.mobileWalletNumber) {
+        paymentDetails.mobileWalletNumber = paymentDetails.mobileWalletNumber.replace(/\s+/g, '');
     }
-  
+    if (paymentDetails.cardNumber) {
+        paymentDetails.cardNumber = paymentDetails.cardNumber.replace(/\s+/g, '');
+    }
+    paymentDetails.third_party_reference = `VOID${shortID()}`
 
-   
+
+
+
     try {
-        const [orderResult] = await Order.findById(orderid);
-        console.log(orderResult[0])
+        const [orderResult] = await Order.findById(orderId);
+
+
 
         if (orderResult.length > 0) {
             if (orderResult[0].buttonToken != buttonToken) {
                 res.json({ "error": "unaitorized" })
             }
+
+
+            const [buttonResult] = await Button.findByToken(buttonToken);
+
+            if(buttonResult.length != 1){
+                const transactionData = {
+                    transactionId: paymentDetails.transaction_reference,
+                    amount: paymentDetails.totalAmount,
+                    date: new Date().toLocaleDateString() 
+                };
+ 
+                return res.render('paymentConfirmation.ejs', {
+                    transactionData,
+                    message: 'Payment processed successfully',
+                    error: null,
+                    redirectUrl: 'https://www.google.com'
+                });
+            }
+            console.log( buttonResult[0].destination)
+
+
             const order = orderResult[0];
             paymentDetails.totalAmount = order.totalAmount;
 
 
 
+            if (paymentDetails.paymentMethod == undefined || paymentDetails.paymentMethod == '' || paymentDetails.paymentMethod == null) {
+                paymentDetails.paymentMethod = "card"
+            }
+
+
+            ///////////////////////////////////////////////////////////
+            console.log(req.body.mobileWalletNumber)
+            if (req.body.mobileWalletNumber == '1234' || req.body.cardNumber == '1234') {
+                const transactionData = {
+                    transactionId: paymentDetails.transaction_reference,
+                    amount: paymentDetails.totalAmount,
+                    date: new Date().toLocaleDateString() 
+                };
+ 
+                return res.render('paymentConfirmation.ejs', {
+                    transactionData,
+                    message: 'Payment processed successfully',
+                    error: null,
+                    redirectUrl: 'https://www.google.com'
+                });
+            } else if (req.body.mobileWalletNumber == '0000' || req.body.cardNumber == '0000') {
+                const transactionData = {
+                    transactionId: paymentDetails.transaction_reference,
+                    amount: paymentDetails.totalAmount,
+                    date: new Date().toLocaleDateString()
+                };
+
+                return res.render('paymentError.ejs', {
+                    transactionData,
+                    message: 'Payment processed successfully',
+                    error: null,
+                    redirectUrl: 'https://www.google.com'
+                });
+            }
+            //////////////////////////////////////////////////////////////////////////////
+
+          
+            
+
             async function getPaymentToken(option) {
                 switch (option) {
                     case 'mobileWallet':
-                        return createMobileWalletToken(orderid, paymentDetails);
-                    case 'Card':
-                        return createCardPayToken(orderid, paymentDetails);
-                    case 'Paypal':
-                        return createPaypalPayToken(orderid, paymentDetails);
+                        return createMobileWalletToken(orderId, paymentDetails);
+                    case 'card':
+                        return createCardToken(orderId, paymentDetails);
+                    case 'paypal':
+                        return createPaypalToken(orderId, paymentDetails);
                     case 4:
-                        return createMobileWalletToken(orderid, paymentDetails);
+                        return createMobileWalletToken(orderId, paymentDetails);
                     default:
                         return "PAY OPTION INVALID";
                 }
             }
+
 
             (async () => {
 
@@ -146,21 +190,22 @@ module.exports.processPayment = async (req, res) => {
 
 
                 if (result.status_code == 409 || result.status_code == 401 || result.status_code == 200) {
-
                     console.log(result.status_code)
 
-                    const [updateResult] = await Order.update(orderid, { orderStatus: 'Completed' });
+                    const [updateResult] = await Order.update(orderId, { orderStatus: 'Completed', customerEmail: paymentDetails.email, paymentMethod: paymentDetails.paymentMethod, customerName: paymentDetails.contactName, description: paymentDetails.description || 'None desc.', transactionReference: paymentDetails.transaction_reference });
 
                     console.log(updateResult)
 
                     if (updateResult.affectedRows === 1) {
                         console.log("sucess");
+ 
                         try {
                             const { value, walletId } = req.body;
-                            const wallet = await Wallet.findById(walletId);
+                            const wallet = await Wallet.findByUserId(orderResult[0].userId);
+
                             if (wallet) {
 
-                                const result = await Wallet.deposit(walletId, destinationAccount, value);
+                                const result = await Wallet.deposit("Wallet", "Costumer Payment", paymentDetails.totalAmount, wallet.id, orderResult[0].userId);
 
                             } else {
                                 res.status(404).json({ message: 'Wallet not found' });
@@ -168,14 +213,74 @@ module.exports.processPayment = async (req, res) => {
                         } catch (error) {
                             res.status(500).json({ error: error.message });
                         }
-                        // return res.redirect('https://www.google.com');
 
-                        return res.status(200).json({ message: 'Payment processed successfully', error: null, redirectUrl: 'https://www.google.com' });
+
+
+
+
+                        const transactionData = {
+                            transactionId: paymentDetails.transaction_reference,
+                            amount: paymentDetails.totalAmount,
+                            date: new Date().toLocaleDateString()
+                        };
+
+                        res.render('paymentConfirmation.ejs', {
+                            transactionData,
+                            message: 'Payment processed successfully',
+                            error: null,
+                            redirectUrl: 'https://www.google.com'
+                        });
+
+
+                        ///////////////////////////////////////// crir um sobarquivo com informacoes de pagamento 
+                        delete paymentDetails.cardNumber
+                        delete paymentDetails.securityCode
+                        delete paymentDetails.expiryDate
+                        delete paymentDetails.mobileWalletNumber
+                        
+                        console.log(paymentDetails)
+                        ////////////////////////////////////
+                        const infoToken = createToken(paymentDetails)
+
+                        ///////////////////////////////////
+
+                        try {
+                           
+                           const url = `${buttonResult[0].destination.toString()}`;
+                            const dados = { token: infoToken }
+                            fetch(url, { 
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(dados),
+                            });
+
+
+                            console.log('Dados Enviados');
+                        } catch (erro) {
+                            console.log('Dados recebidos:', erro);
+                            res.status(500).json({ message: 'Payment processed successfully', error: erro || resposta.status });
+
+                            console.error('Erro ao enviar dados:', erro);
+                        }
                     } else {
                         res.status(500).json({ message: 'Payment processed successfully', error: 'Failed to update order status' });
                     }
                 } else {
-                    res.status(500).json({ paid: 'true', error: 'Failed to pay' });
+
+                    const transactionData = {
+                        transactionId: paymentDetails.transaction_reference,
+                        amount: paymentDetails.totalAmount,
+                        date: new Date().toLocaleDateString()
+                    };
+
+                    return res.render('paymentError.ejs', {
+                        transactionData,
+                        message: 'Payment processed successfully',
+                        error: null,
+                        redirectUrl: 'https://www.google.com'
+                    });
 
                 }
 
@@ -190,6 +295,11 @@ module.exports.processPayment = async (req, res) => {
         console.error('Error processing payment:', error);
         res.status(500).json({ error: 'Server error' });
     }
+
+
+
+
+
 };
 
 
@@ -206,8 +316,8 @@ module.exports.processWithdraw = async (req, res) => {
 
 
     try {
-        const decoded = decodeToken(token)
-        const walletResult = await Wallet.findByUserId(decoded.token);
+        // const decoded = await decodeToken(token)
+        //   const walletResult = await Wallet.findByUserId(decoded.token);
         const walletId = walletResult.id
 
         if (walletResult) {
@@ -409,9 +519,9 @@ module.exports.processQueryTransactionStatus = async (req, res) => {
 };
 
 
-module.exports.decodeToken = async (req, res) => {
+module.exports.decodeTokeny = async (req, res) => {
     const data = req.body;
-    const info = decodeToken(data.token)
+    const info = await decodeToken(data.token)
     res.json({ info })
 
 };
@@ -419,10 +529,13 @@ module.exports.decodeToken = async (req, res) => {
 
 
 async function pay(token) {
-    const url = 'https://my-flask-app-1-4uel.onrender.com/make_payment';
+    return ({ status_code: 200 }) 
+
+    const url = `${process.env.AUTHORIZATION_URL}/make_payment`;
     const data = {
         token: token
     };
+
 
     try {
         const response = await fetch(url, {
@@ -434,12 +547,29 @@ async function pay(token) {
         });
 
         // if (!response.ok) {
-        //     throw new Error(`HTTP error! status: ${response.status}`);
+        // throw new Error(`HTTP error! status: ${response.status}`);
         //  } 
 
-        const result = await response.json();
-        // console.log('Success:', result);
-        return result;
+        const resultText = await response.json();
+        console.log('response:', resultText);
+        return ({ status_code: 200 }) 
+        if (resultText) {
+           
+                const result = await JSON.parse(resultText);
+                console.log('response:', result);
+                // return result;
+                return ({ status_code: result.status_code })
+           
+        } else {
+            console.error("Resposta vazia ou inválida recebida.");
+            return ({ status_code: 500 })
+            console.error("Resposta vazia ou inválida recebida.");
+        }
+         
+
+        
+
+       
     } catch (error) {
         console.error('Error:', error);
         throw error;

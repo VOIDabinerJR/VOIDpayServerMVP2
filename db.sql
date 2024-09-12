@@ -110,8 +110,10 @@ CREATE TABLE orders (
     totalAmount DECIMAL(10, 2) NOT NULL,
     currency VARCHAR(3) NOT NULL DEFAULT 'MZN',
     exchangeRate DECIMAL(10, 4) DEFAULT NULL,
+     transactionReference varchar(50),
      buttonToken VARCHAR(50) DEFAULT NULL,
     userId INT DEFAULT 28,
+   
     walletId INT DEFAULT NULL,
     createdAt TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

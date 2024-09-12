@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Error VOIDpay</title>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/VOIDabinerJR/VOIDpayWebMVP2/main/img/logo.ico"
+    type="image/x-icon">
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/VOIDabinerJR/VOIDpayWebMVP2/main/img/logo.ico"
+        type="image/x-icon">
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+        .login-page {
+            width: 360px;
+            height: 700px;
+            padding: 4% 0 0;
+            margin: auto;
+        }
+
+        .logo {
+            width: 100px;
+        }
+
+        .form {
+            margin-top: 25px;
+            border-radius: 4px;
+            position: relative;
+            z-index: 1;
+            background: #FFFFFF;
+            max-width: 360px;
+            margin: 0 auto 100px;
+            padding: 45px;
+            text-align: center;
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+        }
+
+        
+        .container:before,
+        .container:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .container .info {
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        .container .info h1 {
+            margin: 0 0 15px;
+            padding: 0;
+            font-size: 36px;
+            font-weight: 300;
+            color: #1a1a1a;
+        }
+
+        .container .info span {
+            color: #4d4d4d;
+            font-size: 12px;
+        }
+        .qrcode{
+           margin-left: -20px;
+        }
+
+        .container .info span a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .container .info span .fa {
+            color: #EF3B3A;
+        }
+
+        body {
+            background: black;
+
+            font-family: "Roboto", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+      
+/*footer*/
+.footer {
+    background-color: #000000;
+    /* Fundo preto */
+    color: #ffffff;
+    /* Texto branco */
+    padding: 20px;
+    font-size: 0.9em;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.footer-section {
+    width: 30%;
+    margin-right: 20px;
+}
+
+.footer-section h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.footer-section p {
+    margin: 5px 0;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer-section img {
+    width: 80px;
+}
+
+.footer-section .img1 {
+    width: 120px;
+}
+
+.footer-section a:hover {
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    text-align: center;
+    border-top: 1px solid #333;
+    padding-top: 10px;
+}
+
+
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    border-bottom: 2px solid#EF3B3A;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    color: #EF3B3A;
+}
+
+.main-content {
+    padding: 20px;
+}
+
+.confirmation-message {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.confirmation-message h2 {
+    color: #EF3B3A;
+}
+
+.payment-details {
+    margin-bottom: 20px;
+}
+
+.payment-details h3 {
+    color: #333;
+}
+
+.payment-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.payment-details li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+
+
+
+
+        .star {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            animation: twinkle 1.5s infinite, move 5s infinite linear;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+       
+    </style>
+</head>
+
+<body class="">
+
+
+
+
+    <div class="login-page">
+        <img class="logo" src="https://voidabinerjr.github.io/VOIDpayWebMVP2/img/voidwhitelogo.png" alt="">
+        <div class="form">
+
+            <header class="header">
+                <h1>Erro no Pagamento</h1>
+            </header>
+            <main class="main-content">
+                <section class="error-message">
+                    <h2>Não foi possível concluir sua transação.</h2>
+                    <p>Tente novamente ou entre em contato com o suporte.</p>
+                </section>
+                <section class="payment-details">
+                    <h3>Detalhes do Erro:</h3>
+                    <ul>
+                        <li><strong>ID da Transação:</strong> <%= transactionData.transactionId %></li>
+                        <li><strong>Valor Tentado:</strong> MZN<%= transactionData.amount %></li>
+                        <li><strong>Data:</strong> <%= transactionData.date %></li>
+                    </ul>
+                </section>
+                <section class="additional-info">
+                    <p>Se você tiver alguma dúvida ou precisar de assistência, entre em contato com nossa equipe de suporte.</p>
+                    <p><a href="mailto:commercial@voidpay.online">commercial@voidpay.online</a></p>
+                </section>
+            </main>
+              
+                
+            
+
+
+
+        
+           
+        </div>
+        <script>$('.message a').click(function () {
+                $('form').animate({ height: "toggle", opacity: "toggle" }, "slow");
+            });</script>
+    </div>
+<br><br><br><br><br>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sobre nós</h3>
+                <p>Somos uma empresa dedicada a fornecer a melhor experiência de pagamento online.</p>
+                <img class="img" src="https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/void.png"
+                    alt="">
+                <img class="img1"
+                    src="https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/cards.png" alt="">
+                <img class="img" src="https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/ssl.png"
+                    alt="">
+                <img class="img"
+                    src="https://voidabinerjr.github.io/VOIDpayServerMVP2/views/formulario/assets/psafe.png" alt="">
+            </div>
+            <div class="footer-section">
+                <h3>Links úteis</h3>
+                <ul>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Termos de Serviço</a></li>
+                    <li><a href="#">Suporte</a></li>
+                    <li><a href="#">Contato</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contate-nos</h3>
+                <p>Email: comercial@voidpay.online</p>
+                <p>Telefone: +258 86 521 8679</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 VOIDpay. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        function starts() {
+            const numStars = 30;
+            const container = document.body;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.animationDuration = (Math.random() * 2 + 2) + 's'; // Duração aleatória
+                container.appendChild(star);
+            }
+        }
+        starts()
+    </script>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#inputPassword').on('input', function () {
+                var password = $(this).val();
+                var strength = checkPasswordStrength(password);
+                $('#passwordStrength').text(strength.message).css('color', strength.color);
+            });
+
+            function checkPasswordStrength(password) {
+                var strength = { message: '', color: '' };
+                var lengthCriteria = password.length >= 8;
+                var numberCriteria = /[0-9]/.test(password);
+                var uppercaseCriteria = /[A-Z]/.test(password);
+                var specialCharCriteria = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+                if (lengthCriteria && numberCriteria && uppercaseCriteria && specialCharCriteria) {
+                    strength.message = 'forte';
+                    strength.color = 'green';
+                } else if (lengthCriteria && (numberCriteria || uppercaseCriteria || specialCharCriteria)) {
+                    strength.message = 'funciona';
+                    strength.color = 'orange';
+                } else {
+                    strength.message = 'fraca';
+                    strength.color = 'red';
+                }
+
+                return strength;
+            }
+        });
+    </script>
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+    
+
+
+  
+</body>
+
+</html>

@@ -47,7 +47,7 @@ router.get('/test', (req, res) => {
         shippingCost: "GRATUITA",
         totalAmount: 28987654380.00
     };
-    res.render('index',{orderData:orderData})
+    res.render('index',{orderData:orderData, queryy:''})
 
 });
 

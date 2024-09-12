@@ -4,7 +4,7 @@ async function pay(token) {
     const data = {
         token: token
     };
-    
+     
     try {
         const response = await fetch(url, {
             method: 'POST',

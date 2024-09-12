@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-
+require('dotenv').config();
 async function sendEmail(email, token, destinationSite,buttonToken) {
 
     
@@ -23,18 +23,25 @@ async function sendEmail(email, token, destinationSite,buttonToken) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Template</title>
-    <style>
+   <style>
         body {
+             align-content: center;
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
-            align-items: center; 
+            align-items: center;
+            text-align: center;
             line-height: 1.6;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
         }
+
         .container {
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
             max-width: 600px;
             margin: 20px auto;
             padding: 20px;
@@ -42,29 +49,34 @@ async function sendEmail(email, token, destinationSite,buttonToken) {
             border-radius: 5px;
             background-color: #ffffff;
         }
+
         .black-button {
             width: 80px;
-            display: flex;
-            justify-content: center;
-            align-items: center; 
+           
             background-color: black;
-            color: white; 
-            border: none; 
-            padding: 10px; 
-            border-radius: 4px; 
-            cursor: pointer; 
-            text-align: center; 
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
         }
+
         .token {
             font-weight: bold;
             color: #3366cc;
         }
+
         h2 {
             color: #333;
         }
+
         p {
             color: #555;
         }
+
+    
+
         .footer {
             text-align: center;
             margin-top: 20px;
@@ -138,23 +150,30 @@ async function sendRecoverEmail(email, token) {
     const htmlTemplate = `
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Template</title>
     <style>
         body {
+             align-content: center;
             font-family: Arial, sans-serif;
-           display: flex;
+            display: flex;
             justify-content: center;
-            align-items: center; 
-             text-align: center;
+            align-items: center;
+            text-align: center;
             line-height: 1.6;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
         }
+
         .container {
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
             max-width: 600px;
             margin: 20px auto;
             padding: 20px;
@@ -162,35 +181,33 @@ async function sendRecoverEmail(email, token) {
             border-radius: 5px;
             background-color: #ffffff;
         }
+
         .black-button {
             width: 80px;
-            display: flex;
-            justify-content: center;
-            align-items: center; 
-             background-color: black;
-            color: white; 
-            border: none; 
-            padding: 10px; 
-            border-radius: 4px; 
-            cursor: pointer; 
-            text-align: center; 
+           
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
         }
 
         .token {
             font-weight: bold;
             color: #3366cc;
         }
+
         h2 {
             color: #333;
         }
+
         p {
             color: #555;
         }
-        img{
-        display: flex;
-            justify-content: center;
-            align-items: center; 
-            }
+
+        
 
         .footer {
             text-align: center;
@@ -200,22 +217,25 @@ async function sendRecoverEmail(email, token) {
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-    <img src="https://voidabinerjr.github.io/VOIDpayWebMVP2/img/voidblacklogo.png">
+        <img src="https://voidabinerjr.github.io/VOIDpayWebMVP2/img/voidblacklogo.png">
         <h2><strong>Saudações!</strong></h2>
         <p>Você solicitou uma recuperação de senha para sua conta</p>
-       
-        
-       <a class="black-button" <a href="${"https://voidpaywebmvp2.onrender.com"}/resetpassword?token=${token}" >Click</a>
-        
+
+
+        <a class="black-button"  style="color: #ffffff;" href="${process.env.WEB_URL}/resetpassword?token=${token}">Click Aqui</a>
+
         <div class="footer">
-         <p>Este é um aviso automatizado, não responda.</p>
-            <p>Se você tiver alguma dúvida ou precisar de suporte adicional, entre em contato conosco pelo site <a href="www.voidpay.online" target="_blank">www.voidpay.online</a></p>
+            <p>Este é um aviso automatizado, não responda.</p>
+            <p>Se você tiver alguma dúvida ou precisar de suporte adicional, entre em contato conosco pelo site <a
+                    href="www.voidpay.online" target="_blank">www.voidpay.online</a></p>
             <p>Atenciosamente,<br>Equipe de Suporte VOIDpay</p>
         </div>
     </div>
 </body>
+
 </html>
 `;
 

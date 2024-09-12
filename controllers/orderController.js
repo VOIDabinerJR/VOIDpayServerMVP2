@@ -71,7 +71,7 @@ module.exports.createOrder = async (req, res) => {
         totalAmount,
         orderStatus: 'pending',
         userId: buttonInfo.userId
-    };
+    }; 
 
     const orderItems = data.orderItems
 

@@ -5,7 +5,7 @@ const { sendEmail, sendRecoverEmail } = require('../utils/email');
 const DynamicData = require('../models/dynamicDataModell');
 const Wallet = require('../models/walletModel');
 const Statistics = require('../models/statisticsModel');
-
+const { shortID } = require('../utils/functions.js');
 
 const authController = {
     register: async (req, res) => {
@@ -20,7 +20,7 @@ const authController = {
             if (existingUser.length > 0) {
                 return res.status(400).json({ error: 'Email is already in use' });
             }
-
+            const username =username + shortID()
             console.log(firstName)
             const hashedPassword = await bcrypt.hash(password, 8);
             const user = { firstName, lastName, username, email, password: hashedPassword };
@@ -71,8 +71,8 @@ const authController = {
             }
 
             const token = await createLoginToken(user[0].id);
-
-
+ 
+ 
 
 
             return res.status(200).json({ token });
@@ -149,7 +149,7 @@ const authController = {
         const { token } = req.body;
 
         try {
-            const decoded = decodeToken(token)
+            const decoded = await decodeToken(token)
 
 
 

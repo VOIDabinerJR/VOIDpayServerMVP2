@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const multer = require('multer');
 
-require('dotenv').config({path: './.env'});
+require('dotenv').config({ path: './.env' });
 
 const app = express();
 
@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-    origin: [ ],
+    origin: [],
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'] // Cabeçalhos permitidos
 }));
@@ -64,28 +64,32 @@ app.post('/wallets', async (req, res) => {
 
 app.post('/paymentResponse', (req, res) => {
     const requestData = req.body;
-    requestData.clientSecret= 'SEU-CLIENT-SECRET'
-    
-    console.log('Response from fetch:', requestData);
+    requestData.clientSecret = 'SEU-CLIENT-SECRET'
+    console.log('Webhook')
+
+    console.log('Response Api User:', requestData);
     fetch('http://localhost:3000/pay/aprove', {
-    method: 'POST',
-    headers: {
-    'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestData),
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
     })
-    .then(response => response.json())
-    .then(responseData => {
-    console.log('Response from fetch:', responseData);
-    
-    
-    })
-    .catch(error => {
-    console.error('Error making fetch request:', error);
-    
-    });
-    });
-    
+        .then(response => response.json())
+        .then(responseData => {
+            console.log('payment details', responseData);
+
+
+        })
+        .catch(error => {
+            console.error('Error making fetch request:', error);
+
+        });
+});
+
+
+
+
 
 
 const PORT = process.env.PORT || 3000;

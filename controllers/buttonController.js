@@ -28,7 +28,7 @@ module.exports.requestButton = async (req, res) => {
             console.log("Aa")
             if (appResult.length > 0) {
                 const user = userResult[0]; 
-                const email = 'void.contacte@gmail.com';
+                const email = user.email;
                 const buttonToken = `VOID-${uuidv4()}`;
 
                 const payload = {
@@ -68,7 +68,7 @@ module.exports.requestButton = async (req, res) => {
 
 module.exports.activateButton = async (req, res) => {
     const { tokeny } = req.body;
-    console.log(tokeny) 
+
 
     const decoded = decodeToken(tokeny)
     console.log(decoded)

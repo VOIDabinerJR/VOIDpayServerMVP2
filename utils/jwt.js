@@ -1,11 +1,14 @@
 const jwt = require('jsonwebtoken');
+const { v4: uuidv4 } = require('uuid');
+const { shortID } = require('../utils/functions.js');
 
 const createToken = (payload) => {
     return jwt.sign(payload, process.env.PAY_SECRET, {
         expiresIn: '3d'
     });
 };
-function decodeToken(token) {
+
+const decodeToken =async (token) =>{
     try {
         const decodedPayload = jwt.verify(token, process.env.PAY_SECRET);
         return decodedPayload; 
@@ -31,28 +34,28 @@ const createLoginToken = async ( token) => {
 
 const createMobileWalletToken = async (orderId, paymentDetails) => {
     payload = {
-        transaction_reference: paymentDetails.transaction_reference || 'T121344C',
-        customer_msisdn: paymentDetails.mobileWallet || '258865218679',
-        amount: paymentDetails.totalAmount || '10',
-        third_party_reference: paymentDetails.third_party_reference || '1131PA2D',
-        orderId: orderId || '111',
+        transaction_reference: paymentDetails.transaction_reference || `VOID${shortID()}`,
+        customer_msisdn: paymentDetails.mobileWalletNumber,
+        amount: paymentDetails.totalAmount ,
+        third_party_reference: paymentDetails.third_party_reference || `COST${shortID()}`,
+        orderId: orderId,
         query_reference: paymentDetails.query_reference || null,
         security_credential: paymentDetails.security_credential || null,
-        initiator_identifier: paymentDetails.initiator_identifier || null,
+        initiator_identifier: paymentDetails.initiator_identifier || null, 
         reversal_amount: paymentDetails.reversal_amount || null,
         transaction_id: paymentDetails.transaction_id || null
 
+  
 
-
-    };
+    }; 
     return createToken(payload);
 };
-
-const createCardPayToken = (a, b, c, d) => {
+ 
+const createCardToken = (a, b, c, d) => {
     return null
 };
-const createPaypalPayToken = (a, b, c, d) => {
+const createPaypalToken = (a, b, c, d) => {
     return null
 };
 
-module.exports = { createToken, decodeToken, createMobileWalletToken, createCardPayToken, createPaypalPayToken, createLoginToken };
+module.exports = { createToken, decodeToken, createMobileWalletToken, createCardToken, createPaypalToken, createLoginToken };
