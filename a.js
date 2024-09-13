@@ -8,6 +8,8 @@ function generateRandomString(length) {
     return result;
 }
 
+
+
 function printRandomStrings(duration, interval, length) {
     const endTime = Date.now() + duration;
     const intervalId = setInterval(() => {

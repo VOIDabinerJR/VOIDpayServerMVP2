@@ -10,7 +10,7 @@ document.getElementById('card-number').addEventListener('input', () => {
     const number = document.getElementById('card-number').value;
     const numberValidation = cardValidator.number(number);
     const numberInput = document.getElementById('card-number');
- 
+  
     if (numberValidation.isValid) {
         numberInput.classList.remove('input-error');
     } else {
