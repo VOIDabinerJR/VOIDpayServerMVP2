@@ -57,6 +57,7 @@ const authController = {
     login: async (req, res) => {
         
         const { email, password } = req.body;
+        console.log(req.body);
         try {
             const [user] = await User.findByEmail(email);
 
@@ -77,6 +78,7 @@ const authController = {
 
             return res.status(200).json({ token });
         } catch (error) {
+            
             console.error(error);
             return res.status(500).json({ err: 'Server error' });
         }
