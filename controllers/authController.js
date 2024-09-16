@@ -14,16 +14,16 @@ const authController = {
         if (password !== repeatPassword) {
             return res.status(400).json({ error: 'Passwords do not match' });
         }
-
+ 
         try {
             const [existingUser] = await User.findByEmail(email);
             if (existingUser.length > 0) {
                 return res.status(400).json({ error: 'Email is already in use' });
             }
-            const username =username + shortID()
-            console.log(firstName)
+            const username1 =username.replace(/\s+/g, '') + shortID()
+            console.log(username1)
             const hashedPassword = await bcrypt.hash(password, 8);
-            const user = { firstName, lastName, username, email, password: hashedPassword };
+            const user = { firstName, lastName, username:username1, email, password: hashedPassword };
            
             const insertResult = await User.create(user);
 
