@@ -18,7 +18,7 @@ const pagesController = {
         const { token, firstName, lastName, username, email, password, repeatPassword, dateOfBirth, address, postalCode, documentId, documentIdImg, phone, alternativeEmail, businessName, legalDocument, website, form } = req.body;
         const data = req.body
 
-        const decoded = decodeToken(token)
+        const decoded = await decodeToken(token)
 
         try {
             if (req.file) {
