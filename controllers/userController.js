@@ -43,7 +43,7 @@ module.exports.createApp = async (req, res) => {
     const { type, name, token } = req.body;
 
     try {
-        const decoded = decodeToken(token)
+        const decoded = await decodeToken(token)
         const [userResult] = await User.findById(decoded.token);
 
 
