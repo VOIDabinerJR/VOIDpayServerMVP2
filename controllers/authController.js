@@ -124,7 +124,7 @@ const authController = {
 
 
         try {
-            const decoded = decodeToken(token)
+            const decoded = await decodeToken(token)
 
 
             const [existingUser] = await User.findByEmail(decoded.email);
