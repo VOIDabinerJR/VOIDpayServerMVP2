@@ -15,7 +15,7 @@ module.exports.requestButton = async (req, res) => {
     const { clientId, destination, name, token } = req.body;
 
     try {
-        const decoded = decodeToken(token)
+        const decoded = await decodeToken(token)
         const decodedClientId = clientId  //decodeToken(token) 
 
         const [userResult] = await User.findById(decoded.token);

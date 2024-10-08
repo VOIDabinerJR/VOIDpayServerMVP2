@@ -18,15 +18,18 @@ const pagesController = {
         const { token, firstName, lastName, username, email, password, repeatPassword, dateOfBirth, address, postalCode, documentId, documentIdImg, phone, alternativeEmail, businessName, legalDocument, website, form } = req.body;
         const data = req.body
 
-        const decoded = decodeToken(token)
+        const decoded = await decodeToken(token)
 
         try {
             if (req.file) {
                 console.log('File uploaded:', req.file.filename);
             } else{
-                console.log(req.file)
+                
             }
             const [existingUser] = await User.findById(decoded.token);
+            console.log(decoded.token)
+            console.log(decoded)
+            console.log(existingUser)
             if (existingUser.length <= 0) {
                 return res.status(400).json({ error: 'user not found' });
             }
@@ -86,7 +89,7 @@ const pagesController = {
                         return res.json({ status: 'sucess' });
                     }
 
-
+ 
                 }
 
 

@@ -1,5 +1,6 @@
 
 const db = require('../config/db');
+const { shopifyCredentials } = require('../controllers/userController');
 const BusinessDetails = require('./appModel');
 const UserDetails = require('./userDetailsModel');
 
@@ -44,9 +45,13 @@ const DynamicData = {
         const [rows] = await db.query('SELECT * FROM userDetails WHERE userid = ?', [userId]);
         return rows;
     },
+    async shopifyCredentials(userId) {
+        const [rows] = await db.query('SELECT * FROM shopify WHERE userid = ?', [userId]);
+        return rows;
+    },
     async getUserDataById(userid) {
         try {
-            const [d1, d2, d3, d4, d5, d6,d7,d8,d9,d10] = await Promise.all([
+            const [d1, d2, d3, d4, d5, d6,d7,d8,d9,d10,d11] = await Promise.all([
                 this.getApps(userid),
                 this.getOrders(userid),
                 this.getbotoes(userid),
@@ -57,6 +62,7 @@ const DynamicData = {
                 this.getNotifications(userid),
                 this.getUserDetails(userid),
                 this.getProducts(userid),
+                this.shopifyCredentials(userid),
 
             ]);
 
@@ -70,7 +76,8 @@ const DynamicData = {
                 businessDetails:d7,
                 notification:d8,
                 userDetails:d9,
-                products:d10
+                products:d10,
+                shopifyCredentials:d11
             }
 
             return data

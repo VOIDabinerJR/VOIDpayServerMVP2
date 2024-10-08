@@ -6,25 +6,26 @@ const DynamicData = require('../models/dynamicDataModell');
 const Wallet = require('../models/walletModel');
 const Statistics = require('../models/statisticsModel');
 const { shortID } = require('../utils/functions.js');
+const fs = require('fs');
 
 const authController = {
     register: async (req, res) => {
         const { firstName, lastName, username, email, password, repeatPassword } = req.body;
-       
+
         if (password !== repeatPassword) {
             return res.status(400).json({ error: 'Passwords do not match' });
         }
- 
+
         try {
             const [existingUser] = await User.findByEmail(email);
             if (existingUser.length > 0) {
                 return res.status(400).json({ error: 'Email is already in use' });
             }
-            const username1 =username.replace(/\s+/g, '') + shortID()
+            const username1 = username.replace(/\s+/g, '') + shortID()
             console.log(username1)
             const hashedPassword = await bcrypt.hash(password, 8);
-            const user = { firstName, lastName, username:username1, email, password: hashedPassword };
-           
+            const user = { firstName, lastName, username: username1, email, password: hashedPassword };
+
             const insertResult = await User.create(user);
 
 
@@ -33,17 +34,17 @@ const authController = {
                 const token = createLoginToken(newUser[0].id);
                 console.log(newUser[0].id)
 
-               const walletData ={
-                userid:newUser[0].id
+                const walletData = {
+                    userid: newUser[0].id
 
-               }
+                }
                 const wallet = await Wallet.create(walletData);
-                
+
 
 
                 //const insertResult = await App.create(user);
 
-                return res.status(201).json({ token:token, wallet:wallet });
+                return res.status(201).json({ token: token, wallet: wallet });
                 // return res.redirect(/login)
             } else {
                 return res.status(500).json({ err: 'User registration failed' });
@@ -55,7 +56,7 @@ const authController = {
     },
 
     login: async (req, res) => {
-        
+
         const { email, password } = req.body;
         console.log(req.body);
         try {
@@ -64,7 +65,7 @@ const authController = {
             if (user.length <= 0) {
                 return res.status(404).json({ err: 'Email incorrect' });
             }
-           
+
 
             const passwordMatch = await bcrypt.compare(password, user[0].password);
             if (!passwordMatch) {
@@ -72,13 +73,13 @@ const authController = {
             }
 
             const token = await createLoginToken(user[0].id);
- 
- 
+
+
 
 
             return res.status(200).json({ token });
         } catch (error) {
-            
+
             console.error(error);
             return res.status(500).json({ err: 'Server error' });
         }
@@ -124,7 +125,7 @@ const authController = {
 
 
         try {
-            const decoded = decodeToken(token)
+            const decoded = await decodeToken(token)
 
 
             const [existingUser] = await User.findByEmail(decoded.email);
@@ -159,21 +160,28 @@ const authController = {
                 DynamicData.getUserDataById(decoded.token),
                 Statistics.getStatistics(decoded.token)
             ]);
-            
+
             if (!user) {
                 return res.status(404).json({ err: 'Erro data load' });
             } else {
-                
 
-               
-                return  res.status(200).json({
+
+                //  const data = {
+                //     time:Date(),
+                //      userStatistics: userStatistics,
+                //      user: user
+
+                //  };
+                // fs.writeFileSync('userData.json', JSON.stringify(data, null, 2));
+
+                return res.status(200).json({
                     user,
                     userStatistics
                 });
 
             }
 
- 
+
 
         } catch (error) {
             console.error(error);

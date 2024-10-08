@@ -1,12 +1,14 @@
 const Order = require('../models/orderModel');
 const Button = require('../models/buttonModel');
 const Notification = require('../models/notificationModel');
+const Shopify = require('../models/shopifyModel');
+
 
 
 module.exports.createOrder = async (req, res) => {
     const { buttonToken, amount, quantity, description } = req.body;
     const data = req.body;
-    console.log(data);
+
 
 
     const validateProducts = (products) => {
@@ -26,7 +28,7 @@ module.exports.createOrder = async (req, res) => {
 
 
             if (isNaN(product.price) || product.price <= 0) {
-                console.log(product.price)
+                // console.log(product.price)
                 errors.push({ index: index, field: 'price', message: 'Preço deve ser um número positivo.' });
             }
         });
@@ -41,7 +43,7 @@ module.exports.createOrder = async (req, res) => {
 
     const result = validateProducts(data.orderItems);
 
-    console.log(result.errors)
+    //console.log(result.errors)
     if (result.there) {
         return res.json({ status: false, error: result.errors })
     }
@@ -57,37 +59,41 @@ module.exports.createOrder = async (req, res) => {
     }, 0);
 
 
-    console.log(data);
 
 
 
 
 
-    const buttonInfo = await Button.findByToken(buttonToken)
+
+    const [buttonInfo] = await Button.findByToken(buttonToken)
+    console.log(buttonToken)
     const order = {
         buttonToken: data.buttonToken,
         products: totalItems,
         description: 'None desc.',
         totalAmount,
         orderStatus: 'pending',
-        userId: buttonInfo.userId
-    }; 
+        userId: buttonInfo[0].userId || null
+    };
 
     const orderItems = data.orderItems
 
 
 
-    if (buttonInfo.status != true) {
+    if (buttonInfo[0].status != true) {
+
+
+
         return res.json({ err: "botton not valid" })
 
     } else {
-        console.log(buttonInfo)
+
 
 
         try {
             const [insertResult] = await Order.create(order);
 
-            console.log(insertResult)
+            //  console.log(insertResult)
             const [insertResulty] = await Order.saveOrderItems(orderItems, insertResult.insertId);
             if (insertResult.affectedRows === 1) {
                 console.log("saved")
@@ -96,11 +102,14 @@ module.exports.createOrder = async (req, res) => {
                 res.cookie('orderid', '13', { httpOnly: true, maxAge });
 
                 //const [insertResultyy] =  await Notification.create(Notification.notifications(0),insertResult.insertId)
-                return res.json({ orderId: insertResult.insertId, buttonToken: buttonInfo.buttonToken , status: true})
+                console.log(buttonToken)
+                return res.json({ orderId: insertResult.insertId, buttonToken: buttonInfo[0].buttonToken, status: true })
             } else {
+                console.log("erro1")
                 return res.status(500).json({ error: 'Order creation failed' });
             }
         } catch (error) {
+            console.log("erro")
             console.error(error);
             return res.status(500).json({ error: 'Server error' });
         }
@@ -111,7 +120,7 @@ module.exports.updateOrder = async (req, res) => {
     const { orderid, status } = req.body;
 
     const buttonInfo = await Button.findByToken(bottontoken)
-    console.log(buttonInfo)
+    // console.log(buttonInfo)
 
     if (buttonInfo.status != true) {
         return res.json({ err: "botton not valid" })
@@ -130,4 +139,118 @@ module.exports.updateOrder = async (req, res) => {
         console.error(error);
         return res.status(500).json({ error: 'Server error' });
     }
+};
+
+
+module.exports.createShopifyOrder = async (req, res) => {
+    const data = req.body;
+    let [a] = await Shopify.findByUserId('8')
+    const items = [];
+
+    for (let i = 0; i < data.rid.length; i++) {
+        let product = await Shopify.findVariantProductById(data.rid[i], a[0].urlShopify, a[0].accessTokenShopify)
+
+
+        items.push({
+            img: product.image,
+            name: product.title,
+            price: product.price,
+            quantity: 1,
+            productId: product.product_id
+        });
+    }
+
+    //  return res.json({items})
+    const validateProducts = (products) => {
+        let errors = [];
+
+        products.forEach((product, index) => {
+
+            if (!product.name || product.name.trim() === '') {
+                errors.push({ index: index, field: 'name', message: 'Nome do produto não pode estar vazio.' });
+            }
+
+
+            if (!Number.isInteger(parseInt(product.quantity)) || product.quantity <= 0) {
+
+                errors.push({ index: index, field: 'quantity', message: 'Quantidade deve ser um número inteiro positivo.' });
+            }
+
+
+            if (isNaN(product.price) || product.price <= 0) {
+                // console.log(product.price)
+                errors.push({ index: index, field: 'price', message: 'Preço deve ser um número positivo.' });
+            }
+        });
+
+
+        if (errors.length > 0) {
+            return { errors: errors, there: true };
+        } else {
+            return { message: 'Todos os produtos estão corretamente formatados.', there: false };
+        }
+    };
+
+    const result = validateProducts(items);
+    if (result.there) {
+        return res.json({ status: false, error: result.errors })
+    }
+
+
+
+    const totalAmount = items.reduce((total, item) => {
+        return total + (parseFloat(item.price) * parseFloat(item.quantity));
+    }, 0);
+
+    const totalItems = items.reduce((total, item) => {
+        return total + parseInt(item.quantity);
+    }, 0);
+
+
+
+
+    const { buttonToken } = req.body;
+
+    const [buttonInfo] = await Button.findByToken(data.buttonToken)
+
+    console.log(buttonToken)
+    const order = {
+        buttonToken: data.buttonToken,
+        products: totalItems,
+        description: 'None desc.',
+        totalAmount,
+        orderStatus: 'pending',
+        userId: buttonInfo[0].userId || null
+    };
+
+    if (buttonInfo[0].status != true) {
+        return res.json({ err: "botton not valid" })
+
+    } else {
+
+
+        try {
+            const [insertResult] = await Order.create(order);
+
+            //  console.log(insertResult)
+            const [insertResulty] = await Order.saveOrderItems(items, insertResult.insertId);
+            if (insertResult.affectedRows === 1) {
+                console.log("saved")
+
+                const maxAge = 3 * 24 * 60 * 60 * 1000;
+                res.cookie('orderid', '13', { httpOnly: true, maxAge });
+
+                //const [insertResultyy] =  await Notification.create(Notification.notifications(0),insertResult.insertId)
+                console.log(buttonToken)
+                return res.json({ orderId: insertResult.insertId, buttonToken: buttonInfo[0].buttonToken, status: true })
+            } else {
+                console.log("erro1")
+                return res.status(500).json({ error: 'Order creation failed' });
+            }
+        } catch (error) {
+            console.log("erro")
+            console.error(error);
+            return res.status(500).json({ error: 'Server error' });
+        }
+    };
 };

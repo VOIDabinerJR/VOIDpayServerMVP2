@@ -27,8 +27,8 @@ const createMobileWalletToken = async (orderId, paymentDetails) => {
 const run = async () => {
     const token = await createMobileWalletToken('oi', {});
     console.log(token);
-};
-
+}; 
+ 
 
 function decodeToken(token) { 
     try {

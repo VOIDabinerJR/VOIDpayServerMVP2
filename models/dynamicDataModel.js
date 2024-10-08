@@ -7,7 +7,7 @@ const DynamicData = {
             WHERE  USUARIOID = ?
         `;
         const [rows] = await db.query(query, [userId, userId]);
-        return rows;
+        return rows; 
     },
 
     async getApps(userId) {

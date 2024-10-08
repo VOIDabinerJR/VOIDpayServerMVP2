@@ -18,7 +18,7 @@ document.getElementById('card-number').addEventListener('input', () => {
     }
     console.log(numberValidation.isValid)
 });  
-
+ 
 document.getElementById('expiry-date').addEventListener('input', () => {
     const expirationDate = document.getElementById('expiry-date').value;
     const expirationDateValidation = cardValidator.expirationDate(expirationDate);

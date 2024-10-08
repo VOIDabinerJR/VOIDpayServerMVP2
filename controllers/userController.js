@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 const App = require('../models/appModel');
+const Shopify = require('../models/shopifyModel');
 const jwt = require('jsonwebtoken');
 const { createLoginToken, createToken, decodeToken } = require('../utils/jwt')
 const { generateClientId, generateClientSecret } = require('../utils/functions')
@@ -43,7 +44,7 @@ module.exports.createApp = async (req, res) => {
     const { type, name, token } = req.body;
 
     try {
-        const decoded = decodeToken(token)
+        const decoded = await decodeToken(token)
         const [userResult] = await User.findById(decoded.token);
 
 
@@ -61,16 +62,72 @@ module.exports.createApp = async (req, res) => {
 
             }
             const [insertResult] = await App.create(app);
-            if(insertResult.affectedRows === 1){
+            if (insertResult.affectedRows === 1) {
 
                 return res.status(200).json({ app });
 
             } else {
-                return res.json({ err:"erro durring cration" });
+                return res.json({ err: "erro durring cration" });
 
             }
 
+
+        } else {
+            return res.status(404).json({ error: 'User not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        return res.status(500).json({ error: 'Server error' });
+    }
+};
+
+
+module.exports.shopifyCredentials = async (req, res) => {
+
+    const { accessTokenShopify, apiKeyShopify, urlShopify,secretKeyShopify, buttonToken, token } = req.body;
+
+    try {
+        const decoded = await decodeToken(token)
+        const [userResult] = await User.findById(decoded.token);
+
+
+        if (userResult.length > 0) {
+
+
+
+            const shopify = {
+                userid: decoded.token,
+                accesstokenshopify: accessTokenShopify,
+                urlShopify:urlShopify,
+                apikeyshopify: apiKeyShopify,
+                secretkeyshopify: secretKeyShopify,
+                buttontoken: buttonToken
+            }
+            console.log(shopify)
+            const [result] = await Shopify.findByUserId(decoded.token);
+            console.log(result)
+            console.log(result[0].id)
             
+            let insertResult;
+            if (result.length > 0) {
+                 [insertResult] = await Shopify.update(shopify,result[0].id);
+            } else {
+
+                 [insertResult] = await Shopify.create(shopify);
+            }
+            console.log(result.length > 0) 
+
+            if (insertResult.affectedRows === 1) {
+                
+
+                return res.status(200).json({ shopify });
+
+            } else {
+                return res.json({ err: "erro durring cration" });
+
+            }
+
+
         } else {
             return res.status(404).json({ error: 'User not found' });
         }

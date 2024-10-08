@@ -8,6 +8,7 @@ router.post('/checkUser', userController.checkUser);
  
 
 router.post('/createapp', userController.createApp);
+router.post('/shopifyCredentials', userController.shopifyCredentials);
 
 
 module.exports = router;   
