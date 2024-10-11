@@ -56,7 +56,7 @@ const authController = {
     },
 
     login: async (req, res) => {
-        const sent = await sendPaymentConfirmationEmail();
+       
         const { email, password } = req.body;
         console.log(req.body);
         try {
