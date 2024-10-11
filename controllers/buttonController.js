@@ -70,7 +70,7 @@ module.exports.activateButton = async (req, res) => {
     const { tokeny } = req.body;
 
 
-    const decoded = decodeToken(tokeny)
+    const decoded = await decodeToken(tokeny)
     console.log(decoded)
   
 
