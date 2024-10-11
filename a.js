@@ -15,7 +15,7 @@ function printRandomStrings(duration, interval, length) {
     const intervalId = setInterval(() => {
         if (Date.now() >= endTime) {
             clearInterval(intervalId);
-            console.log('Finished generating random strings.');
+             console.log('Finished generating random strings.');
         } else {
             console.log(generateRandomString(length));
         }

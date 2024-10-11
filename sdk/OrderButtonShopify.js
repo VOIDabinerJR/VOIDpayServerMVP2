@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
 
 
-      let rids= ;
+     // let rids= ;
 
         const cc = document.getElementById('void-button-container').getAttribute('buttonToken');
         

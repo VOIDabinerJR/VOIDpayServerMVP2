@@ -22,13 +22,24 @@ const Order = {
         const result = await db.query('SELECT * FROM orderItems WHERE orderId = ?', [id]);
 
         return result;
-    }, async saveOrderItems(items, orderId) {
+    }, 
+    async findItemsIdByOrderId(id) {
+        const result = await db.query('SELECT productId FROM orderItems WHERE orderId = ?', [id]);
+
+        return result;
+    },
+    async findvariantIdByOrderId(id) {
+        const result = await db.query('SELECT variantId FROM orderItems WHERE orderId = ?', [id]);
+
+        return result;
+    }, 
+    async saveOrderItems(items, orderId) {
         if (!Array.isArray(items) || items.length === 0) {
             throw new Error('Você deve fornecer um array de itens para inserção.');
         }
 
 
-        const result = await db.query('INSERT INTO orderItems (name, price, quantity, productId, img, imgAlt, orderId) VALUES ?', [items.map(item => [item.name, item.price, item.quantity, item.productId, item.img, item.imgAlt, orderId])]);
+        const result = await db.query('INSERT INTO orderItems (name, price, quantity, productId, img, imgAlt, orderId, variantId) VALUES ?', [items.map(item => [item.name, item.price, item.quantity, item.productId, item.img, item.imgAlt, orderId, item.variantId])]);
 
         return result;
     }, async deleteOrderItems(itemIds) {
@@ -43,15 +54,16 @@ const Order = {
 
         return result;
     },
-    async createShopifyOrder(order, shop, accessToken) {
+    async createShopifyOrder(order, amount,variants,shop, accessToken) {
+      
+        const lineItems = variants.map(item => ({
+            variant_id: item.variantId,
+            quantity: item.quantity || 1 // Define um padrão de 1 se não for informado
+        }));
+
         const orderData = {
             order: {
-                line_items: [
-                    {
-                        variant_id: order.variant_id, 
-                        quantity: order.quantity || 1 
-                    }
-                ],
+                line_items: lineItems,
                 customer: {
                     email: order.email // Email do cliente dinâmico
                 },
@@ -60,31 +72,32 @@ const Order = {
                     {
                         kind: 'sale',
                         status: 'success',
-                        amount: order.amount // Valor total do pedido dinâmico
+                        amount: amount // Valor total do pedido dinâmico
                     }
                 ],
                 shipping_address: {
-                    first_name: order.shipping.first_name,
-                    last_name: order.shipping.last_name,
-                    address1: order.shipping.address1,
-                    phone: order.shipping.phone,
-                    city: order.shipping.city,
-                    province: order.shipping.province,
-                    country: order.shipping.country,
-                    zip: order.shipping.zip
+                    first_name: order.contactName,
+                    last_name: order.contactName,
+                    address1: order.address,
+                    phone: order.phoneNumber,
+                    city: order.city,
+                    province: order.city,
+                    country: 'MOZAMBIQUE',
+                    zip: order.postCode
                 },
                 billing_address: {
-                    first_name: order.billing.first_name,
-                    last_name: order.billing.last_name,
-                    address1: order.billing.address1,
-                    phone: order.billing.phone,
-                    city: order.billing.city,
-                    province: order.billing.province,
-                    country: order.billing.country,
-                    zip: order.billing.zip
+                    first_name: order.contactName,
+                    last_name: order.contactName,
+                    address1: order.address,
+                    phone: order.phoneNumber,
+                    city: order.city,
+                    province: order.city,
+                    country: 'MOZAMBIQUE',
+                    zip: order.postCode
                 }
             }
         };
+        console.log(orderData)
 
         try {
             const response = await fetch(`https://${shop}/admin/api/2023-07/orders.json`, {
@@ -108,8 +121,8 @@ const Order = {
         }
     }
 };
-      
-    
-      
+
+
+
 
 module.exports = Order;

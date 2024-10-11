@@ -1,11 +1,14 @@
 const User = require('../models/userModel');
 const Button = require('../models/buttonModel');
 const Order = require('../models/orderModel');
+const Shopify = require('../models/shopifyModel.js');
 const path = require('path');
 const Wallet = require('../models/walletModel');
 const { createToken, createCardToken, createPaypalToken, createMobileWalletToken, decodeToken } = require('../utils/jwt');
 const { Console } = require('console');
-const { shortID } = require('../utils/functions.js');
+const { shortID, hashInfo } = require('../utils/functions.js');
+
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 module.exports.routTester = async (req, res) => {
@@ -27,10 +30,16 @@ module.exports.getQrCode = async (req, res) => {
 module.exports.getPaymentPage = async (req, res) => {
     const orderid = req.query.orderid;
     const buttonToken = req.query.buttontoken;
+    console.log(req.query)
+    let queryy = null
 
-    const queryy = 'orderid=' + orderid + '&buttontoken=' + buttonToken;
 
 
+    if (req.query.channel) {
+        queryy = 'orderid=' + orderid + '&buttontoken=' + buttonToken + '&channel=' + req.query.channel;
+    } else {
+        queryy = 'orderid=' + orderid + '&buttontoken=' + buttonToken;
+    }
 
 
 
@@ -45,8 +54,8 @@ module.exports.getPaymentPage = async (req, res) => {
 
             const orderData = {
 
-                orderItems: orderItem,
-                subtotal: order.totalAmount,
+                orderItems: orderItem, 
+                subtotal: order.totalAmount, 
                 ivaTax: order.ivaTax || 20,
                 iva: order.iva || "[Insento]",
                 shippingCost: order.shippingCost || "[GRÁTIS]",
@@ -58,7 +67,7 @@ module.exports.getPaymentPage = async (req, res) => {
                 return res.json({ error: 'unauthorized' })
             } else {
                 return res.render('index', { orderData: orderData, queryy });
-            } 
+            }
 
 
         } else {
@@ -71,7 +80,19 @@ module.exports.getPaymentPage = async (req, res) => {
 };
 
 module.exports.processPayment = async (req, res) => {
-    console.log(req.body)
+
+    //  console.log(req.body)
+    // console.log(req.query)
+
+    let billingInfo = {
+        contactName: req.body.contactName,
+        phoneNumber: req.body.phoneNumber,
+        email: req.body.email,
+        address: req.body.address,
+        city: req.body.city,
+        postCode: req.body.postCode,
+
+    }
 
 
 
@@ -79,8 +100,10 @@ module.exports.processPayment = async (req, res) => {
 
     const orderId = req.query.orderid
     const buttonToken = req.query.buttontoken
-    const paymentDetails = req.body; 
+    const paymentDetails = req.body;
     paymentDetails.transaction_reference = `VOID${shortID()}`
+    paymentDetails.originAcountId = await hashInfo('aa') || null
+
     if (paymentDetails.mobileWalletNumber) {
         paymentDetails.mobileWalletNumber = paymentDetails.mobileWalletNumber.replace(/\s+/g, '');
     }
@@ -105,13 +128,13 @@ module.exports.processPayment = async (req, res) => {
 
             const [buttonResult] = await Button.findByToken(buttonToken);
 
-            if(buttonResult.length != 1){
+            if (buttonResult.length != 1) {
                 const transactionData = {
                     transactionId: paymentDetails.transaction_reference,
                     amount: paymentDetails.totalAmount,
-                    date: new Date().toLocaleDateString() 
+                    date: new Date().toLocaleDateString()
                 };
- 
+
                 return res.render('paymentConfirmation.ejs', {
                     transactionData,
                     message: 'Payment processed successfully',
@@ -119,7 +142,7 @@ module.exports.processPayment = async (req, res) => {
                     redirectUrl: 'https://www.google.com'
                 });
             }
-            console.log( buttonResult[0].destination)
+            console.log(buttonResult[0].destination)
 
 
             const order = orderResult[0];
@@ -138,16 +161,16 @@ module.exports.processPayment = async (req, res) => {
                 const transactionData = {
                     transactionId: paymentDetails.transaction_reference,
                     amount: paymentDetails.totalAmount,
-                    date: new Date().toLocaleDateString() 
+                    date: new Date().toLocaleDateString()
                 };
- 
+
                 return res.render('paymentConfirmation.ejs', {
                     transactionData,
                     message: 'Payment processed successfully',
                     error: null,
                     redirectUrl: 'https://www.google.com'
                 });
-            } else if (req.body.mobileWalletNumber == '0000' || req.body.cardNumber == '0000') {
+            } else if (req.body.mobileWalletNumber == '0000' || req.body.cardNumber == '0000' || req.body.paymentMethod == 'card' || req.body.paymentMethod == 'paypal' || req.body.paymentMethod == 'qrcode' ) {
                 const transactionData = {
                     transactionId: paymentDetails.transaction_reference,
                     amount: paymentDetails.totalAmount,
@@ -163,8 +186,8 @@ module.exports.processPayment = async (req, res) => {
             }
             //////////////////////////////////////////////////////////////////////////////
 
-          
-            
+
+
 
             async function getPaymentToken(option) {
                 switch (option) {
@@ -192,20 +215,77 @@ module.exports.processPayment = async (req, res) => {
                 if (result.status_code == 409 || result.status_code == 401 || result.status_code == 200) {
                     console.log(result.status_code)
 
+
+                    ////////////////////////////////
+                    /////////////////////////////
+                    if (req.query.channel == 'shopify') {
+
+                        try {
+                            const [orderResult] = await Order.findById(req.query.orderid);
+
+                            const [result] = await Order.findvariantIdByOrderId(req.query.orderid);
+
+                            let [a] = await Shopify.findByUserId(orderResult[0].userId)
+
+                            const info = await Order.createShopifyOrder(billingInfo, orderResult[0].totalAmount, result, a[0].urlShopify, a[0].accessTokenShopify)
+                            //console.log(billingInfo, orderResult[0].totalAmount, result, a[0].urlShopify, a[0].accessTokenShopify)
+                            // console.log(info)
+                        } catch (error) {
+                            console.error('Erro ao buscar produtos ou criar pedido na Shopify:', error);
+                            res.status(500).json({ error: error.message });
+                        }
+
+                    } else if (req.query.channel == 'woocommerce') {
+                        let a = null;
+                    }
+                    else if (req.query.channel == 'wixecommerce') {
+                        
+                    }else if(req.query.channel == 'oneway'){
+                        let a = null;
+                    }else if(req.query.channel == 'rs'){
+                        try {
+
+                            const url = `${buttonResult[0].destination.toString()}`;
+                            const dados = { token: infoToken }
+                            fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(dados),
+                            });
+
+
+                            console.log('Dados Enviados');
+                        } catch (erro) {
+                            console.log('Dados recebidos:', erro);
+                            res.status(500).json({ message: 'Payment processed successfully', error: erro || resposta.status });
+
+                            console.error('Erro ao enviar dados:', erro);
+                        }
+                        let a = null;
+                    }
+
+                    ///////////////////////////////
+                    /////////////////////////////////
                     const [updateResult] = await Order.update(orderId, { orderStatus: 'Completed', customerEmail: paymentDetails.email, paymentMethod: paymentDetails.paymentMethod, customerName: paymentDetails.contactName, description: paymentDetails.description || 'None desc.', transactionReference: paymentDetails.transaction_reference });
 
-                    console.log(updateResult)
+
+                    //console.log(updateResult)
 
                     if (updateResult.affectedRows === 1) {
                         console.log("sucess");
- 
+
                         try {
-                            const { value, walletId } = req.body;
+
                             const wallet = await Wallet.findByUserId(orderResult[0].userId);
-
+                            console.log(wallet)
                             if (wallet) {
+                                console.log("entrou");
 
-                                const result = await Wallet.deposit("Wallet", "Costumer Payment", paymentDetails.totalAmount, wallet.id, orderResult[0].userId);
+                                const result = await Wallet.deposit("Wallet", "Costumer Payment", paymentDetails.totalAmount, wallet.id, orderResult[0].userId, paymentDetails.transaction_reference, null); //paymentDetails.originAcountId 
+                                console.log(result)
+                                console.log("entrou");
 
                             } else {
                                 res.status(404).json({ message: 'Wallet not found' });
@@ -237,33 +317,14 @@ module.exports.processPayment = async (req, res) => {
                         delete paymentDetails.securityCode
                         delete paymentDetails.expiryDate
                         delete paymentDetails.mobileWalletNumber
-                        
+
                         console.log(paymentDetails)
                         ////////////////////////////////////
                         const infoToken = createToken(paymentDetails)
 
                         ///////////////////////////////////
 
-                        try {
-                           
-                           const url = `${buttonResult[0].destination.toString()}`;
-                            const dados = { token: infoToken }
-                            fetch(url, { 
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify(dados),
-                            });
-
-
-                            console.log('Dados Enviados');
-                        } catch (erro) {
-                            console.log('Dados recebidos:', erro);
-                            res.status(500).json({ message: 'Payment processed successfully', error: erro || resposta.status });
-
-                            console.error('Erro ao enviar dados:', erro);
-                        }
+                       
                     } else {
                         res.status(500).json({ message: 'Payment processed successfully', error: 'Failed to update order status' });
                     }
@@ -306,14 +367,8 @@ module.exports.processPayment = async (req, res) => {
 module.exports.processWithdraw = async (req, res) => {
     const { token, accountNumber, method } = req.body
 
-
     const paymentDetails = req.body;
     console.log(paymentDetails.paymentMethod)
-
-
-
-
-
 
     try {
         // const decoded = await decodeToken(token)
@@ -529,7 +584,7 @@ module.exports.decodeTokeny = async (req, res) => {
 
 
 async function pay(token) {
-    return ({ status_code: 200 }) 
+    //  return ({ status_code: 200 })
 
     const url = `${process.env.AUTHORIZATION_URL}/make_payment`;
     const data = {
@@ -552,24 +607,24 @@ async function pay(token) {
 
         const resultText = await response.json();
         console.log('response:', resultText);
-        return ({ status_code: 200 }) 
+        return ({ status_code: 200 })
         if (resultText) {
-           
-                const result = await JSON.parse(resultText);
-                console.log('response:', result);
-                // return result;
-                return ({ status_code: result.status_code })
-           
+
+            const result = await JSON.parse(resultText);
+            console.log('response:', result);
+            // return result;
+            return ({ status_code: result.status_code })
+
         } else {
             console.error("Resposta vazia ou inválida recebida.");
             return ({ status_code: 500 })
             console.error("Resposta vazia ou inválida recebida.");
         }
-         
 
-        
 
-       
+
+
+
     } catch (error) {
         console.error('Error:', error);
         throw error;

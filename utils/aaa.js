@@ -56,6 +56,14 @@ async function hashPassword(password) {
         throw new Error('Error hashing password');
     }
 }
+async function hashInfo(info) {
+    try {
+        const hashedInfo = await bcrypt.hash(info, 8);
+        return hashedInfo;
+    } catch (error) {
+        throw new Error('Error hashing password');
+    }
+}
 
 // Exemplo de uso da função
 

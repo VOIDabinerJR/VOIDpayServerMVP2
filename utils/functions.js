@@ -35,5 +35,14 @@ function generateClientSecret() {
 function generateTransictionReference() {
     return uuidv4(); 
 }
+async function hashInfo(info) {
+    try {
+        const hashedInfo = await bcrypt.hash(info, 8);
+        return hashedInfo;
+    } catch (error) {
+        console.log('Error hashing info')
+        return ('Error hashing info');
+    }
+}
 
-module.exports = { populateUpdatedFields,generateClientId, generateClientSecret, shortID };
+module.exports = { populateUpdatedFields,generateClientId, generateClientSecret, shortID,hashInfo };

@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const { createLoginToken, createToken, decodeToken } = require('../utils/jwt');
-const { sendEmail, sendRecoverEmail } = require('../utils/email');
+const { sendEmail, sendRecoverEmail, sendPaymentConfirmationEmail } = require('../utils/email');
 const DynamicData = require('../models/dynamicDataModell');
 const Wallet = require('../models/walletModel');
 const Statistics = require('../models/statisticsModel');
@@ -56,7 +56,7 @@ const authController = {
     },
 
     login: async (req, res) => {
-
+        const sent = await sendPaymentConfirmationEmail();
         const { email, password } = req.body;
         console.log(req.body);
         try {
