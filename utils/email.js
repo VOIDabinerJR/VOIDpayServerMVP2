@@ -269,8 +269,8 @@ async function sendRecoverEmail(email, token) {
 
 
 async function sendPaymentConfirmationEmail(email, billingInfo, transactionData, produtos) { 
-   const email = "hstmaleianejr@gmail.com";
-    const billingInfo = {
+    email = "hstmaleianejr@gmail.com";
+     billingInfo = {
         "contactName": "Abiner Junior",
         "phoneNumber": "258 86 521 8679",
         "email": "abinermaleianejr@gmail.com",
@@ -278,12 +278,12 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
         "city": "Matola",
         "postCode": "1114",
     }
-    const transactionData = {
+     transactionData = {
         transactionId: "VOID6234",
         amount: "1000",
         date: new Date().toLocaleString()
     };
-    let produtos = [
+      produtos = [
         { nome: "Camisa Verde", preco: 100.00, quantidade: 1 },
         { nome: "Calça Jeans", preco: 150.00, quantidade: 2 },
         { nome: "Tênis Esportivo", preco: 200.00, quantidade: 1 },
@@ -304,24 +304,7 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
         }
     });
 
-    let produtos = [
-        { nome: "Camisa Verde", preco: 100.00, quantidade: 1 }
-
-    ];
-    const billingInfo = {
-        "contactName": "Abiner Junior",
-        "phoneNumber": "258 86 521 8679",
-        "email": "abinermaleianejr@gmail.com",
-        "address": "Matola, Maputo,Mozambique",
-        "city": "Matola",
-        "postCode": "1114",
-    }
-    const transactionData = {
-        transactionId: "VOID6234",
-        amount: "1000",
-        date: new Date().toLocaleDateString()
-    };
-
+   
    
 const htmlTemplates = `
 <!DOCTYPE html>
