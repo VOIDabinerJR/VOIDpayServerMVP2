@@ -12,7 +12,7 @@ async function pay(token) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }); 
+        });  
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

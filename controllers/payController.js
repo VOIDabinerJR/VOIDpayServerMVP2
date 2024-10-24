@@ -9,6 +9,7 @@ const { Console } = require('console');
 const { shortID, hashInfo } = require('../utils/functions.js');
 
 const bcrypt = require('bcryptjs');
+const { sendPaymentConfirmationEmail } = require('../utils/email.js');
 require('dotenv').config();
 
 module.exports.routTester = async (req, res) => {
@@ -54,8 +55,8 @@ module.exports.getPaymentPage = async (req, res) => {
 
             const orderData = {
 
-                orderItems: orderItem, 
-                subtotal: order.totalAmount, 
+                orderItems: orderItem,
+                subtotal: order.totalAmount,
                 ivaTax: order.ivaTax || 20,
                 iva: order.iva || "[Insento]",
                 shippingCost: order.shippingCost || "[GRÁTIS]",
@@ -142,7 +143,7 @@ module.exports.processPayment = async (req, res) => {
                     redirectUrl: 'https://www.google.com'
                 });
             }
-            console.log(buttonResult[0].destination)
+           // console.log(buttonResult[0].destination)
 
 
             const order = orderResult[0];
@@ -156,7 +157,7 @@ module.exports.processPayment = async (req, res) => {
 
 
             ///////////////////////////////////////////////////////////
-            console.log(req.body.mobileWalletNumber)
+           // console.log(req.body.mobileWalletNumber)
             if (req.body.mobileWalletNumber == '1234' || req.body.cardNumber == '1234') {
                 const transactionData = {
                     transactionId: paymentDetails.transaction_reference,
@@ -170,7 +171,7 @@ module.exports.processPayment = async (req, res) => {
                     error: null,
                     redirectUrl: 'https://www.google.com'
                 });
-            } else if (req.body.mobileWalletNumber == '0000' || req.body.cardNumber == '0000' || req.body.paymentMethod == 'card' || req.body.paymentMethod == 'paypal' || req.body.paymentMethod == 'qrcode' ) {
+            } else if (req.body.mobileWalletNumber == '0000' || req.body.cardNumber == '0000' || req.body.paymentMethod == 'card' || req.body.paymentMethod == 'paypal' || req.body.paymentMethod == 'qrcode') {
                 const transactionData = {
                     transactionId: paymentDetails.transaction_reference,
                     amount: paymentDetails.totalAmount,
@@ -213,7 +214,7 @@ module.exports.processPayment = async (req, res) => {
 
 
                 if (result.status_code == 409 || result.status_code == 401 || result.status_code == 200) {
-                    console.log(result.status_code)
+                  //  console.log(result.status_code)
 
 
                     ////////////////////////////////
@@ -239,10 +240,10 @@ module.exports.processPayment = async (req, res) => {
                         let a = null;
                     }
                     else if (req.query.channel == 'wixecommerce') {
-                        
-                    }else if(req.query.channel == 'oneway'){
+
+                    } else if (req.query.channel == 'oneway') {
                         let a = null;
-                    }else if(req.query.channel == 'rs'){
+                    } else if (req.query.channel == 'rs') {
                         try {
 
                             const url = `${buttonResult[0].destination.toString()}`;
@@ -256,7 +257,7 @@ module.exports.processPayment = async (req, res) => {
                             });
 
 
-                            console.log('Dados Enviados');
+                         //   console.log('Dados Enviados');
                         } catch (erro) {
                             console.log('Dados recebidos:', erro);
                             res.status(500).json({ message: 'Payment processed successfully', error: erro || resposta.status });
@@ -274,17 +275,17 @@ module.exports.processPayment = async (req, res) => {
                     //console.log(updateResult)
 
                     if (updateResult.affectedRows === 1) {
-                        console.log("sucess");
+                       // console.log("sucess");
 
                         try {
 
                             const wallet = await Wallet.findByUserId(orderResult[0].userId);
-                            console.log(wallet)
+                           // console.log(wallet)
                             if (wallet) {
-                                console.log("entrou");
+                             //   console.log("entrou");
 
                                 const result = await Wallet.deposit("Wallet", "Costumer Payment", paymentDetails.totalAmount, wallet.id, orderResult[0].userId, paymentDetails.transaction_reference, null); //paymentDetails.originAcountId 
-                                console.log(result)
+                              //  console.log(result)
                                 console.log("entrou");
 
                             } else {
@@ -301,8 +302,32 @@ module.exports.processPayment = async (req, res) => {
                         const transactionData = {
                             transactionId: paymentDetails.transaction_reference,
                             amount: paymentDetails.totalAmount,
-                            date: new Date().toLocaleDateString()
+                            date: new Date().toLocaleString()
                         };
+                        try {
+
+
+                            let transactionData = {
+                                transactionId: paymentDetails.transaction_reference,
+                                amount: paymentDetails.totalAmount,
+                                date: new Date().toLocaleString()
+                            };
+
+                            const [orderItem] = await Order.findByIdOrderItems(req.query.orderid);
+
+
+
+
+                            const sent1 = await sendPaymentConfirmationEmail(billingInfo.email, billingInfo, transactionData, orderItem);
+                            let [emaill] = await User.retunEmail(orderResult[0].userId)
+                            console.log(orderItem)
+                            const sent2 = await sendPaymentConfirmationEmail(emaill[0].email, billingInfo, transactionData, orderItem);
+                            console.log(sent1)
+                            console.log(sent2)
+
+                        } catch (error) {
+                            console.log(error)
+                        }
 
                         res.render('paymentConfirmation.ejs', {
                             transactionData,
@@ -318,22 +343,23 @@ module.exports.processPayment = async (req, res) => {
                         delete paymentDetails.expiryDate
                         delete paymentDetails.mobileWalletNumber
 
-                        console.log(paymentDetails)
+                       // console.log(paymentDetails)
                         ////////////////////////////////////
                         const infoToken = createToken(paymentDetails)
 
                         ///////////////////////////////////
 
-                       
+
                     } else {
                         res.status(500).json({ message: 'Payment processed successfully', error: 'Failed to update order status' });
                     }
                 } else {
 
+
                     const transactionData = {
                         transactionId: paymentDetails.transaction_reference,
                         amount: paymentDetails.totalAmount,
-                        date: new Date().toLocaleDateString()
+                        date: new Date().toLocaleString()
                     };
 
                     return res.render('paymentError.ejs', {
@@ -405,7 +431,7 @@ module.exports.processWithdraw = async (req, res) => {
                 console.log(paymentDetails.paymentMethod.toString() == 'M-pesa')
                 const token = await getPaymentToken(paymentDetails.paymentMethod.toString());
 
-                console.log(token)
+              //  console.log(token)
                 return
                 //return  res.status(200).json({ message: 'Payment processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
 
@@ -584,7 +610,7 @@ module.exports.decodeTokeny = async (req, res) => {
 
 
 async function pay(token) {
-    //  return ({ status_code: 200 })
+    return ({ status_code: 200 })
 
     const url = `${process.env.AUTHORIZATION_URL}/make_payment`;
     const data = {

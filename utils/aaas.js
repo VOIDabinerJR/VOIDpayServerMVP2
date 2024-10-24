@@ -139,9 +139,7 @@ const htmlTemplates0 = `
         produtos.forEach(produto => {
             const tr = document.createElement("tr");
     ;
-              tr.innerHTML =` ;
-const crase = "`";
-let htmlTemplates1 = ` 
+              tr.innerHTML =`
                 <td style="width: 100%;">
                     <span style="font-size: 14px; line-height: 1.42; color: #202223;">produto.nome</span><br>
                    <span>${produto.preco.toFixed(2)} Mt × ${produto.quantidade}</span><br>
@@ -154,7 +152,7 @@ let htmlTemplates1 = `
     
 
 
-let htmlTemplates2 =` ;
+` ;
             tabelaBody.appendChild(tr);
         });
     

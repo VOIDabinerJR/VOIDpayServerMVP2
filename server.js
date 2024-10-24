@@ -5,6 +5,11 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const multer = require('multer');
 
+
+const { createToken } = require('./utils/jwt');
+const { shortID2 } = require('./utils/functions');
+const { sendRecoverEmail } = require('./utils/email');
+
 require('dotenv').config({ path: './.env' });
 
 const app = express();
@@ -88,8 +93,24 @@ app.post('/paymentResponse', (req, res) => {
 });
  
 
+app.post('/recover',async (req, res) => {
+    const requestData = req.body;
+    console.log(requestData) 
+   // const token = createToken(requestData.user.id); 
+    const token2 =shortID2(requestData.user.id)
+    console.log(token2)
+
+    const sent = await sendRecoverEmail(requestData.email, token2);
+    if (!sent.status) {
+        return res.status(404).json({ error: "verification email not sent" })
+    }
+    return res.status(200).json({ sucess: true, message:"sucesso" });
+});
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+ 

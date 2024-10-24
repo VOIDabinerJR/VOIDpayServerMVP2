@@ -1,318 +1,4 @@
-const nodemailer = require('nodemailer');
-require('dotenv').config();
-const fs = require('fs');
-async function sendEmail(email, token, destinationSite, buttonToken) {
 
-
-  let transporter = nodemailer.createTransport({
-
-    host: 'smtp.zoho.com',
-    port: 587,
-    secure: false, // true para 465, false para outras portas
-    auth: {
-      user: 'abinerjr@voidpay.online', // Seu e-mail
-      pass: 'Junior.@1', // Sua senha
-    },
-    tls: {
-      rejectUnauthorized: false, // Desativa a verificação do certificado
-    }
-  });
-  const htmlTemplate = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Template</title>
-   <style>
-        body {
-             align-content: center;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            line-height: 1.6;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            align-content: center;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #ffffff;
-        }
-
-        .black-button {
-            width: 80px;
-           
-            background-color: black;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            text-align: center;
-        }
-
-        .token {
-            font-weight: bold;
-            color: #3366cc;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        p {
-            color: #555;
-        }
-
-    
-
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.9em;
-            color: #777;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <img src="https://voidabinerjr.github.io/VOIDpayWebMVP2/img/voidblacklogo.png" alt="VOIDPay Logo">
-        <h2><strong>Saudações!</strong></h2>
-        <p>Você solicitou ativação de botão.</p>
-        <p>Autorização [Copie]: <span class="token">${token}</span></p>
-        <p>Verifique o site de destino: <a href="${destinationSite}" target="_blank">${destinationSite}</a></p>
-        <p>Token do botão [salve esta informação]: <span class="token">${buttonToken}</span></p>
-        <div class="footer">
-            <p>Este é um aviso automatizado, não responda.</p>
-            <p>Se você tiver alguma dúvida ou precisar de suporte adicional, entre em contato conosco pelo site <a href="https://www.voidpay.online" target="_blank">www.voidpay.online</a>.</p>
-            <p>Atenciosamente,<br>Equipe de Suporte VOIDpay</p>
-        </div>
-    </div>
-</body>
-</html>
-`;
-
-
-
-  let mailOptions = {
-    from: '"VOIDPay Button" <abinerjr@voidpay.online>',
-    to: email,
-    subject: 'Token Validacao Botao',
-    text: 'Validacao',
-    html: htmlTemplate,
-  };
-
-  try {
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return console.log('Erro ao enviar e-mail: ', error);
-      }
-      console.log('E-mail enviado: ', info.response);
-    });
-
-    return { status: true };
-  } catch (error) {
-    return { status: false, error: error };
-  }
-
-
-
-};
-
-
-async function sendRecoverEmail(email, token) {
-
-
-  let transporter = nodemailer.createTransport({
-
-    host: 'smtp.zoho.com',
-    port: 587,
-    secure: false, // true para 465, false para outras portas
-    auth: {
-      user: 'abinerjr@voidpay.online',
-      pass: 'Junior.@1',
-    },
-    tls: {
-      rejectUnauthorized: false,
-    }
-  });
-  const htmlTemplate = `
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Template</title>
-    <style>
-        body {
-             align-content: center;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            line-height: 1.6;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            align-content: center;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #ffffff;
-        }
-
-        .black-button {
-            width: 80px;
-           
-            background-color: black;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            text-align: center;
-        }
-
-        .token {
-            font-weight: bold;
-            color: #3366cc;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        p {
-            color: #555;
-        }
-
-        
-
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.9em;
-            color: #777;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <img src="https://voidabinerjr.github.io/VOIDpayWebMVP2/img/voidblacklogo.png">
-        <h2><strong>Saudações!</strong></h2>
-        <p>Você solicitou uma recuperação de senha para sua conta</p>
-
-
-        <a class="black-button"  style="color: #ffffff;" href="${process.env.WEB_URL}/resetpassword?token=${token}">Click Aqui</a>
-
-        <div class="footer">
-            <p>Este é um aviso automatizado, não responda.</p>
-            <p>Se você tiver alguma dúvida ou precisar de suporte adicional, entre em contato conosco pelo site <a
-                    href="www.voidpay.online" target="_blank">www.voidpay.online</a></p>
-            <p>Atenciosamente,<br>Equipe de Suporte VOIDpay</p>
-        </div>
-    </div>
-</body>
-
-</html>
-`;
-
-
-
-  let mailOptions = {
-    from: '"VOIDPay ResetPassWord" <abinerjr@voidpay.online>',
-    to: email,
-    subject: 'Recuperrar Senha',
-    text: 'Olá',
-    html: htmlTemplate,
-  };
-
-  try {
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return console.log('Erro ao enviar e-mail: ', error);
-      }
-      console.log('E-mail enviado: ', info.response);
-    });
-
-    return { status: true };
-  } catch (error) {
-    return { status: true, error: error };
-  }
-
-
-
-};
-
-
-async function sendPaymentConfirmationEmail(email, billingInfo, transactionData, produtos) {
-
-
-  let transporter = nodemailer.createTransport({
-
-    host: 'smtp.zoho.com',
-    port: 587,
-    secure: false, // true para 465, false para outras portas
-    auth: {
-      user: 'abinerjr@voidpay.online',
-      pass: 'Junior.@1',
-    },
-    tls: {
-      rejectUnauthorized: false,
-    }
-  });
-  produtos.forEach(produto => {
-    produto.price = parseFloat(produto.price);
-
-  });
-  let tableRows = ''; // Collect rows as a string
-
-  produtos.forEach(produto => {
-    const tr = `
-          <tr>
-              <td style="width: 100%;">
-                  <span >${produto.name}</span>
-                  <span>${produto.price.toFixed(2)} Mt × ${produto.quantity}</span><br>
-              </td>
-              <td style="white-space: nowrap;">
-                  <p style="color: #202223; line-height: 20px; font-weight: 400; margin: 0; padding: 0;" align="right">
-                      ${(produto.price * produto.quantity).toFixed(2)} Mt
-                  </p>
-              </td>
-          </tr>`;
-
-    tableRows += tr; // Append the row to the string
-  });
-
-  console.log(tableRows)
-
-
-
-
-  const htmlTemplates = `
 <!DOCTYPE html>
 <html lang="en">
 
@@ -373,7 +59,7 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
                 
                 
                 
-                  ${billingInfo.contactName} efetuou uma compra.
+                  Abiner Junior efetuou uma compra.
                 
                 <table style="width:auto;border-collapse:collapse;border-spacing:0;margin-top:20px;margin-bottom:0;padding:0" cellpadding="0" cellspacing="0">
 <tbody><tr style="margin-top:0;margin-bottom:0;padding:0">
@@ -425,7 +111,7 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
        
     
         //const tabelaBody = document.querySelector("#tabela-produtos tbody");
-    //  let produtos = ${JSON.stringify(produtos)}
+    //  let produtos = [{"id":198,"name":"camisa","price":110,"quantity":1,"productid":"8866828452096","img":"https://cdn.shopify.com/s/files/1/0723/2982/2464/files/Texto_do_seu_paragrafo__2_-removebg-preview_1.png?v=1728417919","imgAlt":null,"orderId":260,"creationDate":"2024-10-10T13:18:01.000Z","updateDate":"2024-10-10T13:18:01.000Z","variantId":"45962641015040"}]
 
 
     //    produtos.forEach(produto => {
@@ -449,7 +135,18 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
 </td >
 </tr >
 
- ${tableRows}
+ 
+          <tr>
+              <td style="width: 100%;">
+                  <span >camisa</span>
+                  <span>110.00 Mt × 1</span><br>
+              </td>
+              <td style="white-space: nowrap;">
+                  <p style="color: #202223; line-height: 20px; font-weight: 400; margin: 0; padding: 0;" align="right">
+                      110.00 Mt
+                  </p>
+              </td>
+          </tr>
 </tbody ></table >
 
 
@@ -478,7 +175,7 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
               </td>
               <td style="margin-top:0;margin-bottom:0;padding:2px 0;border-width:0" align="right">
 
-                ${transactionData.amount}.00 Mt
+                110.00.00 Mt
 
               </td>
             </tr>
@@ -527,7 +224,7 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
               </td>
               <td style="margin-top:0;margin-bottom:0;font-weight:bold;padding:20px 0 0;border-width:0" align="right">
 
-                ${transactionData.amount}.00 Mt
+                110.00.00 Mt
 
               </td>
             </tr>
@@ -560,8 +257,8 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
                         <strong style="color:#202223">Método de Processamento do Pagamento</strong>
                         <br>
                           <p style="color:#202223;line-height:20px;margin:0;padding:0">VOIDpay Payment Gateway</p>
-                          ID da Transação:  ${transactionData.transactionId} <br>
-                            Data:  ${transactionData.date}
+                          ID da Transação:  VOIDWJB6 <br>
+                            Data:  11/10/2024, 18:02:40
                             <br>
 
                             </td>
@@ -578,19 +275,19 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
                               <br>
                                 <p style="color:#202223;line-height:20px;margin:0;padding:0">
 
-                                  ${billingInfo.contactName} <br>
+                                  Abiner Junior <br>
 
 
-                                    ${billingInfo.address} <br>
+                                    Matola, Maputo,Mozambique <br>
 
-                                      ${billingInfo.city} ,
+                                      Matola ,
 
-                                      ${billingInfo.city}
+                                      Matola
 
-                                      ${billingInfo.postCode} <br>
+                                      1114 <br>
                                         Mozambique<br>
 
-                                          ${billingInfo.phoneNumber} <br>
+                                          258 86 521 8679 <br>
                                           </p>
                                         </td>
                                       </tr>
@@ -623,38 +320,4 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
       </body>
 
       </html>
-      `;
-
-
-      let htmlTemplate = htmlTemplates; // + a + b + c + d + e + f + g + h + i + j;
-
-
-
-
-      let mailOptions = {
-        from: '"VOIDPay Pagamento Efetuado" <abinerjr@voidpay.online>',
-      to: email,
-      subject: 'Pagamento Efetuado',
-      text: 'Olá',
-      html: htmlTemplate,
-};
-
-      try {
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            return console.log('Erro ao enviar e-mail: ', error);
-          }
-          console.log('E-mail enviado: ', info.response);
-        });
-
-      return {status: true };
-} catch (error) {
-  return {status: true, error: error };
-}
-
-
-
-};
-
-
-      module.exports = {sendEmail, sendRecoverEmail, sendPaymentConfirmationEmail};
+      

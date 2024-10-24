@@ -5,6 +5,10 @@ const User = {
         const result = await db.query('SELECT * FROM user WHERE email = ? AND userStatus = true', [email]);
         return result;
     },
+    async retunEmail(id) {
+        const result = await db.query('SELECT email FROM user WHERE id = ? AND userStatus = true', [id]);
+        return result;
+    },
     async findById(id) { 
         const result = await db.query('SELECT * FROM user WHERE id = ? AND userStatus = true', [id]);
         return result;

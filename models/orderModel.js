@@ -45,7 +45,7 @@ const Order = {
     }, async deleteOrderItems(itemIds) {
         if (!Array.isArray(itemIds) || itemIds.length === 0) {
             throw new Error('Você deve fornecer um array de IDs de itens para exclusão.');
-        }
+        } 
 
 
         const ids = itemIds.join(',');

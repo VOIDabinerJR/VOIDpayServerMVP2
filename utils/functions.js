@@ -20,6 +20,24 @@ function shortID() {
     }
     return result;
 }
+function shortID() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 4; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters[randomIndex];
+    }
+    return result;
+}
+function shortID2(id) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = id+'VOID';
+    for (let i = 0; i < 40; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters[randomIndex];
+    }
+    return result;
+}
 
 
 
@@ -45,4 +63,4 @@ async function hashInfo(info) {
     }
 }
 
-module.exports = { populateUpdatedFields,generateClientId, generateClientSecret, shortID,hashInfo };
+module.exports = { populateUpdatedFields,generateClientId, generateClientSecret, shortID,hashInfo,shortID2 };
