@@ -91,20 +91,60 @@ app.post('/paymentResponse', (req, res) => {
 
         });
 });
- 
 
-app.post('/recover',async (req, res) => {
+
+app.post('/recovery', async (req, res) => {
     const requestData = req.body;
-    console.log(requestData) 
-   // const token = createToken(requestData.user.id); 
-    const token2 =shortID2(requestData.user.id)
-    console.log(token2)
+    console.log(requestData)
+    const data = {
+        email: requestData.email,
+        user: requestData.user,
 
-    const sent = await sendRecoverEmail(requestData.email, token2);
+    };
+    console.log(data)
+
+    fetch("https://voidpayservermvp2.onrender.com/recover", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(result => {
+            console.log("Success:", result);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+
+
+
+    // const token = createToken(requestData.user.id); 
+    //const token2 =shortID2(requestData.user.id)
+    //console.log(token2)
+
+    // const sent = await sendRecoverEmail(requestData.email, token);
+
+    //if (!sent.status) {
+    //     return res.status(404).json({ error: "verification email not sent" })
+    // }
+    return res.status(200).json({ sucess: true, message: "sucesso" });
+});
+app.post('/recover', async (req, res) => {
+    const requestData = req.body;
+    console.log(requestData)
+
+    const token = createToken(requestData.user.id);
+    //const token2 =shortID2(requestData.user.id)
+    //console.log(token2)
+
+    const sent = await sendRecoverEmail(requestData.email, token);
+
     if (!sent.status) {
         return res.status(404).json({ error: "verification email not sent" })
     }
-    return res.status(200).json({ sucess: true, message:"sucesso" });
+    return res.status(200).json({ sucess: true, message: "sucesso" });
 });
 
 
@@ -113,4 +153,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
- 
