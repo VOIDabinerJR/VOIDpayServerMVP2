@@ -31,8 +31,8 @@ const Wallet = {
             recordTransaction
         };
     },
-    async deposit(destinationAccount, originAccount, value, walletId,userId, transactionReference, originAcountId) {
-        console.log(destinationAccount, originAccount, value, walletId,userId, transactionReference, originAcountId)
+    async deposit(destinationAccount, originAccount, value, walletId,userId, transactionReference, transactionReferenceReceived,originAcountId) {
+        console.log(destinationAccount, originAccount, value, walletId,userId, transactionReference,transactionReferenceReceived, originAcountId)
         const updateWallet = await db.query('UPDATE wallet SET balance = balance + ? WHERE id = ?', [value, walletId]);
 
 
@@ -45,6 +45,7 @@ const Wallet = {
             value,
             date: new Date(),
             transactionReference,
+            transactionReferenceReceived,
             originAcountId
 
         });

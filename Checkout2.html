@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout transparente</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="stylesheet"
+        href="https://js.stripe.com/v3/fingerprinted/css/checkout-app-init-551f4c5c9e329c9c5aa014566ce0a32f.css">
+    <link rel="stylesheet" href="https://js.stripe.com/v3/fingerprinted/css/icon-97772e52ade1551231feadc85693a548.css">
+    <style>
+    </style>
+
+</head>
+
+<body class="vsc-initialized">
+    <div id="root">
+        <div class="App-Container is-darkBackground flex-container justify-content-center"
+            data-testid="checkout-container">
+            <div class="App-Background" style="background-color: rgb(0, 0, 0);"></div>
+            <div class="App App--multiItem">
+
+                <div class="OrderSummaryColumn" data-testid="order-summary-column" style="color: white; ">
+                    <div data-testid="product-summary" class="ProductSummary no-image is-clickable is-recurring">
+                        <div class="ProductSummary-info is-clickable is-darkBackground"><span
+                                class="ProductSummary-name Text  Text-fontSize--16 Text-fontWeight--500"
+                                data-testid="product-summary-name">Resumo do Pedido</span>
+                            <div class="ProductSummary-amountsContainer">
+                                <div class="ProductSummary-totalsRead" style="opacity: 1;">
+                                    <div class="ProductSummary-totalAmountContainer is-clickable" style="opacity: 1;">
+                                        <span
+                                            class="ProductSummary-totalAmount Text Text-color--default Text-fontWeight--600 Text--tabularNumbers"
+                                            id="ProductSummary-totalAmount" data-testid="product-summary-total-amount">
+                                            <div
+                                                class="ProductSummaryTotalAmount flex-container direction-row align-items-baseline wrap-wrap">
+                                                <div class="mr2 flex-item width-fixed"><span
+                                                        class="CurrencyAmount">$2.00</span></div>
+                                                <div class="flex-item width-fixed"><span
+                                                        class="ProductSummaryTotalAmount-billingInterval Text  Text-fontSize--14">
+                                                        <div>per <br class="BillingIntervalBreak">month</div>
+                                                    </span></div>
+                                            </div>
+                                        </span>
+                                    </div>
+                                    <div class="AnimateSinglePresence">
+                                        <div class="AnimateSinglePresenceItem">
+                                            <div>
+                                                <div class="ProductSummary-amountsDescriptions"
+                                                    data-testid="product-summary-description"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ProductSummary-buttonsContainer" data-testid="product-summary-buttons">
+                                <button
+                                    class="Button ProductSummary-actionButton is-darkBackground Button--primary Button--md"
+                                    type="button" data-testid="product-summary-view-details">
+                                    <div class="flex-container justify-content-center align-items-center"><svg
+                                            class="InlineSVG Icon Button-Icon Button-Icon--right Icon--sm Icon--square"
+                                            focusable="false" fill="#ffffff" color="#ffffff" viewBox="0 0 12 12">
+                                            <path
+                                                d="M10.193 3.97a.75.75 0 0 1 1.062 1.062L6.53 9.756a.75.75 0 0 1-1.06 0L.745 5.032A.75.75 0 0 1 1.807 3.97L6 8.163l4.193-4.193z"
+                                                fill-rule="evenodd"></path>
+                                        </svg><span
+                                            class="Text Text-color--default Text-fontWeight--500 Text--truncate">View
+                                            details</span></div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <section data-testid="order-details" class="OrderDetails App-Overview-OrderDetails my6">
+                        <ul class="OrderDetails-items">
+                            <% orderData.orderItems.forEach(function(item) { %>
+                                <li class="OrderDetails-item"
+                                    style="opacity: 1; transform: scale(1); height: auto; margin-bottom: 16px;">
+                                    <div class="LineItem flex-container align-items-flex-start">
+                                        <div class="flex-container justify-content-space-between align-items-baseline wrap-wrap width-grow">
+                                            <div class="flex-column-break" style="order: 2;"></div>
+                                            <div class="flex-column-break" style="order: 5;"></div>
+                                            <div class="LineItem-productName flex-item width-auto"
+                                                data-testid="line-item-product-name" style="order: 0;">
+                                                <span class="Text Text-color--default Text-fontSize--14 Text-fontWeight--500">
+                                                    <div class="ExpandableText false">
+                                                        <div data-testid="" class="ExpandableText--truncated"
+                                                            style="-webkit-line-clamp: 2;"><%= item.name %></div>
+                                                    </div>
+                                                </span>
+                                            </div>
+                                            <div class="flex-container direction-column wrap-wrap" style="width: 100%; order: 3;">
+                                                <div class="LineItem-productDescription flex-item width-12" style="order: -1;">
+                                                    <div class="Text Text-color--gray400 Text-fontSize--12 Text-fontWeight--400">
+                                                        <div class="ExpandableText false">
+                                                            <div data-testid="line-item-product-description"
+                                                                class="ExpandableText--truncated"
+                                                                style="-webkit-line-clamp: 2; color: rgb(255, 255, 255);">
+                                                                <%= item.description %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-container direction-row wrap-wrap">
+                                                    <div class="LineItem-description flex-item width-grow" style="order: 3;">
+                                                        <span class="Text Text-fontSize--12 Text-fontWeight--400">
+                                                            <span data-testid="line-item-billing-interval"><%= item.billingInterval %></span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="LineItem-amountDetail flex-item width-auto flex-container align-items-flex-end width-auto"
+                                                        data-testid="line-item-amount-detail" style="order: 4; border-color: aliceblue;">
+                                                        <div class="flex-item width-auto flex-item-align-right"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="LineItem-tierBreakdown flex-item width-auto flex-item-align-left" style="order: 6;">
+                                                <div class="flex-container" data-testid="line-item-tiers"></div>
+                                            </div>
+                                            <div class="flex-container Placeholder" style="opacity: 1;">
+                                                <div class="ml2 flex-item width-fixed" data-testid="line-item-total-amount"
+                                                    style="order: 1;">
+                                                    <span class="Text Text-color--default Text-fontSize--14 Text-fontWeight--500 Text--tabularNumbers">
+                                                        <span class="CurrencyAmount"><%= item.totalAmount %></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            <% }); %>
+                        </ul>
+                        <div class="OrderDetails-footer">
+                            <div class="">
+                                <div class="OrderDetailsFooter-subtotal flex-container justify-content-space-between"
+                                    style="border-color: aliceblue;">
+                                    <span
+                                        class="Text Text-color--default Text-fontSize--14 Text-fontWeight--500">Subtotal</span>
+                                    <div class="flex-container Placeholder" style="opacity: 1;"><span
+                                            class="Text Text-color--default Text-fontSize--14 Text-fontWeight--600 Text--tabularNumbers"
+                                            id="OrderDetailsFooter-SubtotalAmount"><span class="CurrencyAmount">MZN
+                                                <%= orderData.subtotal %></span></span></div>
+                                </div>
+                                <div class="OrderDetailsFooter-subtotalItems flex-container direction-column">
+                                    <div class="FadeWrapper"></div>
+                                    <div>
+                                        <div
+                                            class="OrderDetailsSubtotalItem flex-container justify-content-space-between">
+                                            <div>
+                                                <div class="flex-container"><span
+                                                        class="OrderDetails-subtotalItemLabel-Text Text  Text-fontSize--14">Taxa[<%= orderData.ivaTax %>%]
+                                                        <div class="Tooltip-Context OrderDetailsSubtotalItem-tooltipContext"
+                                                            style="color: white; padding: 0px;"><svg
+                                                                class="InlineSVG Icon Icon--sm Icon--square"
+                                                                focusable="false" width="12" height="12"
+                                                                viewBox="0 0 12 12" fill="none">
+                                                                <path
+                                                                    d="M6 12C9.28235 12 12 9.28235 12 6C12 2.72353 9.27647 0 5.99412 0C2.71765 0 0 2.72353 0 6C0 9.28235 2.72353 12 6 12ZM6 11C3.22353 11 1.00588 8.77647 1.00588 6C1.00588 3.22941 3.21765 1 5.99412 1C8.77059 1 10.9941 3.22941 11 6C11.0059 8.77647 8.77647 11 6 11ZM5.94706 3.90588C6.37647 3.90588 6.71177 3.56471 6.71177 3.14118C6.71177 2.71176 6.37647 2.37059 5.94706 2.37059C5.52353 2.37059 5.18235 2.71176 5.18235 3.14118C5.18235 3.56471 5.52353 3.90588 5.94706 3.90588ZM4.97059 9.23529H7.36471C7.60588 9.23529 7.79412 9.06471 7.79412 8.82353C7.79412 8.59412 7.60588 8.41177 7.36471 8.41177H6.63529V5.41765C6.63529 5.1 6.47647 4.88824 6.17647 4.88824H5.18235C4.94118 4.88824 4.75294 5.07059 4.75294 5.3C4.75294 5.54118 4.94118 5.71176 5.18235 5.71176H5.7V8.41177H4.97059C4.72941 8.41177 4.54118 8.59412 4.54118 8.82353C4.54118 9.06471 4.72941 9.23529 4.97059 9.23529Z"
+                                                                    fill="currentColor"></path>
+                                                            </svg></div>
+                                                    </span></div>
+                                            </div>
+                                            <div class="flex-container Placeholder" style="opacity: 1;"><span
+                                                    class="Text  Text-fontSize--14 Text--tabularNumbers"><span
+                                                        class="CurrencyAmount"> MZN <%= orderData.iva %></span></span></div>
+                                        </div>
+                                        <div
+                                        class="OrderDetailsSubtotalItem flex-container justify-content-space-between">
+                                        <div>
+                                            <div class="flex-container"><span
+                                                    class="OrderDetails-subtotalItemLabel-Text Text  Text-fontSize--14">Frete
+                                                    <div class="Tooltip-Context OrderDetailsSubtotalItem-tooltipContext"
+                                                        style="color: white; padding: 0px;"><svg
+                                                            class="InlineSVG Icon Icon--sm Icon--square"
+                                                            focusable="false" width="12" height="12"
+                                                            viewBox="0 0 12 12" fill="none">
+                                                            <path
+                                                                d="M6 12C9.28235 12 12 9.28235 12 6C12 2.72353 9.27647 0 5.99412 0C2.71765 0 0 2.72353 0 6C0 9.28235 2.72353 12 6 12ZM6 11C3.22353 11 1.00588 8.77647 1.00588 6C1.00588 3.22941 3.21765 1 5.99412 1C8.77059 1 10.9941 3.22941 11 6C11.0059 8.77647 8.77647 11 6 11ZM5.94706 3.90588C6.37647 3.90588 6.71177 3.56471 6.71177 3.14118C6.71177 2.71176 6.37647 2.37059 5.94706 2.37059C5.52353 2.37059 5.18235 2.71176 5.18235 3.14118C5.18235 3.56471 5.52353 3.90588 5.94706 3.90588ZM4.97059 9.23529H7.36471C7.60588 9.23529 7.79412 9.06471 7.79412 8.82353C7.79412 8.59412 7.60588 8.41177 7.36471 8.41177H6.63529V5.41765C6.63529 5.1 6.47647 4.88824 6.17647 4.88824H5.18235C4.94118 4.88824 4.75294 5.07059 4.75294 5.3C4.75294 5.54118 4.94118 5.71176 5.18235 5.71176H5.7V8.41177H4.97059C4.72941 8.41177 4.54118 8.59412 4.54118 8.82353C4.54118 9.06471 4.72941 9.23529 4.97059 9.23529Z"
+                                                                fill="currentColor"></path>
+                                                        </svg></div>
+                                                </span></div>
+                                        </div>
+                                        <div class="flex-container Placeholder" style="opacity: 1;"><span
+                                                class="Text  Text-fontSize--14 Text--tabularNumbers"><span
+                                                    class="CurrencyAmount"> MZN  <%= orderData.shippingCost %></span></span></div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="OrderDetails-total flex-container justify-content-space-between"
+                                    style="border-color: rgb(255, 255, 255);">
+                                    <span><span
+                                            class="Text Text-color--default Text-fontSize--14 Text-fontWeight--500">Total
+                                            due today</span></span>
+                                    <div class="flex-container Placeholder" style="opacity: 1;"><span
+                                            class="Text Text-color--default Text-fontSize--16 Text-fontWeight--600 Text--tabularNumbers"
+                                            id="OrderDetails-TotalAmount"><span class="CurrencyAmount">MZN
+                                                <%= orderData.totalAmount %></span></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="App-Payment">
+                    <main>
+                        <div class="CheckoutPaymentForm">
+                            <h2 class="PaymentHeader Text Text-color--gray600 Text-fontSize--16 Text-fontWeight--500">
+                                Informações de Envio</h2>
+
+
+
+
+
+
+                            <fieldset class="FormFieldGroup-Fieldset" id="cardForm-fieldset">
+                                <div class="FormFieldGroup-container">
+                                    <div
+                                        class="FormFieldGroup-child FormFieldGroup-child--width-12 FormFieldGroup-childLeft FormFieldGroup-childRight FormFieldGroup-childTop">
+                                        <div class="FormFieldInput padding-right-120">
+                                            <div class="CheckoutInputContainer"><span class="InputContainer"
+                                                    data-max=""><input
+                                                        class="CheckoutInput CheckoutInput--tabularnums Input Input--empty"
+                                                        autocomplete="cc-number" autocorrect="off" spellcheck="false"
+                                                        id="cardNumber" name="cardNumber" type="text"
+                                                        inputmode="numeric" aria-label="Card number"
+                                                        placeholder=" Nome Completo" aria-invalid="false"
+                                                        aria-describedby="" data-1p-ignore="false" value=""></span>
+                                            </div>
+                                            <div class="FormFieldInput-Icons" style="opacity: 1;">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="FormFieldGroup-child FormFieldGroup-child--width-6 FormFieldGroup-childLeft FormFieldGroup-childBottom">
+                                        <div class="FormFieldInput">
+                                            <div class="CheckoutInputContainer"><span class="InputContainer"
+                                                    data-max=""><input
+                                                        class="CheckoutInput CheckoutInput--tabularnums Input Input--empty"
+                                                        autocomplete="cc-exp" autocorrect="off" spellcheck="false"
+                                                        id="cardExpiry" name="cardExpiry" type="text"
+                                                        inputmode="numeric" aria-label="Expiration"
+                                                        placeholder="Telefone" aria-invalid="false" aria-describedby=""
+                                                        data-1p-ignore="false" value=""></span></div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="FormFieldGroup-child FormFieldGroup-child--width-6 FormFieldGroup-childRight FormFieldGroup-childBottom">
+                                        <div class="FormFieldInput has-icon padding-right-32">
+                                            <div class="CheckoutInputContainer"><span class="InputContainer"
+                                                    data-max=""><input
+                                                        class="CheckoutInput CheckoutInput--tabularnums Input Input--empty"
+                                                        autocomplete="cc-csc" autocorrect="off" spellcheck="false"
+                                                        id="cardCvc" name="cardCvc" type="text" inputmode="numeric"
+                                                        aria-label="CVC" placeholder="Email" aria-invalid="false"
+                                                        aria-describedby="" data-1p-ignore="false" value=""></span>
+                                            </div>
+                                            <div class="FormFieldInput-Icon is-loaded"
+                                                data-testid="FormFieldInput-Icon">
+                                                <div><svg class="Icon Icon--md" focusable="false" viewBox="0 0 32 21"
+                                                        role="img" aria-label="CVC">
+                                                        <title>CVC</title>
+
+                                                    </svg></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="FieldError-container" style="opacity: 0; height: 0px; margin-top: 0px;">
+                                        <span class="FieldError Text Text-color--red Text-fontSize--13"><span
+                                                aria-hidden="true"></span></span>
+                                    </div>
+                                </div>
+                                <div class="FieldError-container" style="opacity: 0; height: 0px; margin-top: 0px;">
+                                    <span class="FieldError Text Text-color--red Text-fontSize--13"><span
+                                            aria-hidden="true"></span></span>
+                                </div>
+                            </fieldset>
+                            <br>
+
+                            <label for="">Endereço de envio</label>
+
+
+
+                            <fieldset class="FormFieldGroup-Fieldset" id="cardForm-fieldset">
+                                <div class="FormFieldGroup-container">
+                                    <div
+                                        class="FormFieldGroup-child FormFieldGroup-child--width-12 FormFieldGroup-childLeft FormFieldGroup-childRight FormFieldGroup-childTop">
+                                        <div class="FormFieldInput padding-right-120">
+                                            <div class="CheckoutInputContainer"><span class="InputContainer"
+                                                    data-max=""><input
+                                                        class="CheckoutInput CheckoutInput--tabularnums Input Input--empty"
+                                                        autocomplete="cc-number" autocorrect="off" spellcheck="false"
+                                                        id="cardNumber" name="cardNumber" type="text"
+                                                        inputmode="numeric" aria-label="Card number"
+                                                        placeholder="Bairro, Distrito, Provincia" aria-invalid="false"
+                                                        aria-describedby="" data-1p-ignore="false" value=""></span>
+                                            </div>
+                                            <div class="FormFieldInput-Icons" style="opacity: 1;">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="FormFieldGroup-child FormFieldGroup-child--width-6 FormFieldGroup-childLeft FormFieldGroup-childBottom">
+                                        <div class="FormFieldInput">
+                                            <div class="CheckoutInputContainer"><span class="InputContainer"
+                                                    data-max=""><input
+                                                        class="CheckoutInput CheckoutInput--tabularnums Input Input--empty"
+                                                        autocomplete="cc-exp" autocorrect="off" spellcheck="false"
+                                                        id="cardExpiry" name="cardExpiry" type="text"
+                                                        inputmode="numeric" aria-label="Expiration" placeholder="Cidade"
+                                                        aria-invalid="false" aria-describedby="" data-1p-ignore="false"
+                                                        value=""></span></div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="FormFieldGroup-child FormFieldGroup-child--width-6 FormFieldGroup-childRight FormFieldGroup-childBottom">
+                                        <div class="FormFieldInput has-icon padding-right-32">
+                                            <div class="CheckoutInputContainer"><span class="InputContainer"
+                                                    data-max=""><input
+                                                        class="CheckoutInput CheckoutInput--tabularnums Input Input--empty"
+                                                        autocomplete="cc-csc" autocorrect="off" spellcheck="false"
+                                                        id="cardCvc" name="cardCvc" type="text" inputmode="numeric"
+                                                        aria-label="CVC" placeholder="Codigo Postal"
+                                                        aria-invalid="false" aria-describedby="" data-1p-ignore="false"
+                                                        value=""></span>
+                                            </div>
+                                            <div class="FormFieldInput-Icon is-loaded"
+                                                data-testid="FormFieldInput-Icon">
+                                                <div><svg class="Icon Icon--md" focusable="false" viewBox="0 0 32 21"
+                                                        role="img" aria-label="CVC">
+                                                        <title>CVC</title>
+
+                                                    </svg></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="FieldError-container" style="opacity: 0; height: 0px; margin-top: 0px;">
+                                        <span class="FieldError Text Text-color--red Text-fontSize--13"><span
+                                                aria-hidden="true"></span></span>
+                                    </div>
+                                </div>
+                                <div class="FieldError-container" style="opacity: 0; height: 0px; margin-top: 0px;">
+                                    <span class="FieldError Text Text-color--red Text-fontSize--13"><span
+                                            aria-hidden="true"></span></span>
+                                </div>
+                            </fieldset>
+
+
+
+                            <form class="PaymentForm-form" novalidate="">
+                                <br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                <h2
+                                    class="PaymentMethod-Heading Text Text-color--gray800 Text-fontSize--16 Text-fontWeight--500">
+                                    Método de Pagamento</h2>
+
+
+                        </div>
+                        <div class="PaymentMethodForm" style="opacity: 1; height: auto;">
+                            <div class="Tabs is-icontabs is-desktop">
+                                <div class="Tabs-Container">
+                                    <div role="tablist" aria-orientation="horizontal" aria-label="Payment methods"
+                                        class="Tabs-TabList">
+                                        <div role="presentation"
+                                            class="Tabs-TabListItemContainer Tabs-TabListItemContainer--is-selected">
+                                            <button class="Tabs-TabListItem Tabs-TabListItem--is-selected" id="card-tab"
+                                                data-testid="card-tab-button" role="tab" type="button"
+                                                aria-controls="card-tab-panel" aria-label="Pay with card"
+                                                aria-selected="true" tabindex="0" title="Card">
+                                                <div class="Tabs-TabListItemContent">
+                                                    <div class="Tabs-TabListPaymentMethod">
+                                                        <div class="Tabs-TabListPaymentIcon"> <i
+                                                                class="fa fa-solid fa-credit-card"></i></div>
+                                                        <div class="Tabs-TabListPaymentLabel" data-text="Card">Cartão
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                        </div>
+                                        <div role="presentation" class="Tabs-TabListItemContainer"><button
+                                                class="Tabs-TabListItem" id="link_instant_debit-tab"
+                                                data-testid="link_instant_debit-tab-button" role="tab" type="button"
+                                                aria-controls="link_instant_debit-tab-panel" aria-label="Pay with Bank"
+                                                aria-selected="false" tabindex="-1" title="Bank">
+                                                <div class="Tabs-TabListItemContent">
+                                                    <div class="Tabs-TabListPaymentMethod">
+                                                        <div class="Tabs-TabListPaymentIcon"><i
+                                                                class="fa-solid fa-wallet"></i></div>
+                                                        <div class="Tabs-TabListPaymentLabel" data-text="Bank">C Móvel
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </button></div>
+                                        <div role="presentation" class="Tabs-TabListItemContainer"><button
+                                                class="Tabs-TabListItem" id="link_instant_debit-tab"
+                                                data-testid="link_instant_debit-tab-button" role="tab" type="button"
+                                                aria-controls="link_instant_debit-tab-panel" aria-label="Pay with Bank"
+                                                aria-selected="false" tabindex="-1" title="Bank">
+                                                <div class="Tabs-TabListItemContent">
+                                                    <div class="Tabs-TabListPaymentMethod">
+                                                        <div class="Tabs-TabListPaymentIcon"><i
+                                                                class="fa-brands fa-paypal"></i></div>
+                                                        <div class="Tabs-TabListPaymentLabel" data-text="Bank">Paypal
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </button></div>
+                                        <div role="presentation" class="Tabs-TabListItemContainer"><button
+                                                class="Tabs-TabListItem" id="link_instant_debit-tab"
+                                                data-testid="link_instant_debit-tab-button" role="tab" type="button"
+                                                aria-controls="link_instant_debit-tab-panel" aria-label="Pay with Bank"
+                                                aria-selected="false" tabindex="-1" title="Bank">
+                                                <div class="Tabs-TabListItemContent">
+                                                    <div class="Tabs-TabListPaymentMethod">
+                                                        <div class="Tabs-TabListPaymentIcon"><i
+                                                                class="fa-solid fa-qrcode"></i>
+                                                        </div>
+                                                        <div class="Tabs-TabListPaymentLabel" data-text="Bank">QrCode
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </button></div>
+                                    </div>
+                                </div>
+                                <div class="Tabs-TabPanelContainer">
+                                    <div style="opacity: 1; width: 100%; transform: none;">
+                                        <div id="card-tab-panel" role="tabpanel" aria-labelledby="card-tab">
+                                            <div>
+                                                <div class="PaymentForm-paymentMethodForm flex-container direction-column wrap-wrap"
+                                                    style="gap: 16px;">
+                                                    <div class="flex-item width-12">
+                                                        <div class="FormFieldGroup" data-qa="FormFieldGroup-cardForm">
+                                                            <div
+                                                                class="FormFieldGroup-labelContainer flex-container justify-content-space-between">
+                                                                <label for="cardForm-fieldset"><span
+                                                                        class="Text Text-color--gray600 Text-fontSize--13 Text-fontWeight--500">Informações
+                                                                        Cartão</span></label>
+                                                            </div>
+                                                            <fieldset class="FormFieldGroup-Fieldset"
+                                                                id="cardForm-fieldset">
+                                                                <div class="FormFieldGroup-container">
+                                                                    <div
+                                                                        class="FormFieldGroup-child FormFieldGroup-child--width-12 FormFieldGroup-childLeft FormFieldGroup-childRight FormFieldGroup-childTop">
+                                                                        <div class="FormFieldInput padding-right-120">
+                                                                            <div class="CheckoutInputContainer"><span
+                                                                                    class="InputContainer"
+                                                                                    data-max=""><input
+                                                                                        class="CheckoutInput CheckoutInput--tabularnums Input Input--empty"
+                                                                                        autocomplete="cc-number"
+                                                                                        autocorrect="off"
+                                                                                        spellcheck="false"
+                                                                                        id="cardNumber"
+                                                                                        name="cardNumber" type="text"
+                                                                                        inputmode="numeric"
+                                                                                        aria-label="Card number"
+                                                                                        placeholder="1234 1234 1234 1234"
+                                                                                        aria-invalid="false"
+                                                                                        aria-describedby=""
+                                                                                        data-1p-ignore="false"
+                                                                                        value=""></span></div>
+                                                                            <div class="FormFieldInput-Icons"
+                                                                                style="opacity: 1;">
+                                                                                <div style="transform: none;"><span
+                                                                                        class="FormFieldInput-IconsIcon is-visible"><img
+                                                                                            src="https://js.stripe.com/v3/fingerprinted/img/visa-729c05c240c4bdb47b03ac81d9945bfe.svg"
+                                                                                            alt="Visa" class="BrandIcon"
+                                                                                            loading="lazy"
+                                                                                            fetchpriority="low"></span>
+                                                                                </div>
+                                                                                <div style="transform: none;"><span
+                                                                                        class="FormFieldInput-IconsIcon is-visible"><img
+                                                                                            src="https://js.stripe.com/v3/fingerprinted/img/mastercard-4d8844094130711885b5e41b28c9848f.svg"
+                                                                                            alt="MasterCard"
+                                                                                            class="BrandIcon"
+                                                                                            loading="lazy"
+                                                                                            fetchpriority="low"></span>
+                                                                                </div>
+                                                                                <div style="transform: none;"><span
+                                                                                        class="FormFieldInput-IconsIcon is-visible"><img
+                                                                                            src="https://js.stripe.com/v3/fingerprinted/img/amex-a49b82f46c5cd6a96a6e418a6ca1717c.svg"
+                                                                                            alt="American Express"
+                                                                                            class="BrandIcon"
+                                                                                            loading="lazy"
+                                                                                            fetchpriority="low"></span>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="CardFormFieldGroupIconOverflow">
+                                                                                    <span
+                                                                                        class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--invisible"
+                                                                                        role="presentation"><span
+                                                                                            class="FormFieldInput-IconsIcon"
+                                                                                            role="presentation"><img
+                                                                                                src="https://js.stripe.com/v3/fingerprinted/img/unionpay-8a10aefc7295216c338ba4e1224627a1.svg"
+                                                                                                alt="UnionPay"
+                                                                                                class="BrandIcon"
+                                                                                                loading="lazy"
+                                                                                                fetchpriority="low"></span></span><span
+                                                                                        class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--visible"
+                                                                                        role="presentation"><span
+                                                                                            class="FormFieldInput-IconsIcon"
+                                                                                            role="presentation"><img
+                                                                                                src="https://js.stripe.com/v3/fingerprinted/img/jcb-271fd06e6e7a2c52692ffa91a95fb64f.svg"
+                                                                                                alt="JCB"
+                                                                                                class="BrandIcon"
+                                                                                                loading="lazy"
+                                                                                                fetchpriority="low"></span></span><span
+                                                                                        class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--invisible"
+                                                                                        role="presentation"><span
+                                                                                            class="FormFieldInput-IconsIcon"
+                                                                                            role="presentation"><img
+                                                                                                src="https://js.stripe.com/v3/fingerprinted/img/discover-ac52cd46f89fa40a29a0bfb954e33173.svg"
+                                                                                                alt="Discover"
+                                                                                                class="BrandIcon"
+                                                                                                loading="lazy"
+                                                                                                fetchpriority="low"></span></span><span
+                                                                                        class="CardFormFieldGroupIconOverflow-Item CardFormFieldGroupIconOverflow-Item--invisible"
+                                                                                        role="presentation"><span
+                                                                                            class="FormFieldInput-IconsIcon"
+                                                                                            role="presentation"><img
+                                                                                                src="https://js.stripe.com/v3/fingerprinted/img/diners-fbcbd3360f8e3f629cdaa80e93abdb8b.svg"
+                                                                                                alt="Diners Club"
+                                                                                                class="BrandIcon"
+                                                                                                loading="lazy"
+                                                                                                fetchpriority="low"></span></span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                    <div
+                                                                        class="FormFieldGroup-child FormFieldGroup-child--width-6 FormFieldGroup-childLeft FormFieldGroup-childBottom">
+                                                                        <div class="FormFieldInput">
+                                                                            <div class="CheckoutInputContainer"><span
+                                                                                    class="InputContainer"
+                                                                                    data-max=""><input
+                                                                                        class="CheckoutInput CheckoutInput--tabularnums Input Input--empty"
+                                                                                        autocomplete="cc-exp"
+                                                                                        autocorrect="off"
+                                                                                        spellcheck="false"
+                                                                                        id="cardExpiry"
+                                                                                        name="cardExpiry" type="text"
+                                                                                        inputmode="numeric"
+                                                                                        aria-label="Expiration"
+                                                                                        placeholder="MM / YY"
+                                                                                        aria-invalid="false"
+                                                                                        aria-describedby=""
+                                                                                        data-1p-ignore="false"
+                                                                                        value=""></span></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="FormFieldGroup-child FormFieldGroup-child--width-6 FormFieldGroup-childRight FormFieldGroup-childBottom">
+                                                                        <div
+                                                                            class="FormFieldInput has-icon padding-right-32">
+                                                                            <div class="CheckoutInputContainer"><span
+                                                                                    class="InputContainer"
+                                                                                    data-max=""><input
+                                                                                        class="CheckoutInput CheckoutInput--tabularnums Input Input--empty"
+                                                                                        autocomplete="cc-csc"
+                                                                                        autocorrect="off"
+                                                                                        spellcheck="false" id="cardCvc"
+                                                                                        name="cardCvc" type="text"
+                                                                                        inputmode="numeric"
+                                                                                        aria-label="CVC"
+                                                                                        placeholder="CVC"
+                                                                                        aria-invalid="false"
+                                                                                        aria-describedby=""
+                                                                                        data-1p-ignore="false"
+                                                                                        value=""></span></div>
+                                                                            <div class="FormFieldInput-Icon is-loaded"
+                                                                                data-testid="FormFieldInput-Icon">
+                                                                                <div><svg class="Icon Icon--md"
+                                                                                        focusable="false"
+                                                                                        viewBox="0 0 32 21" role="img"
+                                                                                        aria-label="CVC">
+                                                                                        <title>CVC</title>
+                                                                                        <g fill="none"
+                                                                                            fill-rule="evenodd">
+                                                                                            <g class="Icon-fill">
+                                                                                                <g
+                                                                                                    transform="translate(0 2)">
+                                                                                                    <path
+                                                                                                        d="M21.68 0H2c-.92 0-2 1.06-2 2v15c0 .94 1.08 2 2 2h25c.92 0 2-1.06 2-2V9.47a5.98 5.98 0 0 1-3 1.45V11c0 .66-.36 1-1 1H3c-.64 0-1-.34-1-1v-1c0-.66.36-1 1-1h17.53a5.98 5.98 0 0 1 1.15-9z"
+                                                                                                        opacity=".2">
+                                                                                                    </path>
+                                                                                                    <path
+                                                                                                        d="M19.34 3H0v3h19.08a6.04 6.04 0 0 1 .26-3z"
+                                                                                                        opacity=".3">
+                                                                                                    </path>
+                                                                                                </g>
+                                                                                                <g
+                                                                                                    transform="translate(18)">
+                                                                                                    <path
+                                                                                                        d="M7 14A7 7 0 1 1 7 0a7 7 0 0 1 0 14zM4.22 4.1h-.79l-1.93.98v1l1.53-.8V9.9h1.2V4.1zm2.3.8c.57 0 .97.32.97.78 0 .5-.47.85-1.15.85h-.3v.85h.36c.72 0 1.21.36 1.21.88 0 .5-.48.84-1.16.84-.5 0-1-.16-1.52-.47v1c.56.24 1.12.37 1.67.37 1.31 0 2.21-.67 2.21-1.64 0-.68-.42-1.23-1.12-1.45.6-.2.99-.73.99-1.33C8.68 4.64 7.85 4 6.65 4a4 4 0 0 0-1.57.34v.98c.48-.27.97-.42 1.44-.42zm4.32 2.18c.73 0 1.24.43 1.24.99 0 .59-.51 1-1.24 1-.44 0-.9-.14-1.37-.43v1.03c.49.22.99.33 1.48.33.26 0 .5-.04.73-.1.52-.85.82-1.83.82-2.88l-.02-.42a2.3 2.3 0 0 0-1.23-.32c-.18 0-.37.01-.57.04v-1.3h1.44a5.62 5.62 0 0 0-.46-.92H9.64v3.15c.4-.1.8-.17 1.2-.17z">
+                                                                                                    </path>
+                                                                                                </g>
+                                                                                            </g>
+                                                                                        </g>
+                                                                                    </svg></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="FieldError-container"
+                                                                        style="opacity: 0; height: 0px; margin-top: 0px;">
+                                                                        <span
+                                                                            class="FieldError Text Text-color--red Text-fontSize--13"><span
+                                                                                aria-hidden="true"></span></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="FieldError-container"
+                                                                    style="opacity: 0; height: 0px; margin-top: 0px;">
+                                                                    <span
+                                                                        class="FieldError Text Text-color--red Text-fontSize--13"><span
+                                                                            aria-hidden="true"></span></span>
+                                                                </div>
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="BillingInfoForm flex-item width-grow flex-container direction-column">
+                                                        <div class="AnimateSinglePresence">
+                                                            <div class="AnimateSinglePresenceItem">
+                                                                <div>
+                                                                    <div class="BillingInfoForm-addressInput flex-item width-12"
+                                                                        aria-hidden="false" style="margin-top: 0px;">
+                                                                        <div
+                                                                            class="flex-container spacing-16 direction-column wrap-wrap">
+                                                                            <div class="flex-item width-12">
+                                                                                <div class="FormFieldGroup"
+                                                                                    data-qa="FormFieldGroup-billingName">
+                                                                                    <div
+                                                                                        class="FormFieldGroup-labelContainer flex-container justify-content-space-between">
+                                                                                        <label for="billingName"><span
+                                                                                                class="Text Text-color--gray600 Text-fontSize--13 Text-fontWeight--500">Nome
+                                                                                                do
+                                                                                                Titular</span></label>
+                                                                                    </div>
+                                                                                    <div class="FormFieldGroup-Fieldset"
+                                                                                        id="billingName-fieldset">
+                                                                                        <div
+                                                                                            class="FormFieldGroup-container">
+                                                                                            <div
+                                                                                                class="FormFieldGroup-child FormFieldGroup-child--width-12 FormFieldGroup-childLeft FormFieldGroup-childRight FormFieldGroup-childTop FormFieldGroup-childBottom">
+                                                                                                <div
+                                                                                                    class="FormFieldInput">
+                                                                                                    <div
+                                                                                                        class="CheckoutInputContainer">
+                                                                                                        <span
+                                                                                                            class="InputContainer"
+                                                                                                            data-max=""><input
+                                                                                                                class="CheckoutInput Input Input--empty"
+                                                                                                                autocomplete="cc-name"
+                                                                                                                autocorrect="off"
+                                                                                                                spellcheck="false"
+                                                                                                                id="billingName"
+                                                                                                                name="billingName"
+                                                                                                                type="text"
+                                                                                                                placeholder="None Completo"
+                                                                                                                aria-invalid="false"
+                                                                                                                aria-describedby=""
+                                                                                                                data-1p-ignore="false"
+                                                                                                                value=""></span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="FieldError-container"
+                                                                                                style="opacity: 0; height: 0px; margin-top: 0px;">
+                                                                                                <span
+                                                                                                    class="FieldError Text Text-color--red Text-fontSize--13"><span
+                                                                                                        aria-hidden="true"></span></span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="FieldError-container"
+                                                                                            style="opacity: 0; height: 0px; margin-top: 0px;">
+                                                                                            <span
+                                                                                                class="FieldError Text Text-color--red Text-fontSize--13"><span
+                                                                                                    aria-hidden="true"></span></span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="flex-item width-12">
+                                                                                <div class="FormFieldGroup"
+                                                                                    data-qa="FormFieldGroup-countryWithOptionalPostalCodeInput">
+                                                                                    <div
+                                                                                        class="FormFieldGroup-labelContainer flex-container justify-content-space-between">
+                                                                                        <label for="country"><span
+                                                                                                class="Text Text-color--gray600 Text-fontSize--13 Text-fontWeight--500">País
+                                                                                                ou Região</span></label>
+                                                                                    </div>
+                                                                                    <div class="FormFieldGroup-Fieldset"
+                                                                                        id="countryWithOptionalPostalCodeInput-fieldset">
+                                                                                        <div
+                                                                                            class="FormFieldGroup-container">
+                                                                                            <div
+                                                                                                class="FormFieldGroup-child FormFieldGroup-child--width-12 FormFieldGroup-childLeft FormFieldGroup-childRight FormFieldGroup-childTop FormFieldGroup-childBottom">
+                                                                                                <div
+                                                                                                    class="FormFieldInput is-select">
+                                                                                                    <div>
+                                                                                                        <div
+                                                                                                            class="Select">
+
+                                                                                                            <select
+                                                                                                                id="billingCountry"
+                                                                                                                name="billingCountry"
+                                                                                                                autocomplete="billing country"
+                                                                                                                aria-label="Country or region"
+                                                                                                                class="Select-source">
+                                                                                                                <option
+                                                                                                                    value=""
+                                                                                                                    disabled=""
+                                                                                                                    hidden="">
+                                                                                                                </option>
+                                                                                                                <option
+                                                                                                                    value="MZ">
+                                                                                                                    Mozambique
+                                                                                                                </option>
+                                                                                                            </select>
+
+                                                                                                        </div>
+                                                                                                        <br>
+                                                                                                        <button
+                                                                                                            style="color: rgb(225, 225, 225); background: black;"
+                                                                                                            class="SubmitButton SubmitButton--incomplete"
+                                                                                                            type="submit"
+                                                                                                            data-testid="hosted-payment-submit-button">Pagar</button>
+
+
+                                                                                                        <div
+                                                                                                            class="SubmitButton-IconContainer">
+                                                                                                            <div
+                                                                                                                class="SubmitButton-Icon SubmitButton-Icon--pre">
+                                                                                                                <div>
+                                                                                                                    <div
+                                                                                                                        class="Icon Icon--md Icon--square">
+                                                                                                                        <svg viewBox="0 0 16 16"
+                                                                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                                                                            focusable="false">
+                                                                                                                            <path
+                                                                                                                                d="M3 7V5a5 5 0 1 1 10 0v2h.5a1 1 0 0 1 1 1v6a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2V8a1 1 0 0 1 1-1zm5 2.5a1 1 0 0 0-1 1v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-1-1zM11 7V5a3 3 0 1 0-6 0v2z"
+                                                                                                                                fill="#ffffff"
+                                                                                                                                fill-rule="evenodd">
+                                                                                                                            </path>
+                                                                                                                        </svg>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                                class="SubmitButton-Icon SubmitButton-SpinnerIcon SubmitButton-Icon--pre">
+                                                                                                                <div>
+                                                                                                                    <div
+                                                                                                                        class="Icon Icon--md Icon--square">
+                                                                                                                        <svg viewBox="0 0 24 24"
+                                                                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                                                                            focusable="false">
+                                                                                                                            <ellipse
+                                                                                                                                cx="12"
+                                                                                                                                cy="12"
+                                                                                                                                rx="10"
+                                                                                                                                ry="10"
+                                                                                                                                style="stroke: rgb(255, 255, 255);">
+                                                                                                                            </ellipse>
+                                                                                                                        </svg>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="SubmitButton-CheckmarkIcon">
+                                                                                                            <div>
+                                                                                                                <div
+                                                                                                                    class="Icon Icon--md">
+                                                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                                                        width="22"
+                                                                                                                        height="14"
+                                                                                                                        focusable="false">
+                                                                                                                        <path
+                                                                                                                            d="M 0.5 6 L 8 13.5 L 21.5 0"
+                                                                                                                            fill="transparent"
+                                                                                                                            stroke-width="2"
+                                                                                                                            stroke="#ffffff"
+                                                                                                                            stroke-linecap="round"
+                                                                                                                            stroke-linejoin="round">
+                                                                                                                        </path>
+                                                                                                                    </svg>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div></button>
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="flex-item width-12">
+                                                                                                        <div
+                                                                                                            class="ConfirmPayment-PostSubmit">
+                                                                                                            <div
+                                                                                                                class="ConfirmTerms">
+                                                                                                                <div
+                                                                                                                    class="AnimateSinglePresence">
+                                                                                                                </div>
+                                                                                                                <div
+                                                                                                                    class="ConfirmTerms Text Text-color--gray600 Text-fontSize--13">
+                                                                                                                    <div>
+                                                                                                                        Ao
+                                                                                                                        confirmar,
+                                                                                                                        você
+                                                                                                                        permite
+                                                                                                                        que
+                                                                                                                        cobre
+                                                                                                                        por
+                                                                                                                        pagamento.
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                                <div
+                                                                                                                    class="AnimateSinglePresence">
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="PaymentForm-climateProgramBadge">
+                                                                                </div>
+                                                                                </form>
+                                                                            </div>
+                    </main>
+                    <footer class="App-Footer Footer">
+                        <div class="Footer-PoweredBy"><a class="Link Link--primary" href="https://stripe.com"
+                                target="_blank" rel="noopener">
+                                <div
+                                    class="Footer-PoweredBy-Text Text Text-color--gray400 Text-fontSize--12 Text-fontWeight--400">
+                                    <div style="min-width: 98px; white-space: pre;">Distribuído por <img width="40"
+                                            src="voidblacklogo.png" alt=""></div>
+                                </div>
+                            </a></div>
+                        <div class="CheckoutFooter-links flex-container direction-row"><a
+                                class="Link CheckoutFooter-link Link--checkout--secondary"
+                                href="https://stripe.com/legal/end-users" target="_blank" rel="noopener"><span
+                                    class="Text Text-color--gray400 Text-fontSize--12 Text-fontWeight--400">Termos</span></a><a
+                                class="Link CheckoutFooter-link Link--checkout--secondary"
+                                href="https://stripe.com/privacy" target="_blank" rel="noopener"><span
+                                    class="Text Text-color--gray400 Text-fontSize--12 Text-fontWeight--400">Privacidade</span></a><button
+                                class="Button CheckoutFooter-link Button--link Button--checkoutSecondaryLink Button--md"
+                                type="button">
+                                <div class="flex-container justify-content-center align-items-center"><span
+                                        class="Button-textCheckoutSecondary Text Text-color--gray400 Text-fontWeight--500 Text--truncate">Reembolsos</span>
+                                </div>
+                            </button></div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

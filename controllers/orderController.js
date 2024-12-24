@@ -66,7 +66,7 @@ module.exports.createOrder = async (req, res) => {
 
 
     const [buttonInfo] = await Button.findByToken(buttonToken)
-    console.log(buttonToken)
+    console.log(buttonInfo[0])
     const order = {
         buttonToken: data.buttonToken,
         products: totalItems,

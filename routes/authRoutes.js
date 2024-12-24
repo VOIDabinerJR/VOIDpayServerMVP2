@@ -10,6 +10,7 @@ router.post('/resetpassword', authController.resetpassword);
 router.post('/loaddata', authController.loaddata);
 
 
-
+ 
 
 module.exports = router;
+ 

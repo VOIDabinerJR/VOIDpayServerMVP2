@@ -90,11 +90,12 @@ const authController = {
 
         const { email } = req.body;
         console.log("aaaa")
-
+ 
 
         try {
+            console.log("aaaa")
             const [user] = await User.findByEmail(email);
-
+console.log(user)
 
             if (!user) {
                 return res.status(404).json({ err: 'Email incorrect' });
@@ -109,7 +110,7 @@ const authController = {
             return res.status(200).json({ sucess: true });
         } catch (error) {
             console.error(error);
-            return res.status(500).json({ err: 'Server error' });
+            return res.status(500).json({ err: 'Server error' }); 
         }
     }
     ,

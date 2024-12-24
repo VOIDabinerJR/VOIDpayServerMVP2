@@ -111,7 +111,7 @@ module.exports.processPayment = async (req, res) => {
     if (paymentDetails.cardNumber) {
         paymentDetails.cardNumber = paymentDetails.cardNumber.replace(/\s+/g, '');
     }
-    paymentDetails.third_party_reference = `VOID${shortID()}`
+    paymentDetails.third_party_reference = `VOID${shortID()}`;
 
 
 
@@ -143,7 +143,7 @@ module.exports.processPayment = async (req, res) => {
                     redirectUrl: 'https://www.google.com'
                 });
             }
-           // console.log(buttonResult[0].destination)
+            // console.log(buttonResult[0].destination)
 
 
             const order = orderResult[0];
@@ -157,7 +157,7 @@ module.exports.processPayment = async (req, res) => {
 
 
             ///////////////////////////////////////////////////////////
-           // console.log(req.body.mobileWalletNumber)
+            // console.log(req.body.mobileWalletNumber)
             if (req.body.mobileWalletNumber == '1234' || req.body.cardNumber == '1234') {
                 const transactionData = {
                     transactionId: paymentDetails.transaction_reference,
@@ -211,10 +211,12 @@ module.exports.processPayment = async (req, res) => {
                 const token = await getPaymentToken(paymentDetails.paymentMethod);
 
                 const result = await pay(token);
+                paymentDetails.transaction_reference_received=result.transaction_reference_received;
+                
 
 
                 if (result.status_code == 409 || result.status_code == 401 || result.status_code == 200) {
-                  //  console.log(result.status_code)
+                    //  console.log(result.status_code)
 
 
                     ////////////////////////////////
@@ -257,7 +259,7 @@ module.exports.processPayment = async (req, res) => {
                             });
 
 
-                         //   console.log('Dados Enviados');
+                            //   console.log('Dados Enviados');
                         } catch (erro) {
                             console.log('Dados recebidos:', erro);
                             res.status(500).json({ message: 'Payment processed successfully', error: erro || resposta.status });
@@ -275,17 +277,17 @@ module.exports.processPayment = async (req, res) => {
                     //console.log(updateResult)
 
                     if (updateResult.affectedRows === 1) {
-                       // console.log("sucess");
+                        // console.log("sucess");
 
                         try {
 
                             const wallet = await Wallet.findByUserId(orderResult[0].userId);
-                           // console.log(wallet)
+                            // console.log(wallet)
                             if (wallet) {
-                             //   console.log("entrou");
+                                //   console.log("entrou");
 
-                                const result = await Wallet.deposit("Wallet", "Costumer Payment", paymentDetails.totalAmount, wallet.id, orderResult[0].userId, paymentDetails.transaction_reference, null); //paymentDetails.originAcountId 
-                              //  console.log(result)
+                                const result = await Wallet.deposit("Wallet", "Costumer Payment", paymentDetails.totalAmount, wallet.id, orderResult[0].userId, paymentDetails.transaction_reference,paymentDetails.transaction_reference_received, null); //paymentDetails.originAcountId 
+                                //  console.log(result)
                                 console.log("entrou");
 
                             } else {
@@ -343,7 +345,7 @@ module.exports.processPayment = async (req, res) => {
                         delete paymentDetails.expiryDate
                         delete paymentDetails.mobileWalletNumber
 
-                       // console.log(paymentDetails)
+                        // console.log(paymentDetails)
                         ////////////////////////////////////
                         const infoToken = createToken(paymentDetails)
 
@@ -431,7 +433,7 @@ module.exports.processWithdraw = async (req, res) => {
                 console.log(paymentDetails.paymentMethod.toString() == 'M-pesa')
                 const token = await getPaymentToken(paymentDetails.paymentMethod.toString());
 
-              //  console.log(token)
+                //  console.log(token)
                 return
                 //return  res.status(200).json({ message: 'Payment processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
 
@@ -610,7 +612,7 @@ module.exports.decodeTokeny = async (req, res) => {
 
 
 async function pay(token) {
-    return ({ status_code: 200 })
+    // return ({ status_code: 200 })
 
     const url = `${process.env.AUTHORIZATION_URL}/make_payment`;
     const data = {
@@ -633,13 +635,13 @@ async function pay(token) {
 
         const resultText = await response.json();
         console.log('response:', resultText);
-        return ({ status_code: 200 })
+        return ({ status_code: 200 ,transaction_reference_received:result.d })
         if (resultText) {
 
             const result = await JSON.parse(resultText);
             console.log('response:', result);
             // return result;
-            return ({ status_code: result.status_code })
+            return ({ status_code: result.status_code ,transaction_reference_received:result.d})
 
         } else {
             console.error("Resposta vazia ou inválida recebida.");

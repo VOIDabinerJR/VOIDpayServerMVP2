@@ -14,7 +14,7 @@ module.exports.checkToken = (req, res) => {
                 return res.status(401).json({ error: 'Token is invalid or expired' });
             } else {
                 return res.status(200).json({ id: decodedToken.id });
-            }
+            } 
         });
     } else {
         return res.status(400).json({ error: 'Token not provided' });

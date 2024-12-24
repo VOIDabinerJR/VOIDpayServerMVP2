@@ -45,7 +45,7 @@ app.use('/user', userRoutes);
 app.use('/button', buttonRoutes);
 app.use('/order', orderRoutes);
 app.use('/pay', payRoutes);
-app.use('/sdk', sdkRoutes);
+app.use('/sdk', sdkRoutes); 
 
 // Rota para servir um arquivo HTML estático
 app.get('/a', (req, res) => {
