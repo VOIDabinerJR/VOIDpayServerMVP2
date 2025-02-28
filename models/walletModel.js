@@ -13,7 +13,7 @@ const Wallet = {
         const [result] = await db.query('SELECT * FROM wallet WHERE userId = ?', [id]);
         return result[0];
     },
-    async withdraw(originAccount, value, walletId) {
+    async withdraw(originAccount, value, walletId,transactionReference,transactionReferenceReceived, userId) {
         // Update the wallet balance
         const updateWallet = await db.query('UPDATE wallet SET balance = balance - ? WHERE id = ?', [value, walletId]);
 
@@ -23,9 +23,12 @@ const Wallet = {
             type: 'withdraw',
             originAccount,
             value,
+            transactionReference,
+            transactionReferenceReceived,
+            userId,
             date: new Date()
-        });
-
+        }); 
+ 
         return {
             updateWallet,
             recordTransaction
