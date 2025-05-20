@@ -49,9 +49,13 @@ const DynamicData = {
         const [rows] = await db.query('SELECT * FROM shopify WHERE userid = ?', [userId]);
         return rows;
     },
+    async getSubscription(userId) {
+        const [rows] = await db.query('SELECT * FROM subscription WHERE userid = ?', [userId]);
+        return rows;
+    },
     async getUserDataById(userid) {
         try {
-            const [d1, d2, d3, d4, d5, d6,d7,d8,d9,d10,d11] = await Promise.all([
+            const [d1, d2, d3, d4, d5, d6,d7,d8,d9,d10,d11, d12] = await Promise.all([
                 this.getApps(userid),
                 this.getOrders(userid),
                 this.getbotoes(userid),
@@ -63,6 +67,7 @@ const DynamicData = {
                 this.getUserDetails(userid),
                 this.getProducts(userid),
                 this.shopifyCredentials(userid),
+                this.getSubscription(userid),
 
             ]);
 
@@ -77,7 +82,8 @@ const DynamicData = {
                 notification:d8,
                 userDetails:d9,
                 products:d10,
-                shopifyCredentials:d11
+                shopifyCredentials:d11,
+                subscription:d12,
             }
 
             return data

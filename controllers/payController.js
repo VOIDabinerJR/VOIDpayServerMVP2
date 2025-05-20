@@ -394,26 +394,28 @@ module.exports.processPayment = async (req, res) => {
 
 module.exports.processWithdraw = async (req, res) => {
     const { token, accountNumber, method } = req.body
-
+console.log( method)
 
     const paymentDetails = req.body;
     paymentDetails.mobileWalletNumber=paymentDetails.customer_msisdn
     paymentDetails.totalAmount =paymentDetails.amount
     paymentDetails.reversal_amount=paymentDetails.amount
+   
+
     console.log(paymentDetails)
     
 
     try {
         const decoded = await decodeToken(token)
-
+console.log(decoded)
         const walletResult = await Wallet.findByUserId(decoded.token);
         const walletId = walletResult.id
         
 
 
         if (walletResult) {
-
-
+ 
+  
             async function getPaymentToken(option) {
                 switch (option) {
                     case 'mobileWallet':
