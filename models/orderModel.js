@@ -19,17 +19,17 @@ const Order = {
         return result;
     },
     async findByIdOrderItems(id) {
-        const result = await db.query('SELECT * FROM orderItems WHERE orderId = ?', [id]);
+        const result = await db.query('SELECT * FROM orderitems WHERE orderId = ?', [id]);
 
         return result;
     }, 
     async findItemsIdByOrderId(id) {
-        const result = await db.query('SELECT productId FROM orderItems WHERE orderId = ?', [id]);
+        const result = await db.query('SELECT productId FROM orderitems WHERE orderId = ?', [id]);
 
         return result;
     },
     async findvariantIdByOrderId(id) {
-        const result = await db.query('SELECT variantId FROM orderItems WHERE orderId = ?', [id]);
+        const result = await db.query('SELECT variantId FROM orderitems WHERE orderId = ?', [id]);
 
         return result;
     }, 
@@ -39,7 +39,7 @@ const Order = {
         }
 
 
-        const result = await db.query('INSERT INTO orderItems (name, price, quantity, productId, img, imgAlt, orderId, variantId) VALUES ?', [items.map(item => [item.name, item.price, item.quantity, item.productId, item.img, item.imgAlt, orderId, item.variantId])]);
+        const result = await db.query('INSERT INTO orderitems (name, price, quantity, productId, img, imgAlt, orderId, variantId) VALUES ?', [items.map(item => [item.name, item.price, item.quantity, item.productId, item.img, item.imgAlt, orderId, item.variantId])]);
 
         return result;
     }, async deleteOrderItems(itemIds) {
@@ -50,7 +50,7 @@ const Order = {
 
         const ids = itemIds.join(',');
 
-        const result = await db.query('DELETE FROM orderItems WHERE itemId IN (?)', [itemIds]);
+        const result = await db.query('DELETE FROM orderitems WHERE itemId IN (?)', [itemIds]);
 
         return result;
     },

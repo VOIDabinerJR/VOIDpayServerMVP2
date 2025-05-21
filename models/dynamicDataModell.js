@@ -30,7 +30,7 @@ const DynamicData = {
         return rows;
     },
     async getBusinessDetails(userId) {
-        const [rows] = await db.query('SELECT * FROM businessDetails WHERE  userId = ?', [ userId]);
+        const [rows] = await db.query('SELECT * FROM businessdetails WHERE  userId = ?', [ userId]);
         return rows;
     },
     async getNotifications(userId) {
@@ -42,7 +42,7 @@ const DynamicData = {
         return rows;
     },
     async getUserDetails(userId) {
-        const [rows] = await db.query('SELECT * FROM userDetails WHERE userid = ?', [userId]);
+        const [rows] = await db.query('SELECT * FROM userdetails WHERE userid = ?', [userId]);
         return rows;
     },
     async shopifyCredentials(userId) {
