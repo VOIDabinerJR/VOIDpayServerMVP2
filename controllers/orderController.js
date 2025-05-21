@@ -66,7 +66,7 @@ module.exports.createOrder = async (req, res) => {
 
 
     const [buttonInfo] = await Button.findByToken(buttonToken)
-    console.log(buttonInfo[0])
+    
     const order = {
         buttonToken: data.buttonToken,
         products: totalItems,
@@ -105,11 +105,11 @@ module.exports.createOrder = async (req, res) => {
                 console.log(buttonToken)
                 return res.json({ orderId: insertResult.insertId, buttonToken: buttonInfo[0].buttonToken, status: true })
             } else {
-                console.log("erro1")
+                
                 return res.status(500).json({ error: 'Order creation failed' });
             }
         } catch (error) {
-            console.log("erro")
+            
             console.error(error);
             return res.status(500).json({ error: 'Server error' });
         }

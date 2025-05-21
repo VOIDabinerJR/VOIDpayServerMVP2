@@ -11,7 +11,7 @@ require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports.requestButton = async (req, res) => {
-    console.log("Aa")
+   
     const { clientId, destination, name, token } = req.body;
 
     try {
@@ -25,7 +25,7 @@ module.exports.requestButton = async (req, res) => {
 
             const [appResult] = await App.findByClientId(decodedClientId);
 
-            console.log("Aa")
+            
             if (appResult.length > 0) {
                 const user = userResult[0]; 
                 const email = user.email;
@@ -39,12 +39,12 @@ module.exports.requestButton = async (req, res) => {
                     name: name
 
                 };
-                console.log(payload)
+              
 
                 const tokenData = createToken(payload)
 
                 const sent = await sendEmail(email, tokenData, destination, buttonToken);
-                console.log(sent)
+            
 
                 if (sent.status) {
 
@@ -71,7 +71,7 @@ module.exports.activateButton = async (req, res) => {
 
 
     const decoded = await decodeToken(tokeny)
-    console.log(decoded)
+   
   
 
     const button = {

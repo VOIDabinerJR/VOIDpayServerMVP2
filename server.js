@@ -29,6 +29,19 @@ app.set('views', path.join(__dirname, 'views/formulario'));
 
 
 
+
+
+
+app.use(express.static(path.join(__dirname,'public')));
+
+
+
+
+
+
+
+
+
 // Importing routes 
 const authRoutes = require('./routes/authRoutes');
 const pagesRoutes = require('./routes/pagesRoutes');
@@ -95,13 +108,13 @@ app.post('/paymentResponse', (req, res) => {
 
 app.post('/recovery', async (req, res) => {
     const requestData = req.body;
-    console.log(requestData)
+    
     const data = {
         email: requestData.email,
         user: requestData.user,
 
     };
-    console.log(data)
+    
 
     fetch("https://voidpayservermvp2.onrender.com/recover", {
         method: "POST",
@@ -133,7 +146,7 @@ app.post('/recovery', async (req, res) => {
 });
 app.post('/recover', async (req, res) => {
     const requestData = req.body;
-    console.log(requestData)
+   
 
     const token = createToken(requestData.user.id);
     //const token2 =shortID2(requestData.user.id)

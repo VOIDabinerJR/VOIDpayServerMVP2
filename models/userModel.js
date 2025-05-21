@@ -1,7 +1,11 @@
 const db = require('../config/db');
 
+
+
 const User = {
     async findByEmail(email) {
+
+
         const result = await db.query('SELECT * FROM user WHERE email = ? AND userStatus = true', [email]);
         return result;
     },

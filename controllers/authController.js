@@ -22,7 +22,7 @@ const authController = {
                 return res.status(400).json({ error: 'Email is already in use' });
             }
             const username1 = username.replace(/\s+/g, '') + shortID()
-            console.log(username1)
+           
             const hashedPassword = await bcrypt.hash(password, 8);
             const user = { firstName, lastName, username: username1, email, password: hashedPassword };
 
@@ -32,7 +32,7 @@ const authController = {
             if (insertResult[0].affectedRows === 1) {
                 const [newUser] = await User.findByEmail(email);
                 const token = createLoginToken(newUser[0].id);
-                console.log(newUser[0].id)
+               
 
                 const walletData = {
                     userid: newUser[0].id
@@ -57,10 +57,12 @@ const authController = {
 
     login: async (req, res) => {
        
+       
         const { email, password } = req.body;
-        console.log(req.body);
+        
         try {
             const [user] = await User.findByEmail(email);
+            
 
             if (user.length <= 0) {
                 return res.status(404).json({ err: 'Email incorrect' });
@@ -89,13 +91,12 @@ const authController = {
     recoveraccount: async (req, res) => {
 
         const { email } = req.body;
-        console.log("aaaa")
+       
  
 
         try {
-            console.log("aaaa")
+           
             const [user] = await User.findByEmail(email);
-console.log(user)
 
             if (!user) {
                 return res.status(404).json({ err: 'Email incorrect' });
@@ -118,7 +119,7 @@ console.log(user)
     resetpassword: async (req, res) => {
         const { password, repeatPassword, token } = req.body;
 
-        console.log(token)
+       
 
         if (password !== repeatPassword) {
             return res.status(400).json({ error: 'Passwords do not match' });
