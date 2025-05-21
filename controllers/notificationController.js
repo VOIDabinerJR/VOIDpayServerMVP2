@@ -19,6 +19,6 @@ module.exports.sendNotification = async (req, res) => {
         }
     } catch (error) {
         console.error('Error fetching user:', error);
-        return res.status(500).json({ error: 'Server error' });
+        return res.status(500).json({ err: 'Server error', error });
     }
 };

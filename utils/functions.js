@@ -58,7 +58,7 @@ async function hashInfo(info) {
         const hashedInfo = await bcrypt.hash(info, 8);
         return hashedInfo;
     } catch (error) {
-        console.log('Error hashing info')
+       
         return ('Error hashing info');
     }
 }

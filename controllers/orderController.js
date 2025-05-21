@@ -28,7 +28,7 @@ module.exports.createOrder = async (req, res) => {
 
 
             if (isNaN(product.price) || product.price <= 0) {
-                // console.log(product.price)
+               
                 errors.push({ index: index, field: 'price', message: 'Preço deve ser um número positivo.' });
             }
         });
@@ -43,7 +43,7 @@ module.exports.createOrder = async (req, res) => {
 
     const result = validateProducts(data.orderItems);
 
-    //console.log(result.errors)
+   
     if (result.there) {
         return res.json({ status: false, error: result.errors })
     }
@@ -93,16 +93,16 @@ module.exports.createOrder = async (req, res) => {
         try {
             const [insertResult] = await Order.create(order);
 
-            //  console.log(insertResult)
+            
             const [insertResulty] = await Order.saveOrderItems(orderItems, insertResult.insertId);
             if (insertResult.affectedRows === 1) {
-                console.log("saved")
+              
 
                 const maxAge = 3 * 24 * 60 * 60 * 1000;
                 res.cookie('orderid', '13', { httpOnly: true, maxAge });
 
                 //const [insertResultyy] =  await Notification.create(Notification.notifications(0),insertResult.insertId)
-                console.log(buttonToken)
+             
                 return res.json({ orderId: insertResult.insertId, buttonToken: buttonInfo[0].buttonToken, status: true })
             } else {
                 
@@ -121,7 +121,7 @@ module.exports.updateOrder = async (req, res) => {
 
 
     const buttonInfo = await Button.findByToken(bottontoken)
-    // console.log(buttonInfo)
+   
 
     if (buttonInfo.status != true) {
         return res.json({ err: "botton not valid" })
@@ -145,7 +145,7 @@ module.exports.updateOrder = async (req, res) => {
 
 module.exports.createShopifyOrder = async (req, res) => {
     const data = req.body;
-    console.log(data)
+   
 return
     const { buttonToken } = req.body;
     try {
@@ -187,7 +187,7 @@ return
 
 
                 if (isNaN(product.price) || product.price <= 0) {
-                    // console.log(product.price)
+                   
                     errors.push({ index: index, field: 'price', message: 'Preço deve ser um número positivo.' });
                 }
             });
@@ -220,7 +220,7 @@ return
 
 
 
-        console.log(buttonToken)
+       
         const order = {
             buttonToken: data.buttonToken,
             products: totalItems,
@@ -239,16 +239,16 @@ return
             try {
                 const [insertResult] = await Order.create(order);
 
-                //  console.log(insertResult)
+              
                 const [insertResulty] = await Order.saveOrderItems(items, insertResult.insertId);
                 if (insertResult.affectedRows === 1) {
-                    console.log("saved")
+                 
 
                     const maxAge = 3 * 24 * 60 * 60 * 1000;
                     res.cookie('orderid', '13', { httpOnly: true, maxAge });
 
                     //const [insertResultyy] =  await Notification.create(Notification.notifications(0),insertResult.insertId)
-                    console.log(buttonToken)
+                  
                     console.log(req.body.rid[0])
                     return res.json({ orderId: insertResult.insertId, buttonToken: buttonInfo[0].buttonToken, rid :data.rid,status: true })
                 } else {
@@ -270,3 +270,12 @@ return
 
     }
 };
+
+
+module.exports.createWoocommerceOrder = async (req, res) => {
+
+};
+
+module.exports.createWixOrder = async (req, res) => {
+
+    };

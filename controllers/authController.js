@@ -45,7 +45,7 @@ const authController = {
                 //const insertResult = await App.create(user);
 
                 return res.status(201).json({ token: token, wallet: wallet });
-                // return res.redirect(/login)
+               
             } else {
                 return res.status(500).json({ err: 'User registration failed' });
             }
@@ -166,15 +166,6 @@ const authController = {
             if (!user) {
                 return res.status(404).json({ err: 'Erro data load' });
             } else {
-
-
-                //  const data = {
-                //     time:Date(),
-                //      userStatistics: userStatistics,
-                //      user: user
-
-                //  };
-                // fs.writeFileSync('userData.json', JSON.stringify(data, null, 2));
 
                 return res.status(200).json({
                     user,

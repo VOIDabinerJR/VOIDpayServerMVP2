@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     google.maps.event.addListener(autocomplete, 'place_changed', function () {
         const place = autocomplete.getPlace();
-        console.log(place);
+       
         // Você pode fazer algo com os dados do lugar aqui
     });
 

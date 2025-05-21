@@ -49,7 +49,7 @@ const createMobileWalletToken = async (orderId, paymentDetails) => {
   
 
     }; 
-    console.log(payload)
+    
     return createToken(payload);
 };
  

@@ -117,9 +117,9 @@ async function sendEmail(email, token, destinationSite, buttonToken) {
   try {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        return console.log('Erro ao enviar e-mail: ', error);
+        return ('Erro ao enviar e-mail: ', error);
       }
-      console.log('E-mail enviado: ', info.response);
+      return('E-mail enviado: ', info.response);
     });
 
     return { status: true };
@@ -253,9 +253,9 @@ async function sendRecoverEmail(email, token) {
   try {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        return console.log('Erro ao enviar e-mail: ', error);
+        return  ('Erro ao enviar e-mail: ', error);
       }
-      console.log('E-mail enviado: ', info.response);
+      return ('E-mail enviado: ', info.response);
     });
 
     return { status: true };
@@ -306,9 +306,6 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
 
     tableRows += tr; // Append the row to the string
   });
-
-  console.log(tableRows)
-
 
 
 
@@ -642,9 +639,9 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
       try {
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
-            return console.log('Erro ao enviar e-mail: ', error);
+            return ('Erro ao enviar e-mail: ', error);
           }
-          console.log('E-mail enviado: ', info.response);
+          return ('E-mail enviado: ', info.response);
         });
 
       return {status: true };

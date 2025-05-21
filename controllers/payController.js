@@ -82,8 +82,7 @@ module.exports.getPaymentPage = async (req, res) => {
 
 module.exports.processPayment = async (req, res) => {
 
-    //  console.log(req.body)
-    // console.log(req.query)
+   
 
     let billingInfo = {
         contactName: req.body.contactName,

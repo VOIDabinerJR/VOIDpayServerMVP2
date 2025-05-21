@@ -89,7 +89,7 @@ const DynamicData = {
             return data
 
         } catch (error) {
-            console.log(error)
+            return (error)
 
         }
 

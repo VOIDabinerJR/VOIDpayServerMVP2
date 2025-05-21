@@ -19,7 +19,7 @@ async function pay(token) {
         }
 
         const result = await response.json();
-        console.log('Success:', result);
+       return ('Success:', result);
         return result;
     } catch (error) {
         console.error('Error:', error);

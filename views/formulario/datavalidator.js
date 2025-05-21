@@ -16,7 +16,7 @@ document.getElementById('card-number').addEventListener('input', () => {
     } else {
         numberInput.classList.add('input-error');
     }
-    console.log(numberValidation.isValid)
+ 
 });  
  
 document.getElementById('expiry-date').addEventListener('input', () => {

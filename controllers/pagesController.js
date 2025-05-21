@@ -27,9 +27,7 @@ const pagesController = {
                 
             }
             const [existingUser] = await User.findById(decoded.token);
-            console.log(decoded.token)
-            console.log(decoded)
-            console.log(existingUser)
+           
             if (existingUser.length <= 0) {
                 return res.status(400).json({ error: 'user not found' });
             }
@@ -93,8 +91,7 @@ const pagesController = {
                 }
 
 
-                console.log('userData:', userData);
-                console.log('userDetails:', userDetails);
+              
 
 
 
@@ -130,8 +127,6 @@ const pagesController = {
                 }
 
 
-                console.log('businessDetails:', businessDetails);
-
                 return res.json({ error: "" })
 
             }
@@ -145,7 +140,7 @@ const pagesController = {
                 const insertResult = await App.create(user);
 
                 return res.status(201).json({ token });
-                // return res.redirect(/login)
+              
             } else {
                 return res.status(500).json({ err: 'User registration failed' });
             }

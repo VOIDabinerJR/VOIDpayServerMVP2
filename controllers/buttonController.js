@@ -8,7 +8,7 @@ const { createToken, decodeToken } = require('../utils/jwt');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-const JWT_SECRET = process.env.JWT_SECRET;
+
 
 module.exports.requestButton = async (req, res) => {
    
@@ -16,14 +16,14 @@ module.exports.requestButton = async (req, res) => {
 
     try {
         const decoded = await decodeToken(token)
-        const decodedClientId = clientId  //decodeToken(token) 
+      
 
         const [userResult] = await User.findById(decoded.token);
 
         if (userResult.length > 0) {
 
 
-            const [appResult] = await App.findByClientId(decodedClientId);
+            const [appResult] = await App.findByClientId(clientId);
 
             
             if (appResult.length > 0) {
@@ -62,7 +62,7 @@ module.exports.requestButton = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ err: 'Server error' });
+        return res.status(500).json({ err: 'Server error',error });
     }
 };
 
@@ -93,7 +93,7 @@ module.exports.activateButton = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ err: 'Server error' });
+        return res.status(500).json({ err: 'Server error', error });
     }
 };
 
