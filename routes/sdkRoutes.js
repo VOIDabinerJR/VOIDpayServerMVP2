@@ -6,12 +6,12 @@ const payController = require('../controllers/sdkController');
 
 router.get('/js', (req, res) => {
     const acept = req.query.acept; // Use req.query para parâmetros de consulta
-    const clientId = req.query.clientId; 
-    console.log(acept)
+    const clientId = req.query.clientId;
+    console.log(acept, clientId)
 
-    if (acept === 'true') { 
+    if (acept === 'true') {
         res.sendFile(path.join(__dirname, '../', '/sdk/payment.js'));
-      
+
     } else {
         res.sendFile(path.join(__dirname, '../', '/sdk/OrderButton.js'));
     }
@@ -19,15 +19,15 @@ router.get('/js', (req, res) => {
 
 router.get('/jsc', (req, res) => {
     const acept = req.query.acept;
-    const clientId = req.query.clientId; 
-    if (acept === 'true') { 
-       
+    const clientId = req.query.clientId;
+    if (acept === 'true') {
+
     } else {
-       
+
     }
 });
 
- 
+
 
 
 router.get('/test', (req, res) => {
@@ -47,7 +47,7 @@ router.get('/test', (req, res) => {
         shippingCost: "GRATUITA",
         totalAmount: 28987654380.00
     };
-    res.render('index',{orderData:orderData, queryy:''})
+    res.render('index', { orderData: orderData, queryy: '' })
 
 });
 
@@ -57,7 +57,7 @@ router.get('/try', (req, res) => {
 
 
     res.sendFile(path.join(__dirname, '../', 'aa.html'));
-   
+
 
     //res.render('pay',{ productId:1, quantity:1, description:1, totalAmount:1})
 });

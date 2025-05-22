@@ -63,4 +63,4 @@ async function hashInfo(info) {
     }
 }
 
-module.exports = { populateUpdatedFields,generateClientId, generateClientSecret, shortID,hashInfo,shortID2 };
+module.exports = { populateUpdatedFields,generateClientId, generateClientSecret, shortID,hashInfo,shortID2 }; 

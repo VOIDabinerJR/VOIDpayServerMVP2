@@ -5,7 +5,7 @@ const Shopify = require('../models/shopifyModel.js');
 const path = require('path');
 const Wallet = require('../models/walletModel');
 const { createToken, createCardToken, createPaypalToken, createMobileWalletToken, decodeToken } = require('../utils/jwt');
-const { Console } = require('console');
+
 const { shortID, hashInfo } = require('../utils/functions.js');
 
 const bcrypt = require('bcryptjs');
@@ -82,7 +82,7 @@ module.exports.getPaymentPage = async (req, res) => {
 
 module.exports.processPayment = async (req, res) => {
 
-   
+
 
     let billingInfo = {
         contactName: req.body.contactName,
@@ -223,6 +223,7 @@ module.exports.processPayment = async (req, res) => {
                     if (req.query.channel == 'shopify') {
 
                         try {
+                            console.log("entrou")
                             const [orderResult] = await Order.findById(req.query.orderid);
 
                             const [result] = await Order.findvariantIdByOrderId(req.query.orderid);
@@ -236,7 +237,7 @@ module.exports.processPayment = async (req, res) => {
                             console.error('Erro ao buscar produtos ou criar pedido na Shopify:', error);
                             res.status(500).json({ error: error.message });
                         }
- 
+
                     } else if (req.query.channel == 'woocommerce') {
                         let a = null;
                     }
@@ -281,7 +282,8 @@ module.exports.processPayment = async (req, res) => {
                         try {
 
                             const wallet = await Wallet.findByUserId(orderResult[0].userId);
-                            // console.log(wallet)
+                            console.log(wallet)
+                            console.log(orderResult[0].userId)
                             if (wallet) {
                                 //   console.log("entrou");
 
@@ -297,8 +299,8 @@ module.exports.processPayment = async (req, res) => {
                         }
 
 
- 
- 
+
+
 
                         const transactionData = {
                             transactionId: paymentDetails.transaction_reference,
@@ -328,7 +330,7 @@ module.exports.processPayment = async (req, res) => {
 
                         } catch (error) {
                             console.log(error)
-                        }b
+                        } 
 
                         res.render('paymentConfirmation.ejs', {
                             transactionData,
@@ -337,13 +339,13 @@ module.exports.processPayment = async (req, res) => {
                             redirectUrl: 'https://www.google.com'
                         });
 
- 
+
                         ///////////////////////////////////////// crir um sobarquivo com informacoes de pagamento 
                         delete paymentDetails.cardNumber
                         delete paymentDetails.securityCode
                         delete paymentDetails.expiryDate
                         delete paymentDetails.mobileWalletNumber
- 
+
                         // console.log(paymentDetails)
                         ////////////////////////////////////
                         const infoToken = createToken(paymentDetails)
@@ -393,35 +395,35 @@ module.exports.processPayment = async (req, res) => {
 
 module.exports.processWithdraw = async (req, res) => {
     const { token, accountNumber, method } = req.body
-console.log( method)
+    console.log(method)
 
     const paymentDetails = req.body;
-    paymentDetails.mobileWalletNumber=paymentDetails.customer_msisdn
-    paymentDetails.totalAmount =paymentDetails.amount
-    paymentDetails.reversal_amount=paymentDetails.amount
-   
+    paymentDetails.mobileWalletNumber = paymentDetails.customer_msisdn
+    paymentDetails.totalAmount = paymentDetails.amount
+    paymentDetails.reversal_amount = paymentDetails.amount
+
 
     console.log(paymentDetails)
-    
+
 
     try {
         const decoded = await decodeToken(token)
-console.log(decoded)
+        console.log(decoded)
         const walletResult = await Wallet.findByUserId(decoded.token);
         const walletId = walletResult.id
-        
+
 
 
         if (walletResult) {
- 
-  
+
+
             async function getPaymentToken(option) {
                 switch (option) {
                     case 'mobileWallet':
                     case 'M-pesa':
                     case 'E-Mola':
                     case 'M-khesh':
-                        
+
                         return createMobileWalletToken(walletId, paymentDetails);
                     case 'Card':
                     case 'MillenimBim':
@@ -445,31 +447,31 @@ console.log(decoded)
 
                 console.log(token2)
                 console.log("and")
-               
-            
-               
+
+
+
                 //return  res.status(200).json({ message: 'Payment processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
 
                 const result = await withdraw2(token2);
 
                 // transactionReference deve ser alterada leght no banco de dados
                 //pare receber a referencia da transacao e nao o id da conversation
-                paymentDetails.transactionReference =  `VOID${shortID()}`;
+                paymentDetails.transactionReference = `VOID${shortID()}`;
                 paymentDetails.transaction_reference_received = result.body.output_TransactionID;
-                
+
 
                 console.log(paymentDetails)
 
-                if (result.status_code == 409 || result.status_code == 401 || result.status_code == 200   || result.status_code == 201 ) {
+                if (result.status_code == 409 || result.status_code == 401 || result.status_code == 200 || result.status_code == 201) {
                     console.log(result.status_code)
-                    
 
-  
-                    try { 
+
+
+                    try {
                         const { walletId } = req.params;
-                        
+
                         const { originAccount, value } = req.body;
-                        const depositResult = await Wallet.withdraw(accountNumber, 50, walletResult.id, paymentDetails.transactionReference,paymentDetails.transaction_reference_received, walletResult.userId); //decoded.token   why?????????
+                        const depositResult = await Wallet.withdraw(accountNumber, 50, walletResult.id, paymentDetails.transactionReference, paymentDetails.transaction_reference_received, walletResult.userId); //decoded.token   why?????????
                         console.log('Deposit result:', depositResult);
                         res.status(200).json({ message: 'Withdraw processed successfully', error: null, redirectUrl: 'https://www.google.com' });
                     } catch (error) {
@@ -656,10 +658,21 @@ async function pay(token) {
         // if (!response.ok) {
         // throw new Error(`HTTP error! status: ${response.status}`);
         //  } 
+        // const contentType = response.headers.get('content-type');
+        // let resultText;
 
-        const resultText = await response.json();
-        console.log('response:', resultText);
-        return ({ status_code: 200, transaction_reference_received: resultText.body.output_ConversationID }) 
+        // if (contentType && contentType.includes('application/json')) {
+        //     resultText = await response.json();
+        //     console.log('response:', resultText);
+        // } else {
+        //     resultText = await response.text(); // fallback para texto ou vazio
+        //     console.log('response:', resultText);
+        // }
+
+         const resultText = await response.json();
+        // console.log('response:', resultText);
+         
+        return ({ status_code: 200, transaction_reference_received: resultText.body.output_ConversationID })
         if (resultText) {
 
             const result = await JSON.parse(resultText);
@@ -688,8 +701,8 @@ async function withdraw(token) {
     const data = {
         token: token
     };
-   // console.log(data)  
- 
+    // console.log(data)  
+
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -719,8 +732,8 @@ async function refund(token) {
     const url = `${AUTHORIZATION_URL}/make_payment`;
     const data = {
         token: token
-    }; 
- 
+    };
+
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -777,8 +790,8 @@ async function withdraw2(token) {
     const data = {
         token: token
     };
-   // console.log(data)  
-  
+    // console.log(data)  
+
     try {
         const response = await fetch(url, {
             method: 'POST',

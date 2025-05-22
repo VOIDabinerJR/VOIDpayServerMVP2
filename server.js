@@ -19,10 +19,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-    origin: [],
+    origin:'*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'] // Cabeçalhos permitidos
 }));
+
+
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views/formulario'));
 

@@ -114,19 +114,15 @@ async function sendEmail(email, token, destinationSite, buttonToken) {
     html: htmlTemplate,
   };
 
-  try {
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return ('Erro ao enviar e-mail: ', error);
-      }
-      return('E-mail enviado: ', info.response);
-    });
-
+  
+ try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('E-mail enviado: ', info.response);
     return { status: true };
   } catch (error) {
+    console.error('Erro ao enviar e-mail: ', error);
     return { status: false, error: error };
   }
-
 
 
 };
