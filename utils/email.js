@@ -632,16 +632,16 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
     html: htmlTemplate,
   };
 
-async function sendEmail(transporter, mailOptions) {
-  try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log('E-mail enviado:', info.response);
-    return { status: true, response: info.response };
-  } catch (error) {
-    console.log('Erro ao enviar e-mail:', error);
-    return { status: false, error: error.message };
+  async function sendEmail(transporter, mailOptions) {
+    try {
+      const info = await transporter.sendMail(mailOptions);
+      console.log('E-mail enviado:', info.response);
+      return { status: true, response: info.response };
+    } catch (error) {
+      console.log('Erro ao enviar e-mail:', error);
+      return { status: false, error: error.message };
+    }
   }
-}
 
 
 

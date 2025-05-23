@@ -122,7 +122,7 @@ module.exports.processPayment = async (req, res) => {
 
         if (orderResult.length > 0) {
             if (orderResult[0].buttonToken != buttonToken) {
-                 return res.json({ "error": "unaitorized" })
+                return res.json({ "error": "unaitorized" })
             }
 
 
@@ -222,9 +222,10 @@ module.exports.processPayment = async (req, res) => {
                     ///////////////////// ///////////
                     /////////////////////////////
                     if (req.query.channel === 'shopify') {
-                        
 
-                        try {console.log(req.query)
+
+                        try {
+                            console.log(req.query)
                             console.log("entrou aqui 1")
                             const [orderResult] = await Order.findById(req.query.orderid);
 
@@ -293,8 +294,8 @@ module.exports.processPayment = async (req, res) => {
                                 //   console.log("entrou");
 
                                 const result = await Wallet.deposit("Wallet", "Costumer Payment", paymentDetails.totalAmount, wallet.id, orderResult[0].userId, paymentDetails.transaction_reference, paymentDetails.transaction_reference_received, null); //paymentDetails.originAcountId 
-                                 
-                               
+
+
 
                             } else {
                                 return res.status(404).json({ message: 'Wallet not found' });
@@ -325,12 +326,21 @@ module.exports.processPayment = async (req, res) => {
 
 
 
+                            try {
 
-                            const sent1 = await sendPaymentConfirmationEmail(billingInfo.email, billingInfo, transactionData, orderItem);
-                            let [emaill] = await User.retunEmail(orderResult[0].userId)
-                            // console.log(orderItem)
-                            const sent2 = await sendPaymentConfirmationEmail(emaill[0].email, billingInfo, transactionData, orderItem);
-                           
+                                const sent1 = await sendPaymentConfirmationEmail(billingInfo.email, billingInfo, transactionData, orderItem);
+                                let [emaill] = await User.retunEmail(orderResult[0].userId)
+
+                                 console.log(billingInfo.email, billingInfo, transactionData, orderItem)
+                                const sent2 = await sendPaymentConfirmationEmail(emaill[0].email, billingInfo, transactionData, orderItem);
+
+                                console.log(sent1)
+                                console.log(sent2)
+
+                            } catch (error) {
+                                console.log(error)
+
+                            }
 
                         } catch (error) {
                             console.log(error)
@@ -356,7 +366,7 @@ module.exports.processPayment = async (req, res) => {
                         });
 
 
-                        
+
 
 
                     } else {
@@ -672,7 +682,7 @@ async function pay(token) {
             // console.log('respowwnse:', resultText);
         } else {
             resultText = await response.text(); // fallback para texto ou vazio
-           
+
             try {
                 const json = JSON.parse(resultText);
                 console.log('response (parsed as JSON):', json);
