@@ -16,7 +16,7 @@ module.exports.routTester = async (req, res) => {
 
     const data = req.body;
     console.log(data);
-    res.send("Form submitted");
+    return res.send("Form submitted");
 };
 
 
@@ -25,7 +25,7 @@ module.exports.getQrCode = async (req, res) => {
     const data = req.body;
     console.log(data);
     const qrcode = "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"
-    res.render('qrcode', { qrcode: qrcode })
+    return res.render('qrcode', { qrcode: qrcode })
 };
 
 module.exports.getPaymentPage = async (req, res) => {
@@ -72,11 +72,11 @@ module.exports.getPaymentPage = async (req, res) => {
 
 
         } else {
-            res.status(404).json({ error: 'Order not found' });
+            return res.status(404).json({ error: 'Order not found' });
         }
     } catch (error) {
         console.error('Error fetching order:', error);
-        res.status(500).json({ error: 'Server error' });
+        return res.status(500).json({ error: 'Server error' });
     }
 };
 
@@ -122,8 +122,9 @@ module.exports.processPayment = async (req, res) => {
 
         if (orderResult.length > 0) {
             if (orderResult[0].buttonToken != buttonToken) {
-                res.json({ "error": "unaitorized" })
+                 return res.json({ "error": "unaitorized" })
             }
+
 
 
             const [buttonResult] = await Button.findByToken(buttonToken);
@@ -214,16 +215,17 @@ module.exports.processPayment = async (req, res) => {
 
 
 
-                if (result.status_code == 409 || result.status_code == 401 || result.status_code == 200) {
+                if (1 == 1 || result.status_code == 409 || result.status_code == 401 || result.status_code == 200) {
                     //  console.log(result.status_code)
 
 
-                    ////////////////////////////////
+                    ///////////////////// ///////////
                     /////////////////////////////
-                    if (req.query.channel == 'shopify') {
+                    if (req.query.channel === 'shopify') {
+                        
 
-                        try {
-                            console.log("entrou")
+                        try {console.log(req.query)
+                            console.log("entrou aqui 1")
                             const [orderResult] = await Order.findById(req.query.orderid);
 
                             const [result] = await Order.findvariantIdByOrderId(req.query.orderid);
@@ -235,17 +237,18 @@ module.exports.processPayment = async (req, res) => {
                             // console.log(info)
                         } catch (error) {
                             console.error('Erro ao buscar produtos ou criar pedido na Shopify:', error);
-                            res.status(500).json({ error: error.message });
+                            return res.status(500).json({ error: error.message });
                         }
 
-                    } else if (req.query.channel == 'woocommerce') {
+                    } else if (req.query.channel === 'woocommerce') {
                         let a = null;
                     }
-                    else if (req.query.channel == 'wixecommerce') {
+                    else if (req.query.channel === 'wixecommerce') {
 
-                    } else if (req.query.channel == 'oneway') {
+                    } else if (req.query.channel === 'oneway') {
                         let a = null;
-                    } else if (req.query.channel == 'rs') {
+                        console.log("entrou aqui 2")
+                    } else if (req.query.channel === 'rs') {
                         try {
 
                             const url = `${buttonResult[0].destination.toString()}`;
@@ -262,19 +265,21 @@ module.exports.processPayment = async (req, res) => {
                             //   console.log('Dados Enviados');
                         } catch (erro) {
                             console.log('Dados recebidos:', erro);
-                            res.status(500).json({ message: 'Payment processed successfully', error: erro || resposta.status });
+                            return res.status(500).json({ message: 'Payment processed successfully', error: erro || resposta.status });
 
                             console.error('Erro ao enviar dados:', erro);
                         }
                         let a = null;
                     }
 
-                    ///////////////////////////////
+
+
+
                     /////////////////////////////////
                     const [updateResult] = await Order.update(orderId, { orderStatus: 'Completed', customerEmail: paymentDetails.email, paymentMethod: paymentDetails.paymentMethod, customerName: paymentDetails.contactName, description: paymentDetails.description || 'None desc.', transactionReference: paymentDetails.transaction_reference });
 
 
-                    //console.log(updateResult)
+
 
                     if (updateResult.affectedRows === 1) {
                         // console.log("sucess");
@@ -288,14 +293,14 @@ module.exports.processPayment = async (req, res) => {
                                 //   console.log("entrou");
 
                                 const result = await Wallet.deposit("Wallet", "Costumer Payment", paymentDetails.totalAmount, wallet.id, orderResult[0].userId, paymentDetails.transaction_reference, paymentDetails.transaction_reference_received, null); //paymentDetails.originAcountId 
-                                //  console.log(result)
-                                console.log("entrou");
+                                 
+                               
 
                             } else {
-                                res.status(404).json({ message: 'Wallet not found' });
+                                return res.status(404).json({ message: 'Wallet not found' });
                             }
                         } catch (error) {
-                            res.status(500).json({ error: error.message });
+                            return res.status(500).json({ error: error });
                         }
 
 
@@ -323,22 +328,13 @@ module.exports.processPayment = async (req, res) => {
 
                             const sent1 = await sendPaymentConfirmationEmail(billingInfo.email, billingInfo, transactionData, orderItem);
                             let [emaill] = await User.retunEmail(orderResult[0].userId)
-                            console.log(orderItem)
+                            // console.log(orderItem)
                             const sent2 = await sendPaymentConfirmationEmail(emaill[0].email, billingInfo, transactionData, orderItem);
-                            console.log(sent1)
-                            console.log(sent2)
+                           
 
                         } catch (error) {
                             console.log(error)
-                        } 
-
-                        res.render('paymentConfirmation.ejs', {
-                            transactionData,
-                            message: 'Payment processed successfully',
-                            error: null,
-                            redirectUrl: 'https://www.google.com'
-                        });
-
+                        }
 
                         ///////////////////////////////////////// crir um sobarquivo com informacoes de pagamento 
                         delete paymentDetails.cardNumber
@@ -352,9 +348,19 @@ module.exports.processPayment = async (req, res) => {
 
                         ///////////////////////////////////
 
+                        return res.render('paymentConfirmation.ejs', {
+                            transactionData,
+                            message: 'Payment processed successfully',
+                            error: null,
+                            redirectUrl: 'https://www.google.com'
+                        });
+
+
+                        
+
 
                     } else {
-                        res.status(500).json({ message: 'Payment processed successfully', error: 'Failed to update order status' });
+                        return res.status(500).json({ message: 'Payment processed successfully', error: 'Failed to update order status' });
                     }
                 } else {
 
@@ -379,11 +385,11 @@ module.exports.processPayment = async (req, res) => {
 
         } else {
 
-            res.status(404).json({ error: 'Order not found' });
+            return res.status(404).json({ error: 'Order not found' });
         }
     } catch (error) {
         console.error('Error processing payment:', error);
-        res.status(500).json({ error: 'Server error' });
+        return res.status(500).json({ error: 'Server error' });
     }
 
 
@@ -450,7 +456,7 @@ module.exports.processWithdraw = async (req, res) => {
 
 
 
-                //return  res.status(200).json({ message: 'Payment processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
+                //return  return res.status(200).json({ message: 'Payment processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
 
                 const result = await withdraw2(token2);
 
@@ -473,14 +479,14 @@ module.exports.processWithdraw = async (req, res) => {
                         const { originAccount, value } = req.body;
                         const depositResult = await Wallet.withdraw(accountNumber, 50, walletResult.id, paymentDetails.transactionReference, paymentDetails.transaction_reference_received, walletResult.userId); //decoded.token   why?????????
                         console.log('Deposit result:', depositResult);
-                        res.status(200).json({ message: 'Withdraw processed successfully', error: null, redirectUrl: 'https://www.google.com' });
+                        return res.status(200).json({ message: 'Withdraw processed successfully', error: null, redirectUrl: 'https://www.google.com' });
                     } catch (error) {
-                        res.status(500).json({ error: error.message });
+                        return res.status(500).json({ error: error.message });
                     }
                 } else {
                     console.log(result.status_code)
                     console.log("ENTROU AQUI")
-                    res.status(500).json({ paid: 'true', error: 'Failed to withdraw' });
+                    return res.status(500).json({ paid: 'true', error: 'Failed to withdraw' });
 
                 }
 
@@ -489,11 +495,11 @@ module.exports.processWithdraw = async (req, res) => {
 
         } else {
             console.log(result)
-            res.status(404).json({ error: 'Wallet not found' });
+            return res.status(404).json({ error: 'Wallet not found' });
         }
     } catch (error) {
         console.error('Error processing withdraw:', error);
-        res.status(500).json({ error: 'Server error' });
+        return res.status(500).json({ error: 'Server error' });
     }
 
 
@@ -533,7 +539,7 @@ module.exports.processRefund = async (req, res) => {
 
             (async () => {
                 const token = await getPaymentToken(paymentDetails.paymentMethod);
-                //return  res.status(200).json({ message: 'Payment processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
+                //return  return res.status(200).json({ message: 'Payment processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
 
                 const result = await refund(token);
 
@@ -543,12 +549,12 @@ module.exports.processRefund = async (req, res) => {
                         const { walletId } = req.params;
                         const { originAccount, value } = req.body;
                         const result = await Wallet.refund(walletId, originAccount, value);
-                        res.status(200).json({ message: 'Refund processed successfully', error: null, redirectUrl: 'https://www.google.com' });
+                        return res.status(200).json({ message: 'Refund processed successfully', error: null, redirectUrl: 'https://www.google.com' });
                     } catch (error) {
-                        res.status(500).json({ error: error.message });
+                        return res.status(500).json({ error: error.message });
                     }
                 } else {
-                    res.status(500).json({ paid: 'true', error: 'Failed to withdraw' });
+                    return res.status(500).json({ paid: 'true', error: 'Failed to withdraw' });
 
                 }
 
@@ -557,11 +563,11 @@ module.exports.processRefund = async (req, res) => {
 
         } else {
             console.log(result)
-            res.status(404).json({ error: 'Wallet not found' });
+            return res.status(404).json({ error: 'Wallet not found' });
         }
     } catch (error) {
         console.error('Error processing withdraw:', error);
-        res.status(500).json({ error: 'Server error' });
+        return res.status(500).json({ error: 'Server error' });
     }
 };
 
@@ -601,16 +607,16 @@ module.exports.processQueryTransactionStatus = async (req, res) => {
 
             (async () => {
                 const token = await getPaymentToken(paymentDetails.paymentMethod);
-                //return  res.status(200).json({ message: 'Payment processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
+                //return  return res.status(200).json({ message: 'Payment processed successfully', error: null ,redirectUrl: 'https://www.google.com'});
 
                 const result = await queryTransactionStatus(token);
 
                 if (result.status_code == 409 || result.status_code == 401 || result.status_code == 200) {
                     console.log(result.status_code)
                     //como vao ser devolvido
-                    res.status(200).json({ status: 'Payment processed successfully', error: null, redirectUrl: 'https://www.google.com' });
+                    return res.status(200).json({ status: 'Payment processed successfully', error: null, redirectUrl: 'https://www.google.com' });
                 } else {
-                    res.status(500).json({ paid: 'true', error: 'Failed to queryTransactionStatus' });
+                    return res.status(500).json({ paid: 'true', error: 'Failed to queryTransactionStatus' });
 
                 }
 
@@ -619,11 +625,11 @@ module.exports.processQueryTransactionStatus = async (req, res) => {
 
         } else {
             console.log(result)
-            res.status(404).json({ error: 'Wallet not found' });
+            return res.status(404).json({ error: 'Wallet not found' });
         }
     } catch (error) {
         console.error('Error processing queryTransactionStatus:', error);
-        res.status(500).json({ error: 'Server error' });
+        return res.status(500).json({ error: 'Server error' });
     }
 };
 
@@ -631,7 +637,7 @@ module.exports.processQueryTransactionStatus = async (req, res) => {
 module.exports.decodeTokeny = async (req, res) => {
     const data = req.body;
     const info = await decodeToken(data.token)
-    res.json({ info })
+    return res.json({ info })
 
 };
 
@@ -658,21 +664,30 @@ async function pay(token) {
         // if (!response.ok) {
         // throw new Error(`HTTP error! status: ${response.status}`);
         //  } 
-        // const contentType = response.headers.get('content-type');
-        // let resultText;
+        const contentType = response.headers.get('content-type');
+        let resultText;
 
-        // if (contentType && contentType.includes('application/json')) {
-        //     resultText = await response.json();
-        //     console.log('response:', resultText);
-        // } else {
-        //     resultText = await response.text(); // fallback para texto ou vazio
-        //     console.log('response:', resultText);
-        // }
+        if (contentType && contentType.includes('application/json')) {
+            resultText = await response.json();
+            // console.log('respowwnse:', resultText);
+        } else {
+            resultText = await response.text(); // fallback para texto ou vazio
+           
+            try {
+                const json = JSON.parse(resultText);
+                console.log('response (parsed as JSON):', json);
+                resultText = json; // sobrescreve o texto com o objeto JSON, se necessário
+            } catch (e) {
+                console.warn('Resposta não é um JSON válido:', e.message);
+                // mantém resultText como texto
+            }
+            console.log('rwesponse:', resultText);
+        }
 
-         const resultText = await response.json();
+        //const resultText = await response.json();
         // console.log('response:', resultText);
-         
-        return ({ status_code: 200, transaction_reference_received: resultText.body.output_ConversationID })
+
+        return ({ status_code: 200, transaction_reference_received: 1 }) //resultText.body.output_ConversationID ||
         if (resultText) {
 
             const result = await JSON.parse(resultText);

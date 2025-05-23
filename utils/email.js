@@ -114,8 +114,8 @@ async function sendEmail(email, token, destinationSite, buttonToken) {
     html: htmlTemplate,
   };
 
-  
- try {
+
+  try {
     const info = await transporter.sendMail(mailOptions);
     console.log('E-mail enviado: ', info.response);
     return { status: true };
@@ -249,7 +249,7 @@ async function sendRecoverEmail(email, token) {
   try {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        return  ('Erro ao enviar e-mail: ', error);
+        return ('Erro ao enviar e-mail: ', error);
       }
       return ('E-mail enviado: ', info.response);
     });
@@ -619,30 +619,28 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
       `;
 
 
-      let htmlTemplate = htmlTemplates; // + a + b + c + d + e + f + g + h + i + j;
+  let htmlTemplate = htmlTemplates; // + a + b + c + d + e + f + g + h + i + j;
 
 
 
 
-      let mailOptions = {
-        from: '"VOIDPay Pagamento Efetuado" <abinerjr@voidpay.online>',
-      to: email,
-      subject: 'Pagamento Efetuado',
-      text: 'Olá',
-      html: htmlTemplate,
-};
+  let mailOptions = {
+    from: '"VOIDPay Pagamento Efetuado" <abinerjr@voidpay.online>',
+    to: email,
+    subject: 'Pagamento Efetuado',
+    text: 'Olá',
+    html: htmlTemplate,
+  };
 
-      try {
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            return ('Erro ao enviar e-mail: ', error);
-          }
-          return ('E-mail enviado: ', info.response);
-        });
-
-      return {status: true };
-} catch (error) {
-  return {status: true, error: error };
+async function sendEmail(transporter, mailOptions) {
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('E-mail enviado:', info.response);
+    return { status: true, response: info.response };
+  } catch (error) {
+    console.log('Erro ao enviar e-mail:', error);
+    return { status: false, error: error.message };
+  }
 }
 
 
@@ -650,4 +648,4 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
 };
 
 
-      module.exports = {sendEmail, sendRecoverEmail, sendPaymentConfirmationEmail};
+module.exports = { sendEmail, sendRecoverEmail, sendPaymentConfirmationEmail };
