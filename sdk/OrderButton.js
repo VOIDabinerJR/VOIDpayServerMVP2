@@ -122,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Exibir a resposta  como texto
             const result = await response.json();
+            console.log(result);
             
             if(result.status){
                 window.location.href = `https://cors-anywhere.herokuapp.com/https://voidpayservermvp2.onrender.com/pay/pay?orderid=${result.orderId}&buttontoken=${result.buttonToken}`;
