@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/order/createOrder', {
+            const response = await fetch('https://voidpayservermvp2.onrender.com/order/createOrder', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -124,7 +124,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const result = await response.json();
             
             if(result.status){
-                window.location.href = `http://localhost:3000/pay/pay?orderid=${result.orderId}&buttontoken=${result.buttonToken}`;
+                window.location.href = `https://voidpayservermvp2.onrender.com/pay/pay?orderid=${result.orderId}&buttontoken=${result.buttonToken}`;
+                //  window.location.href = `http://localhost:3000/pay/pay?orderid=${result.orderId}&buttontoken=${result.buttonToken}`;
+
+                
             }
             else if(!result.status){
                   
