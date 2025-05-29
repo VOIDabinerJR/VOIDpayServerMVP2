@@ -4,7 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const multer = require('multer');
-
+const upload = multer({ dest: 'uploads/' });
 
 const { createToken } = require('./utils/jwt');
 const { shortID2 } = require('./utils/functions');
@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname,'public')));
 
 
 
-
+ 
 
 
 

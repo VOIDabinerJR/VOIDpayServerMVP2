@@ -11,4 +11,8 @@ router.post('/createapp', userController.createApp);
 router.post('/shopifyCredentials', userController.shopifyCredentials);
 
 
+router.post('/createProduct', userController.saveProduct);
+
+
+
 module.exports = router;   

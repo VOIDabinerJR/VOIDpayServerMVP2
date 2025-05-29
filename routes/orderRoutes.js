@@ -6,4 +6,10 @@ router.post('/createOrder', orderController.createOrder);
 router.post('/createOrderSh', orderController.createShopifyOrder);
 router.put('/updateOrder', orderController.updateOrder);
  
+
+
+
+
+//a ser atualizado a logica
+router.get('/createOrderbyLink', orderController.createOrderbyLink);
 module.exports = router; 

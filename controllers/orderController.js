@@ -279,3 +279,121 @@ module.exports.createWoocommerceOrder = async (req, res) => {
 module.exports.createWixOrder = async (req, res) => {
 
     };
+
+
+
+
+
+
+
+
+    module.exports.createOrderbyLink = async (req, res) => {
+    const { buttonToken, amount, quantity, description } = req.body;
+    const data = req.body;
+
+
+
+    const validateProducts = (products) => {
+        let errors = [];
+
+        products.forEach((product, index) => {
+
+            if (!product.name || product.name.trim() === '') {
+                errors.push({ index: index, field: 'name', message: 'Nome do produto não pode estar vazio.' });
+            }
+
+
+            if (!Number.isInteger(parseInt(product.quantity)) || product.quantity <= 0) {
+
+                errors.push({ index: index, field: 'quantity', message: 'Quantidade deve ser um número inteiro positivo.' });
+            }
+
+
+            if (isNaN(product.price) || product.price <= 0) {
+               
+                errors.push({ index: index, field: 'price', message: 'Preço deve ser um número positivo.' });
+            }
+        });
+
+
+        if (errors.length > 0) {
+            return { errors: errors, there: true };
+        } else {
+            return { message: 'Todos os produtos estão corretamente formatados.', there: false };
+        }
+    };
+
+    const result = validateProducts(data.orderItems);
+
+   
+    if (result.there) {
+        return res.json({ status: false, error: result.errors })
+    }
+
+
+
+    const totalAmount = data.orderItems.reduce((total, item) => {
+        return total + (parseFloat(item.price) * parseFloat(item.quantity));
+    }, 0);
+
+    const totalItems = data.orderItems.reduce((total, item) => {
+        return total + parseInt(item.quantity);
+    }, 0);
+
+
+
+
+
+
+
+
+    const [buttonInfo] = await Button.findByToken(buttonToken)
+    
+    const order = {
+        buttonToken: data.buttonToken,
+        products: totalItems,
+        description: 'None desc.',
+        totalAmount,
+        orderStatus: 'pending',
+        userId: buttonInfo[0].userId || null
+    };
+
+    const orderItems = data.orderItems
+
+
+
+    if (buttonInfo[0].status != true) {
+
+
+
+        return res.json({ err: "botton not valid" })
+
+    } else {
+
+
+
+        try {
+            const [insertResult] = await Order.create(order);
+
+            
+            const [insertResulty] = await Order.saveOrderItems(orderItems, insertResult.insertId);
+            if (insertResult.affectedRows === 1) {
+              
+
+                const maxAge = 3 * 24 * 60 * 60 * 1000;
+                res.cookie('orderid', '13', { httpOnly: true, maxAge });
+
+                //const [insertResultyy] =  await Notification.create(Notification.notifications(0),insertResult.insertId)
+             
+                return res.json({ orderId: insertResult.insertId, buttonToken: buttonInfo[0].buttonToken, status: true })
+            } else {
+                
+                return res.status(500).json({ error: 'Order creation failed' });
+            }
+        } catch (error) {
+            
+            console.error(error);
+            return res.status(500).json({ error: 'Server error' });
+        }
+    };
+};

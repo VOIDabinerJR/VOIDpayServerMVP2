@@ -18,8 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const place = autocomplete.getPlace();
        
         // Você pode fazer algo com os dados do lugar aqui
-    });
-
+    }); 
     document.getElementById('payButton').addEventListener('click', () => {
         const rocket = document.getElementById('rocket');
         rocket.style.display = 'block';

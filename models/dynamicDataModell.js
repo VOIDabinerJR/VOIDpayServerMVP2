@@ -12,7 +12,7 @@ const DynamicData = {
     async getbotoes(userId) {
         const [rows] = await db.query('SELECT * FROM button WHERE  userid = ?', [userId]);
         return rows;
-    },
+    }, 
     async getOrders(userId) {
         const [rows] = await db.query('SELECT * FROM orders WHERE  userid = ?', [userId]);
         return rows;

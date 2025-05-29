@@ -176,7 +176,9 @@ const pagesController = {
             console.error(error);
             return res.status(500).json({ err: 'Server error' });
         }
-    }
+    },
+
+    
 };
 
 module.exports = pagesController;

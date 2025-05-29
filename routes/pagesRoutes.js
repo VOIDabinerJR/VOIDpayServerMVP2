@@ -8,6 +8,6 @@ router.post('/profile',upload.single('photo'), pagesController.registerUpdate);
 
 
 
-
+//METER NOVO CONTROLADOR DE PRODUTOS
 
 module.exports = router;
