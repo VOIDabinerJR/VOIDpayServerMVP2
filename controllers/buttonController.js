@@ -44,9 +44,8 @@ module.exports.requestButton = async (req, res) => {
                 const tokenData = createToken(payload)
                 console.log(email, tokenData, destination, buttonToken)
 
-                // const sent = await sendEmail(email, tokenData, destination, buttonToken);
-                 const sent= {};
-                 sent.status =true;
+                 const sent = await sendEmail(email, tokenData, destination, buttonToken);
+               
             
 
                 if (sent.status) {
