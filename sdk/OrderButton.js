@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const icon = document.createElement('img');
     icon.src = 'https://raw.githubusercontent.com/VOIDabinerJR/sdk/main/void.jpg'; // Substitua pelo caminho do seu ícone
     icon.alt = 'Ícone do Void Pay';
-    icon.style.width = '50%';
+    icon.style.width = '20%';
     icon.style.verticalAlign = 'middle'; // Ajustando o alinhamento vertical do ícone
 
     // Texto do botão
