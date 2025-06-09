@@ -48,7 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
         button.style.boxShadow = 'none';
     });
 
-    // Estilos ao clicar no botão
+
+    // Estilos   ao clicar no botão
     button.addEventListener('mousedown', function () {
         button.style.backgroundColor = '#0a0a0a';
         button.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.2)';
