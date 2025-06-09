@@ -21,7 +21,7 @@
             icon.src = 'https://raw.githubusercontent.com/VOIDabinerJR/sdk/main/void.jpg'; // Substitua pelo caminho do seu ícone
             icon.alt = 'Ícone do Void Pay';
             icon.style.verticalAlign = 'middle'; // Ajustando o alinhamento vertical do ícone
-
+ 
             // Texto do botão
             const buttonText = document.createTextNode('Pagar');
 
