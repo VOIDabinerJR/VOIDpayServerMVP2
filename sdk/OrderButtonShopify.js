@@ -66,9 +66,8 @@ document.addEventListener('DOMContentLoaded', function () {
     button.addEventListener('click', async function (event) {
         event.preventDefault();
 
-
-      let rids= __st.rid;;
-
+        
+        let rids = [__st.rid];
         const cc = document.getElementById('void-button-container').getAttribute('buttonToken');
         
         const data = {
