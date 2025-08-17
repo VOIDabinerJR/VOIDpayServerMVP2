@@ -16,6 +16,18 @@ router.get('/js', (req, res) => {
         res.sendFile(path.join(__dirname, '../', '/sdk/OrderButton.js'));
     }
 });
+router.get('/shopify', (req, res) => {
+    const acept = req.query.acept; // Use req.query para parâmetros de consulta
+    const clientId = req.query.clientId;
+    console.log(acept, clientId)
+
+    if (acept === 'true') {
+        res.sendFile(path.join(__dirname, '../', '/sdk/payment.js'));
+
+    } else {
+        res.sendFile(path.join(__dirname, '../', '/sdk/OrderButton.js'));
+    }
+});
 
 router.get('/jsc', (req, res) => {
     const acept = req.query.acept;
