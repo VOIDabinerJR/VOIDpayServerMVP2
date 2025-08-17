@@ -25,7 +25,7 @@ router.get('/shopify', (req, res) => {
         res.sendFile(path.join(__dirname, '../', '/sdk/payment.js'));
 
     } else {
-        res.sendFile(path.join(__dirname, '../', '/sdk/OrderButton.js'));
+        res.sendFile(path.join(__dirname, '../', '/sdk/OrderButtonShopify.js'));
     }
 });
 
