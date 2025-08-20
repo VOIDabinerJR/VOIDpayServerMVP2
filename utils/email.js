@@ -139,8 +139,10 @@ async function sendRecoverEmail(email, token) {
     port: 587,
     secure: false, // true para 465, false para outras portas
     auth: {
-      user: 'abinerjr@voidpay.online',
-      pass: 'Junior.@1',
+       user: 'contact@muffinscorp.com', // Seu e-mail
+      pass: 'MuffinsCorp12@', // Sua senha
+      // user: 'abinerjr@voidpay.online', // Seu e-mail
+      // pass: 'Junior.@1', // Sua senha
     },
     tls: {
       rejectUnauthorized: false,
@@ -275,8 +277,10 @@ async function sendPaymentConfirmationEmail(email, billingInfo, transactionData,
     port: 587,
     secure: false, // true para 465, false para outras portas
     auth: {
-      user: 'abinerjr@voidpay.online',
-      pass: 'Junior.@1',
+      user: 'contact@muffinscorp.com', // Seu e-mail
+      pass: 'MuffinsCorp12@', // Sua senha
+      // user: 'abinerjr@voidpay.online', // Seu e-mail
+      // pass: 'Junior.@1', // Sua senha
     },
     tls: {
       rejectUnauthorized: false,
