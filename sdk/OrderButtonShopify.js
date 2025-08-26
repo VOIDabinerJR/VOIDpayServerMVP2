@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const container = document.querySelector('#void-button-container'); // Selecionando o container correto
     const errorMsg = document.getElementById('error-message')
-    errorMsg.style.color='red'
+    errorMsg.style.color = 'red'
     console.log("ooi")
     // Criando o botão
     const button = document.createElement('button');
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Adicionando o ícone e o texto ao botão
     button.appendChild(icon);
     button.appendChild(buttonText);
-    
+
 
     // Estilos básicos do botão
     button.style.display = 'inline-block';
@@ -66,13 +66,36 @@ document.addEventListener('DOMContentLoaded', function () {
     button.addEventListener('click', async function (event) {
         event.preventDefault();
 
-        
+
         let rids = [__st.rid];
         const cc = document.getElementById('void-button-container').getAttribute('buttonToken');
+        let quantity = document.getElementById("Quantity-template--17410023391316__main").value;
+
+
+
+
+
         
+        // VIA CART
+        // let items = [];
+        // document.querySelectorAll("tr.cart-item").forEach(row => {
+        //     let input = row.querySelector("input.quantity__input");
+        //     if (input) {
+        //         items.push({
+        //             variant_id: input.getAttribute("data-quantity-variant-id"),
+        //             quantity: input.value
+        //         });
+        //     }
+        // });
+
+        // console.log(items);
+
+
+
         const data = {
             buttonToken: cc,
-            rid: rids
+            rid: rids,
+            quantity: quantity
         };
 
         try {
@@ -90,24 +113,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Exibir a resposta  como texto
             const result = await response.json();
-            
-            if(result.status){
+
+            if (result.status) {
                 window.location.href = `https://voidpayservermvp2.onrender.com/pay/pay?orderid=${result.orderId}&buttontoken=${result.buttonToken}&channel=shopify`;
             }
-            else if(!result.status){
-                  
-                    if (result.error){
-                        errorMsg.textContent = `Erro: ${result.error[0].message}`;
-                    }
-                   
-            }  
-           
+            else if (!result.status) {
+
+                if (result.error) {
+                    errorMsg.textContent = `Erro: ${result.error[0].message}`;
+                }
+
+            }
+
 
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
         }
     });
-    
+
 
     // Adicionando o botão ao container
     container.appendChild(button);

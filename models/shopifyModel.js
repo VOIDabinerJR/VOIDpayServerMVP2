@@ -2,8 +2,7 @@ const db = require('../config/db');
 
 const Shopify = {
   async findVariantProductById(productId, shop, accessToken) {
-    console.log({ productId, shop, accessToken })
-    // console.log({ productId, shop, accessToken });
+    console.log({ productId, shop, accessToken });
     try {
       const response = await fetch(`https://${shop}/admin/api/2023-07/products/${productId}.json`, {
         method: 'GET',
@@ -12,6 +11,7 @@ const Shopify = {
           'Content-Type': 'application/json',
         },
       });
+      
 
       //  if (!response.ok) {
       //    throw new Error(`Erro ao buscar o produto: ${response.statusText}`);

@@ -139,7 +139,6 @@ module.exports.createShopifyOrder = async (req, res) => {
 
     let [a] = await Shopify.findByUserId(buttonInfo[0].userId);
     const items = [];
-
     for (let i = 0; i < data.rid.length; i++) {
       let product = await Shopify.findVariantProductById(
         data.rid[i],
